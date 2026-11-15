@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <filter id="b1"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="b2"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="b3"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="b4"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="b5"><feGaussianBlur stdDeviation="10"/></filter>
+
+    <radialGradient id="a" cx="50%" cy="20%" r="75%">
+      <stop offset="0%" stop-color="#EED0AC"/>
+      <stop offset="25%" stop-color="#DCB88C"/>
+      <stop offset="50%" stop-color="#C8A070"/>
+      <stop offset="75%" stop-color="#AC8858"/>
+      <stop offset="100%" stop-color="#907244"/>
+    </radialGradient>
+    <radialGradient id="b" cx="50%" cy="20%" r="75%">
+      <stop offset="0%" stop-color="#3E2E20"/>
+      <stop offset="100%" stop-color="#1C1008"/>
+    </radialGradient>
+    <radialGradient id="c" cx="50%" cy="22%" r="72%">
+      <stop offset="0%" stop-color="#FCE8D4"/>
+      <stop offset="50%" stop-color="#F4D4BC"/>
+      <stop offset="100%" stop-color="#E8BC9E"/>
+    </radialGradient>
+    <radialGradient id="d" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#4C3A28"/>
+      <stop offset="100%" stop-color="#281C10"/>
+    </radialGradient>
+    <radialGradient id="e" cx="36%" cy="28%" r="62%">
+      <stop offset="0%" stop-color="#5C5458"/>
+      <stop offset="100%" stop-color="#2A242C"/>
+    </radialGradient>
+    <radialGradient id="f" cx="50%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="#F8AAAA"/>
+      <stop offset="100%" stop-color="#E08484"/>
+    </radialGradient>
+    <radialGradient id="g" cx="36%" cy="18%" r="58%">
+      <stop offset="0%" stop-color="#FFF" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="h" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F0A0A0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F0A0A0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- OREJAS pequeñas caídas OSCURAS (pug) -->
+  <path d="M132 226 C118 168,124 100,158 78 C176 64,196 76,206 148 C210 178,208 212,206 238Z" fill="url(#b)" filter="url(#b1)"/>
+  <path d="M132 226 C118 168,124 100,158 78 C176 64,196 76,206 148 C210 178,208 212,206 238Z" fill="#0A0604" opacity="0.15" filter="url(#b3)"/>
+
+  <path d="M380 226 C394 168,388 100,354 78 C336 64,316 76,306 148 C302 178,304 212,306 238Z" fill="url(#b)" filter="url(#b1)"/>
+  <path d="M380 226 C394 168,388 100,354 78 C336 64,316 76,306 148 C302 178,304 212,306 238Z" fill="#0A0604" opacity="0.15" filter="url(#b3)"/>
+
+  <!-- CABEZA blob (extra redonda) -->
+  <path d="M256 116 C322 116,382 142,414 188 C442 228,452 274,446 316 C440 360,416 398,380 424 C348 446,306 458,256 458 C206 458,164 446,132 424 C96 398,72 360,66 316 C60 274,70 228,98 188 C130 142,190 116,256 116Z" fill="url(#a)"/>
+
+  <!-- Sombra inferior -->
+  <ellipse cx="256" cy="425" rx="132" ry="42" fill="#6A5030" opacity="0.15" filter="url(#b4)"/>
+
+  <!-- Calidez frente -->
+  <ellipse cx="256" cy="186" rx="88" ry="48" fill="#D0A060" opacity="0.18" filter="url(#b4)"/>
+
+  <!-- Arrugas frente (pug — MUY sutiles, solo sombras difuminadas) -->
+  <ellipse cx="256" cy="218" rx="82" ry="6" fill="#A08050" opacity="0.12" filter="url(#b3)"/>
+  <ellipse cx="256" cy="234" rx="72" ry="5" fill="#A08050" opacity="0.08" filter="url(#b3)"/>
+
+  <!-- MÁSCARA OSCURA del pug (todo difuminado) -->
+  <path d="M198 258 C222 242,256 238,256 238 C256 238,290 242,314 258 C332 278,330 325,320 352 C308 382,256 396,256 396 C256 396,204 382,192 352 C182 325,180 278,198 258Z" fill="url(#d)" opacity="0.48" filter="url(#b3)"/>
+
+  <!-- Franja oscura ojos -->
+  <ellipse cx="256" cy="280" rx="155" ry="50" fill="#5A3C20" opacity="0.2" filter="url(#b4)"/>
+
+  <!-- Parches laterales nariz (más oscuros en pug) -->
+  <ellipse cx="192" cy="300" rx="44" ry="36" fill="url(#d)" opacity="0.3" transform="rotate(-10 192 300)" filter="url(#b3)"/>
+  <ellipse cx="320" cy="300" rx="44" ry="36" fill="url(#d)" opacity="0.3" transform="rotate(10 320 300)" filter="url(#b3)"/>
+
+  <!-- HOCICO -->
+  <path d="M256 312 C218 312,166 330,150 368 C140 394,154 424,180 438 C206 450,236 456,256 456 C276 456,306 450,332 438 C358 424,372 394,362 368 C346 330,294 312,256 312Z" fill="url(#c)" filter="url(#b1)"/>
+  <ellipse cx="208" cy="384" rx="44" ry="32" fill="#FFF0E4" opacity="0.38" filter="url(#b3)"/>
+  <ellipse cx="304" cy="384" rx="44" ry="32" fill="#FFF0E4" opacity="0.38" filter="url(#b3)"/>
+  <ellipse cx="256" cy="374" rx="36" ry="26" fill="#FFF6EE" opacity="0.42" filter="url(#b3)"/>
+  <ellipse cx="256" cy="330" rx="92" ry="24" fill="#8A6030" opacity="0.1" filter="url(#b5)"/>
+  <ellipse cx="256" cy="436" rx="44" ry="18" fill="#F4D4BC" opacity="0.3" filter="url(#b3)"/>
+
+  <!-- OJOS (estándar shiba) -->
+  <ellipse cx="197" cy="272" rx="19" ry="12" fill="#FFFFFF" opacity="0.92" transform="rotate(-7 197 272)" filter="url(#b1)"/>
+  <ellipse cx="315" cy="272" rx="19" ry="12" fill="#FFFFFF" opacity="0.92" transform="rotate(7 315 272)" filter="url(#b1)"/>
+
+  <!-- NARIZ (estándar, ligeramente más grande para pug) -->
+  <ellipse cx="256" cy="356" rx="18" ry="11" fill="#786050" opacity="0.15" filter="url(#b4)"/>
+  <path d="M235 340 C235 326,245 314,256 314 C267 314,277 326,277 340 C277 354,270 364,256 364 C242 364,235 354,235 340Z" fill="url(#e)" filter="url(#b1)"/>
+  <ellipse cx="247" cy="332" rx="9" ry="5.5" fill="#FFF" opacity="0.2" filter="url(#b1)"/>
+  <ellipse cx="261" cy="336" rx="3.5" ry="2.5" fill="#FFF" opacity="0.1"/>
+
+  <!-- BOCA (estándar shiba) -->
+  <path d="M254 364 C248 372,238 378,228 374" fill="none" stroke="#8A6040" stroke-width="1.8" stroke-linecap="round" opacity="0.25" filter="url(#b1)"/>
+  <path d="M258 364 C264 372,274 378,284 374" fill="none" stroke="#8A6040" stroke-width="1.8" stroke-linecap="round" opacity="0.25" filter="url(#b1)"/>
+
+  <!-- Lengua -->
+  <ellipse cx="256" cy="384" rx="10" ry="9" fill="url(#f)" opacity="0.55" filter="url(#b1)"/>
+
+  <!-- BLUSH -->
+  <ellipse cx="152" cy="322" rx="30" ry="20" fill="url(#h)" filter="url(#b3)"/>
+  <ellipse cx="360" cy="322" rx="30" ry="20" fill="url(#h)" filter="url(#b3)"/>
+
+  <!-- HIGHLIGHT 3D -->
+  <ellipse cx="216" cy="208" rx="150" ry="118" fill="url(#g)"/>
+  <ellipse cx="236" cy="170" rx="60" ry="36" fill="#FFF" opacity="0.07" filter="url(#b3)"/>
+</svg>
