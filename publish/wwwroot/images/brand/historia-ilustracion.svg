@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none">
+  <!-- Background circle -->
+  <circle cx="300" cy="260" r="210" fill="#f6d8d6" opacity="0.5"/>
+  <circle cx="300" cy="260" r="160" fill="#f0c5d4" opacity="0.3"/>
+
+  <!-- Small decorative paw prints -->
+  <g fill="#604734" opacity="0.08">
+    <circle cx="120" cy="100" r="8"/><circle cx="108" cy="88" r="4"/><circle cx="120" cy="84" r="4"/><circle cx="132" cy="88" r="4"/>
+    <circle cx="480" cy="140" r="8"/><circle cx="468" cy="128" r="4"/><circle cx="480" cy="124" r="4"/><circle cx="492" cy="128" r="4"/>
+    <circle cx="500" cy="380" r="6"/><circle cx="491" cy="371" r="3"/><circle cx="500" cy="368" r="3"/><circle cx="509" cy="371" r="3"/>
+    <circle cx="100" cy="360" r="6"/><circle cx="91" cy="351" r="3"/><circle cx="100" cy="348" r="3"/><circle cx="109" cy="351" r="3"/>
+  </g>
+
+  <!-- Hearts -->
+  <g opacity="0.15" fill="#f0c5d4">
+    <path d="M155 160c-3-8 -14-10 -18-3 -4-7 -15-5 -18 3 -4 10 18 22 18 22s22-12 18-22z"/>
+    <path d="M465 200c-2-6 -10-7 -13-2 -3-5 -11-4 -13 2 -3 7 13 16 13 16s16-9 13-16z"/>
+    <path d="M170 350c-2-5 -9-6 -12-2 -3-4 -10-3 -12 2 -2 6 12 14 12 14s14-8 12-14z"/>
+  </g>
+
+  <!-- Person (torso up) -->
+  <g>
+    <!-- Body / Shirt -->
+    <path d="M260 340 C260 290 250 270 270 250 L330 250 C350 270 340 290 340 340 L340 460 L260 460 Z" fill="#604734"/>
+    <!-- Shirt collar detail -->
+    <path d="M285 252 L300 270 L315 252" fill="none" stroke="#fcf7d9" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Neck -->
+    <rect x="287" y="225" width="26" height="30" rx="12" fill="#d4a574"/>
+
+    <!-- Head -->
+    <ellipse cx="300" cy="195" rx="45" ry="50" fill="#d4a574"/>
+
+    <!-- Hair -->
+    <path d="M258 185 C258 145 290 130 300 130 C310 130 342 145 342 185 C342 165 330 150 300 150 C270 150 258 165 258 185Z" fill="#604734"/>
+    <path d="M255 195 C252 175 260 158 268 150" fill="none" stroke="#604734" stroke-width="5" stroke-linecap="round"/>
+    <path d="M345 195 C348 175 340 158 332 150" fill="none" stroke="#604734" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Face -->
+    <circle cx="284" cy="192" r="4" fill="#604734"/> <!-- Left eye -->
+    <circle cx="316" cy="192" r="4" fill="#604734"/> <!-- Right eye -->
+    <path d="M290 210 Q300 220 310 210" fill="none" stroke="#604734" stroke-width="2.5" stroke-linecap="round"/> <!-- Smile -->
+    <circle cx="270" cy="205" r="6" fill="#f0c5d4" opacity="0.5"/> <!-- Blush left -->
+    <circle cx="330" cy="205" r="6" fill="#f0c5d4" opacity="0.5"/> <!-- Blush right -->
+
+    <!-- Left arm (hugging) -->
+    <path d="M260 290 C230 300 200 310 190 330 C185 345 195 350 210 345" fill="none" stroke="#604734" stroke-width="16" stroke-linecap="round"/>
+    <path d="M260 290 C230 300 200 310 190 330 C185 345 195 350 210 345" fill="none" stroke="#d4a574" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- Right arm (hugging) -->
+    <path d="M340 290 C370 300 400 310 410 330 C415 345 405 350 390 345" fill="none" stroke="#604734" stroke-width="16" stroke-linecap="round"/>
+    <path d="M340 290 C370 300 400 310 410 330 C415 345 405 350 390 345" fill="none" stroke="#d4a574" stroke-width="12" stroke-linecap="round"/>
+  </g>
+
+  <!-- Dog 1 - Golden Retriever (left) -->
+  <g transform="translate(160, 300)">
+    <ellipse cx="40" cy="35" rx="35" ry="28" fill="#d4a050"/> <!-- Body -->
+    <ellipse cx="40" cy="10" rx="22" ry="20" fill="#d4a050"/> <!-- Head -->
+    <ellipse cx="18" cy="0" rx="10" ry="14" fill="#c08b30" transform="rotate(-15)"/> <!-- Left ear -->
+    <ellipse cx="58" cy="-2" rx="10" ry="14" fill="#c08b30" transform="rotate(15 58 -2)"/> <!-- Right ear -->
+    <circle cx="33" cy="8" r="3" fill="#604734"/> <!-- Left eye -->
+    <circle cx="47" cy="8" r="3" fill="#604734"/> <!-- Right eye -->
+    <ellipse cx="40" cy="17" rx="5" ry="3" fill="#604734"/> <!-- Nose -->
+    <path d="M35 22 Q40 27 45 22" fill="none" stroke="#604734" stroke-width="1.5" stroke-linecap="round"/> <!-- Smile -->
+    <path d="M32 20 Q40 26 48 20" fill="none" stroke="#604734" stroke-width="1" opacity="0.3"/>
+    <!-- Tail -->
+    <path d="M75 30 Q90 10 85 0" fill="none" stroke="#d4a050" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Cat 1 (right, sitting) -->
+  <g transform="translate(370, 290)">
+    <ellipse cx="30" cy="45" rx="22" ry="30" fill="#9E9E9E"/> <!-- Body -->
+    <circle cx="30" cy="15" r="18" fill="#9E9E9E"/> <!-- Head -->
+    <!-- Ears (triangles) -->
+    <polygon points="15,-2 10,12 22,8" fill="#9E9E9E"/>
+    <polygon points="45,-2 50,12 38,8" fill="#9E9E9E"/>
+    <polygon points="16,1 12,10 21,7" fill="#f0c5d4"/>
+    <polygon points="44,1 48,10 39,7" fill="#f0c5d4"/>
+    <!-- Eyes -->
+    <ellipse cx="23" cy="13" rx="4" ry="4.5" fill="#4CAF50"/>
+    <ellipse cx="23" cy="13" rx="1.5" ry="4" fill="#604734"/>
+    <ellipse cx="37" cy="13" rx="4" ry="4.5" fill="#4CAF50"/>
+    <ellipse cx="37" cy="13" rx="1.5" ry="4" fill="#604734"/>
+    <!-- Nose + mouth -->
+    <polygon points="28,20 30,22 32,20" fill="#f0c5d4"/>
+    <path d="M30 22 L28 25 M30 22 L32 25" stroke="#604734" stroke-width="1" stroke-linecap="round" fill="none"/>
+    <!-- Tail -->
+    <path d="M52 50 Q70 40 65 20" fill="none" stroke="#9E9E9E" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Small dog (Chihuahua, bottom center) -->
+  <g transform="translate(270, 365)">
+    <ellipse cx="30" cy="25" rx="20" ry="18" fill="#c08b50"/> <!-- Body -->
+    <circle cx="30" cy="5" r="14" fill="#c08b50"/> <!-- Head -->
+    <!-- Big ears -->
+    <ellipse cx="14" cy="-6" rx="8" ry="13" fill="#c08b50" transform="rotate(-20 14 -6)"/>
+    <ellipse cx="46" cy="-6" rx="8" ry="13" fill="#c08b50" transform="rotate(20 46 -6)"/>
+    <ellipse cx="15" cy="-4" rx="5" ry="9" fill="#f0c5d4" transform="rotate(-20 15 -4)"/>
+    <ellipse cx="45" cy="-4" rx="5" ry="9" fill="#f0c5d4" transform="rotate(20 45 -4)"/>
+    <!-- Eyes -->
+    <circle cx="24" cy="3" r="3.5" fill="#604734"/>
+    <circle cx="36" cy="3" r="3.5" fill="#604734"/>
+    <circle cx="25" cy="2" r="1.2" fill="white"/> <!-- Eye shine -->
+    <circle cx="37" cy="2" r="1.2" fill="white"/>
+    <ellipse cx="30" cy="10" rx="3" ry="2" fill="#604734"/> <!-- Nose -->
+    <path d="M26 13 Q30 17 34 13" fill="none" stroke="#604734" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Small cat (orange tabby, bottom left) -->
+  <g transform="translate(205, 375)">
+    <ellipse cx="20" cy="20" rx="16" ry="14" fill="#e8924a"/> <!-- Body -->
+    <circle cx="20" cy="4" r="12" fill="#e8924a"/> <!-- Head -->
+    <polygon points="10,-5 7,6 15,4" fill="#e8924a"/>
+    <polygon points="30,-5 33,6 25,4" fill="#e8924a"/>
+    <polygon points="11,-3 9,5 14,3" fill="#f0c5d4"/>
+    <polygon points="29,-3 31,5 26,3" fill="#f0c5d4"/>
+    <ellipse cx="15" cy="2" rx="3" ry="3.5" fill="#604734"/>
+    <ellipse cx="25" cy="2" rx="3" ry="3.5" fill="#604734"/>
+    <polygon points="19,8 20,9.5 21,8" fill="#f0c5d4"/>
+    <!-- Stripes -->
+    <path d="M13 -3 L15 -8 M20 -4 L20 -9 M27 -3 L25 -8" stroke="#c07030" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Pug (right side, smaller) -->
+  <g transform="translate(385, 370)">
+    <ellipse cx="20" cy="18" rx="15" ry="13" fill="#d4b896"/> <!-- Body -->
+    <circle cx="20" cy="2" r="13" fill="#d4b896"/> <!-- Head -->
+    <!-- Dark face mask -->
+    <circle cx="20" cy="6" r="8" fill="#604734" opacity="0.6"/>
+    <ellipse cx="12" cy="-2" rx="6" ry="8" fill="#d4b896" transform="rotate(-10 12 -2)"/> <!-- Ear -->
+    <ellipse cx="28" cy="-2" rx="6" ry="8" fill="#d4b896" transform="rotate(10 28 -2)"/>
+    <circle cx="15" cy="0" r="3" fill="#604734"/> <!-- Eye -->
+    <circle cx="25" cy="0" r="3" fill="#604734"/>
+    <circle cx="15.5" cy="-0.5" r="1" fill="white"/>
+    <circle cx="25.5" cy="-0.5" r="1" fill="white"/>
+    <ellipse cx="20" cy="7" rx="4" ry="2.5" fill="#604734"/> <!-- Nose -->
+  </g>
+
+  <!-- Floating sparkles -->
+  <g fill="#f0c5d4" opacity="0.4">
+    <circle cx="140" cy="200" r="3"/>
+    <circle cx="460" cy="250" r="3"/>
+    <circle cx="180" cy="430" r="2"/>
+    <circle cx="420" cy="430" r="2"/>
+    <circle cx="520" cy="300" r="2.5"/>
+    <circle cx="80" cy="280" r="2.5"/>
+  </g>
+</svg>

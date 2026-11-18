@@ -1,7 +1,8 @@
 # .NET
 bin/
 obj/
-publish/
+publish/*/
+!publish/wwwroot/
 *.user
 
 # Node

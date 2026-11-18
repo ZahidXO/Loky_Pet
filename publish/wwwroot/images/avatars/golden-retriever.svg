@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <filter id="b1"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="b2"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="b3"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="b4"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="b5"><feGaussianBlur stdDeviation="10"/></filter>
+
+    <radialGradient id="a" cx="50%" cy="20%" r="75%">
+      <stop offset="0%" stop-color="#F7D46C"/>
+      <stop offset="25%" stop-color="#E8BC50"/>
+      <stop offset="50%" stop-color="#D09838"/>
+      <stop offset="75%" stop-color="#B07828"/>
+      <stop offset="100%" stop-color="#8A5C18"/>
+    </radialGradient>
+    <radialGradient id="b" cx="50%" cy="15%" r="80%">
+      <stop offset="0%" stop-color="#F0C858"/>
+      <stop offset="50%" stop-color="#D8A840"/>
+      <stop offset="100%" stop-color="#B88828"/>
+    </radialGradient>
+    <radialGradient id="c" cx="50%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#F0C888"/>
+      <stop offset="100%" stop-color="#D8A860"/>
+    </radialGradient>
+    <radialGradient id="d" cx="50%" cy="22%" r="72%">
+      <stop offset="0%" stop-color="#FCE8D4"/>
+      <stop offset="50%" stop-color="#F4D4BC"/>
+      <stop offset="100%" stop-color="#E8BC9E"/>
+    </radialGradient>
+    <radialGradient id="e" cx="36%" cy="28%" r="62%">
+      <stop offset="0%" stop-color="#5C5458"/>
+      <stop offset="100%" stop-color="#2A242C"/>
+    </radialGradient>
+    <radialGradient id="f" cx="50%" cy="38%" r="56%">
+      <stop offset="0%" stop-color="#9A7C44"/>
+      <stop offset="100%" stop-color="#7A5C2C"/>
+    </radialGradient>
+    <radialGradient id="g" cx="50%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="#F8AAAA"/>
+      <stop offset="100%" stop-color="#E08484"/>
+    </radialGradient>
+    <radialGradient id="h" cx="36%" cy="18%" r="58%">
+      <stop offset="0%" stop-color="#FFF" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="i" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F0A0A0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F0A0A0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- OREJAS caídas redondeadas (golden retriever — más largas y suaves que shiba) -->
+  <path d="M118 248 C102 182, 108 108, 148 78 C172 60, 198 72, 212 148 C220 186, 216 228, 212 256Z" fill="url(#b)"/>
+  <path d="M118 248 C102 182, 108 108, 148 78 C172 60, 198 72, 212 148 C220 186, 216 228, 212 256Z" fill="#906018" opacity="0.2" filter="url(#b3)"/>
+  <path d="M138 240 C128 186, 132 122, 162 98 C180 84, 198 92, 206 152 C212 182, 210 222, 208 246Z" fill="url(#c)" opacity="0.45" filter="url(#b1)"/>
+
+  <path d="M394 248 C410 182, 404 108, 364 78 C340 60, 314 72, 300 148 C292 186, 296 228, 300 256Z" fill="url(#b)"/>
+  <path d="M394 248 C410 182, 404 108, 364 78 C340 60, 314 72, 300 148 C292 186, 296 228, 300 256Z" fill="#906018" opacity="0.2" filter="url(#b3)"/>
+  <path d="M374 240 C384 186, 380 122, 350 98 C332 84, 314 92, 306 152 C300 182, 302 222, 304 246Z" fill="url(#c)" opacity="0.45" filter="url(#b1)"/>
+
+  <!-- CABEZA blob -->
+  <path d="M256 120 C316 120,374 142,406 184 C434 220,444 268,438 308 C432 350,410 390,376 416 C346 438,304 450,256 450 C208 450,166 438,136 416 C102 390,80 350,74 308 C68 268,78 220,106 184 C138 142,196 120,256 120Z" fill="url(#a)"/>
+
+  <!-- Sombra inferior cabeza -->
+  <ellipse cx="256" cy="420" rx="130" ry="40" fill="#6A4410" opacity="0.15" filter="url(#b4)"/>
+
+  <!-- Calidez frente -->
+  <ellipse cx="256" cy="188" rx="90" ry="50" fill="#E8A838" opacity="0.22" filter="url(#b4)"/>
+
+  <!-- Franja marrón zona ojos (golden tiene menos contraste, más cálido) -->
+  <ellipse cx="256" cy="278" rx="158" ry="55" fill="#8A6428" opacity="0.28" filter="url(#b4)"/>
+  <ellipse cx="256" cy="282" rx="118" ry="38" fill="#704C18" opacity="0.12" filter="url(#b4)"/>
+
+  <!-- Parches laterales nariz (como el shiba pero más cálidos) -->
+  <ellipse cx="192" cy="300" rx="44" ry="36" fill="url(#f)" opacity="0.38" transform="rotate(-10 192 300)" filter="url(#b3)"/>
+  <ellipse cx="320" cy="300" rx="44" ry="36" fill="url(#f)" opacity="0.38" transform="rotate(10 320 300)" filter="url(#b3)"/>
+
+  <!-- HOCICO path orgánico -->
+  <path d="M256 312 C218 312,166 330,150 368 C140 394,154 424,180 438 C206 450,236 454,256 454 C276 454,306 450,332 438 C358 424,372 394,362 368 C346 330,294 312,256 312Z" fill="url(#d)" filter="url(#b1)"/>
+
+  <!-- Lóbulos del hocico -->
+  <ellipse cx="208" cy="382" rx="44" ry="32" fill="#FFF0E4" opacity="0.38" filter="url(#b3)"/>
+  <ellipse cx="304" cy="382" rx="44" ry="32" fill="#FFF0E4" opacity="0.38" filter="url(#b3)"/>
+  <ellipse cx="256" cy="372" rx="36" ry="26" fill="#FFF6EE" opacity="0.42" filter="url(#b3)"/>
+
+  <!-- Transición pelo→hocico -->
+  <ellipse cx="256" cy="328" rx="92" ry="24" fill="#A07028" opacity="0.1" filter="url(#b5)"/>
+
+  <!-- Barbilla -->
+  <ellipse cx="256" cy="432" rx="44" ry="18" fill="#F4D4BC" opacity="0.35" filter="url(#b3)"/>
+
+  <!-- OJOS (estándar shiba: óvalos blancos squint feliz) -->
+  <ellipse cx="197" cy="272" rx="19" ry="12" fill="#FFFFFF" opacity="0.92" transform="rotate(-7 197 272)" filter="url(#b1)"/>
+  <ellipse cx="315" cy="272" rx="19" ry="12" fill="#FFFFFF" opacity="0.92" transform="rotate(7 315 272)" filter="url(#b1)"/>
+
+  <!-- NARIZ (estándar shiba: path orgánico) -->
+  <ellipse cx="256" cy="355" rx="16" ry="10" fill="#887060" opacity="0.15" filter="url(#b4)"/>
+  <path d="M238 340 C238 328,248 318,256 318 C264 318,274 328,274 340 C274 352,268 360,256 360 C244 360,238 352,238 340Z" fill="url(#e)" filter="url(#b1)"/>
+  <ellipse cx="248" cy="332" rx="8" ry="5" fill="#FFF" opacity="0.2" filter="url(#b1)"/>
+  <ellipse cx="260" cy="336" rx="3.5" ry="2.5" fill="#FFF" opacity="0.1"/>
+
+  <!-- BOCA (estándar shiba: sonrisa sutil) -->
+  <path d="M254 360 C248 368,238 374,228 370" fill="none" stroke="#9A7048" stroke-width="1.8" stroke-linecap="round" opacity="0.25" filter="url(#b1)"/>
+  <path d="M258 360 C264 368,274 374,284 370" fill="none" stroke="#9A7048" stroke-width="1.8" stroke-linecap="round" opacity="0.25" filter="url(#b1)"/>
+
+  <!-- LENGUA (golden retriever — siempre la saca un poquito) -->
+  <ellipse cx="256" cy="380" rx="12" ry="11" fill="url(#g)" opacity="0.6" filter="url(#b1)"/>
+  <ellipse cx="256" cy="377" rx="7" ry="5" fill="#F8BCBC" opacity="0.3" filter="url(#b1)"/>
+
+  <!-- BLUSH -->
+  <ellipse cx="152" cy="325" rx="30" ry="20" fill="url(#i)" filter="url(#b3)"/>
+  <ellipse cx="360" cy="325" rx="30" ry="20" fill="url(#i)" filter="url(#b3)"/>
+
+  <!-- HIGHLIGHT 3D -->
+  <ellipse cx="216" cy="210" rx="150" ry="118" fill="url(#h)"/>
+  <ellipse cx="236" cy="172" rx="60" ry="36" fill="#FFF" opacity="0.08" filter="url(#b3)"/>
+</svg>
