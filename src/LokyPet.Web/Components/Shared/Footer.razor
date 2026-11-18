@@ -1,0 +1,65 @@
+@* Footer corporativo — [TEXTO LITERAL] (sección 10.1).
+   Fondo café oscuro, 3 columnas + barra inferior. Se usa en todo el sitio.
+   El texto es literal: no resumir, no reescribir, no traducir. *@
+
+<footer class="bg-primary text-primary-content/90 mt-16">
+    <div class="mx-auto max-w-[1440px] px-6 py-12 grid gap-10 md:grid-cols-3">
+
+        @* Columna 1 — marca *@
+        <div>
+            <div class="flex items-center gap-3 mb-4">
+                <span class="grid place-items-center w-11 h-11 rounded-2xl bg-primary-content/15">
+                    <i class="fa-solid fa-paw text-primary-content text-lg"></i>
+                </span>
+                <h3 class="font-logo text-xl text-primary-content">LOKY PET, S.A. DE C.V.</h3>
+            </div>
+            <p class="text-sm leading-relaxed text-primary-content/80">
+                Empresa mexicana dedicada a la confección sustentable de productos para mascotas mediante el reciclaje y reutilización creativa de textiles en Reynosa, Tamaulipas.
+            </p>
+            <p class="mt-4 font-mono text-xs tracking-wide text-primary-content/70">RFC: LPE260115H30</p>
+        </div>
+
+        @* Columna 2 — contacto corporativo *@
+        <div>
+            <h4 class="font-semibold text-primary-content uppercase tracking-wide text-sm mb-4">Contacto corporativo</h4>
+            <ul class="space-y-3 text-sm text-primary-content/80">
+                <li class="flex gap-3">
+                    <i class="fa-solid fa-location-dot mt-1 text-accent"></i>
+                    <span>Blvd. del Maestro No. 320, Local 4-B, Fracc. Las Fuentes, C.P. 88710, Reynosa, Tamaulipas.</span>
+                </li>
+                <li class="flex gap-3 items-center">
+                    <i class="fa-solid fa-envelope text-accent"></i>
+                    <span>contacto@lokypet.com.mx</span>
+                </li>
+                <li class="flex gap-3 items-center">
+                    <i class="fa-solid fa-phone text-accent"></i>
+                    <span>+52 (899) 900-LOKY (5659)</span>
+                </li>
+            </ul>
+        </div>
+
+        @* Columna 3 — cumplimiento legal *@
+        <div>
+            <h4 class="font-semibold text-primary-content uppercase tracking-wide text-sm mb-4">Cumplimiento legal</h4>
+            <p class="text-sm leading-relaxed text-primary-content/80">
+                Empresa constituida formalmente con registro ante el SAT, IMPI (Clase 18), IMSS y en cumplimiento de las NOM de la STPS para talleres textiles.
+            </p>
+            <div class="mt-4 flex gap-3 rounded-2xl border border-primary-content/20 p-3 text-sm text-primary-content/80">
+                <i class="fa-regular fa-folder-open mt-0.5 text-accent"></i>
+                <span>Los documentos comprobatorios de cumplimiento legal se encuentran ordenados en el apartado de <strong class="text-primary-content">Anexos</strong> del expediente corporativo.</span>
+            </div>
+        </div>
+    </div>
+
+    @* Barra inferior *@
+    <div class="border-t border-primary-content/15">
+        <div class="mx-auto max-w-[1440px] px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-content/70">
+            <span>© 2026 LOKY PET, S.A. DE C.V. Todos los derechos reservados.</span>
+            <div class="flex items-center gap-4">
+                <a href="sobre-nosotros?tab=terminos" class="hover:text-primary-content transition-colors">Términos</a>
+                <a href="sobre-nosotros?tab=privacidad" class="hover:text-primary-content transition-colors">Privacidad</a>
+                <a href="sobre-nosotros?tab=sustentabilidad" class="hover:text-primary-content transition-colors">Sustentabilidad</a>
+            </div>
+        </div>
+    </div>
+</footer>

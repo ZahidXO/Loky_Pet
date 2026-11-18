@@ -1,0 +1,986 @@
+@page "/cuenta"
+@inject LokyPet.Application.Interfaces.IAuthService Auth
+@inject LokyPet.Application.Interfaces.IOrderRepository Orders
+@inject NavigationManager Nav
+@implements IDisposable
+
+<PageTitle>Mi cuenta — LOKY PET</PageTitle>
+
+<div class="page-enter">
+
+@if (_loading)
+{
+    @* Skeleton loader *@
+    <section class="mx-auto max-w-[1440px] px-6 py-20">
+        <div class="max-w-md mx-auto space-y-4">
+            <div class="h-20 w-20 rounded-full skeleton-shimmer mx-auto"></div>
+            <div class="h-6 w-48 rounded-full skeleton-shimmer mx-auto"></div>
+            <div class="h-10 w-full rounded-full skeleton-shimmer"></div>
+            <div class="h-10 w-full rounded-full skeleton-shimmer"></div>
+        </div>
+    </section>
+}
+else if (_user is null)
+{
+    @* ============================================================
+       AUTH VIEWS: Login / Register / Reset Password
+       ============================================================ *@
+    <section class="mx-auto max-w-[1440px] px-6 py-12">
+        <div class="max-w-md mx-auto">
+
+            @* Logo *@
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="grid place-items-center rounded-full bg-primary text-primary-content w-12 h-12">
+                        <i class="fa-solid fa-paw text-lg"></i>
+                    </span>
+                    <span class="font-script text-3xl text-primary">Loky Pet</span>
+                </div>
+            </div>
+
+            @* Error toast — above card, auto-dismiss *@
+            @if (!string.IsNullOrEmpty(_errorMsg))
+            {
+                <div class="alert alert-error rounded-xl text-sm py-2 mb-4 animate-fade-in-up whitespace-pre-wrap break-words">
+                    <i class="fa-solid fa-circle-xmark flex-shrink-0"></i>
+                    <span>@_errorMsg</span>
+                </div>
+            }
+
+            @* Success toast — above card, auto-dismiss *@
+            @if (!string.IsNullOrEmpty(_successMsg))
+            {
+                <div class="alert alert-success rounded-xl text-sm py-2 mb-4 animate-fade-in-up whitespace-pre-wrap break-words">
+                    <i class="fa-solid fa-circle-check flex-shrink-0"></i>
+                    <span>@_successMsg</span>
+                </div>
+            }
+
+            @* Auth card *@
+            <div class="rounded-2xl bg-base-100 shadow-soft p-6 sm:p-8 space-y-6">
+
+                @if (_authView == AuthView.Login)
+                {
+                    <div class="text-center space-y-1">
+                        <h1 class="text-2xl font-semibold text-primary">Iniciar sesi&oacute;n</h1>
+                        <p class="text-sm text-base-content/60">Accede a tu cuenta LOKY PET</p>
+                    </div>
+
+                    <EditForm Model="_loginModel" OnValidSubmit="HandleLogin" FormName="loginForm">
+                        <DataAnnotationsValidator />
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="label"><span class="label-text font-medium">Correo electr&oacute;nico</span></label>
+                                <InputText @bind-Value="_loginModel.Email" type="email"
+                                           class="input input-bordered rounded-xl h-12 w-full focus:ring-2 focus:ring-accent/50 border-base-300"
+                                           placeholder="tu@correo.com" />
+                                <ValidationMessage For="@(() => _loginModel.Email)" class="text-error text-xs mt-1" />
+                            </div>
+                            <div class="form-control">
+                                <label class="label"><span class="label-text font-medium">Contrase&ntilde;a</span></label>
+                                <InputText @bind-Value="_loginModel.Password" type="password"
+                                           class="input input-bordered rounded-xl h-12 w-full focus:ring-2 focus:ring-accent/50 border-base-300"
+                                           placeholder="Tu contrase&ntilde;a" />
+                                <ValidationMessage For="@(() => _loginModel.Password)" class="text-error text-xs mt-1" />
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" disabled="@_submitting"
+                                    class="btn btn-primary w-full rounded-full h-12 text-base">
+                                @if (_submitting) { <span class="loading loading-spinner loading-sm"></span> }
+                                Iniciar sesi&oacute;n
+                            </button>
+                        </div>
+                    </EditForm>
+
+                    <div class="text-center space-y-2 text-sm">
+                        <button class="link link-primary" @onclick='() => _authView = AuthView.ResetPassword'>
+                            &iquest;Olvidaste tu contrase&ntilde;a?
+                        </button>
+                        <p class="text-base-content/60">
+                            &iquest;No tienes cuenta?
+                            <button class="link link-primary font-medium" @onclick='() => _authView = AuthView.Register'>
+                                Reg&iacute;strate
+                            </button>
+                        </p>
+                    </div>
+                }
+
+                @if (_authView == AuthView.Register)
+                {
+                    <div class="text-center space-y-1">
+                        <h1 class="text-2xl font-semibold text-primary">Crear cuenta</h1>
+                        <p class="text-sm text-base-content/60">&Uacute;nete a la familia LOKY PET</p>
+                    </div>
+
+                    <EditForm Model="_registerModel" OnValidSubmit="HandleRegister" FormName="registerForm">
+                        <DataAnnotationsValidator />
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="label"><span class="label-text font-medium">Nombre completo</span></label>
+                                <InputText @bind-Value="_registerModel.FullName"
+                                           class="input input-bordered rounded-xl h-12 w-full focus:ring-2 focus:ring-accent/50 border-base-300"
+                                           placeholder="Tu nombre" />
+                                <ValidationMessage For="@(() => _registerModel.FullName)" class="text-error text-xs mt-1" />
+                            </div>
+                            <div class="form-control">
+                                <label class="label"><span class="label-text font-medium">Correo electr&oacute;nico</span></label>
+                                <InputText @bind-Value="_registerModel.Email" type="email"
+                                           class="input input-bordered rounded-xl h-12 w-full focus:ring-2 focus:ring-accent/50 border-base-300"
+                                           placeholder="tu@correo.com" />
+                                <ValidationMessage For="@(() => _registerModel.Email)" class="text-error text-xs mt-1" />
+                            </div>
+                            <div class="form-control">
+                                <label class="label"><span class="label-text font-medium">Contrase&ntilde;a</span></label>
+                                <InputText @bind-Value="_registerModel.Password" type="password"
+                                           class="input input-bordered rounded-xl h-12 w-full focus:ring-2 focus:ring-accent/50 border-base-300"
+                                           placeholder="M&iacute;nimo 6 caracteres" />
+                                <ValidationMessage For="@(() => _registerModel.Password)" class="text-error text-xs mt-1" />
+                            </div>
+                            <div class="form-control">
+                                <label class="cursor-pointer justify-start gap-3 flex items-center">
+                                    <InputCheckbox @bind-Value="_registerModel.PrivacyAccepted" class="checkbox checkbox-sm checkbox-primary" />
+                                    <span class="text-sm text-base-content/70">
+                                        Acepto el <a href="sobre-nosotros?tab=privacidad" class="link link-primary">Aviso de Privacidad</a>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" disabled="@_submitting"
+                                    class="btn btn-primary w-full rounded-full h-12 text-base">
+                                @if (_submitting) { <span class="loading loading-spinner loading-sm"></span> }
+                                Crear cuenta
+                            </button>
+                        </div>
+                    </EditForm>
+
+                    <p class="text-center text-sm text-base-content/60">
+                        &iquest;Ya tienes cuenta?
+                        <button class="link link-primary font-medium" @onclick='() => _authView = AuthView.Login'>
+                            Inicia sesi&oacute;n
+                        </button>
+                    </p>
+                }
+
+                @if (_authView == AuthView.ResetPassword)
+                {
+                    <div class="text-center space-y-1">
+                        <h1 class="text-2xl font-semibold text-primary">Recuperar contrase&ntilde;a</h1>
+                        <p class="text-sm text-base-content/60">Te enviaremos un enlace por correo</p>
+                    </div>
+
+                    @if (_resetSent)
+                    {
+                        <div class="alert alert-success rounded-xl text-sm py-3">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Si el correo est&aacute; registrado, recibir&aacute;s un enlace para restablecer tu contrase&ntilde;a.</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="label"><span class="label-text font-medium">Correo electr&oacute;nico</span></label>
+                                <input type="email" @bind="_resetEmail"
+                                       class="input input-bordered rounded-xl h-12 w-full focus:ring-2 focus:ring-accent/50 border-base-300"
+                                       placeholder="tu@correo.com" />
+                            </div>
+
+                            <button class="btn btn-primary w-full rounded-full h-12 text-base"
+                                    disabled="@_submitting" @onclick="HandleResetPassword">
+                                @if (_submitting) { <span class="loading loading-spinner loading-sm"></span> }
+                                Enviar enlace
+                            </button>
+                        </div>
+                    }
+
+                    <p class="text-center text-sm">
+                        <button class="link link-primary" @onclick='() => { _authView = AuthView.Login; _resetSent = false; }'>
+                            <i class="fa-solid fa-arrow-left text-xs me-1"></i> Volver al inicio de sesi&oacute;n
+                        </button>
+                    </p>
+                }
+            </div>
+
+            @* Demo notice *@
+            <p class="text-center text-xs text-base-content/40 mt-4">
+                <i class="fa-solid fa-flask me-1"></i> Modo demostraci&oacute;n: las cuentas se crean en Supabase Auth.
+            </p>
+        </div>
+    </section>
+}
+else
+{
+    @* ============================================================
+       LOGGED-IN VIEW: Profile + Avatar + Order History
+       ============================================================ *@
+    <section class="mx-auto max-w-[1440px] px-6 py-12 space-y-8">
+
+        @* ── Header con nombre ── *@
+        <div class="text-center space-y-3">
+            <div class="relative inline-block">
+                <div class="w-24 h-24 rounded-full shadow-soft mx-auto bg-secondary grid place-items-center">
+                    <i class="fa-solid fa-user text-primary text-3xl"></i>
+                </div>
+            </div>
+            <h1 class="text-2xl font-semibold text-primary">@_user.FullName</h1>
+            <p class="text-sm text-base-content/60">Miembro LOKY PET</p>
+
+            @if (_user.Role == LokyPet.Domain.Enums.UserRole.Admin)
+            {
+                <a href="dashboard"
+                   class="btn btn-sm rounded-full bg-accent text-accent-content border-0 font-medium gap-2 hover:brightness-90 transition-all mt-1">
+                    <i class="fa-solid fa-chart-line"></i> Panel de administraci&oacute;n
+                </a>
+            }
+        </div>
+
+        @* ── Tabs ── *@
+        <div class="flex gap-2 justify-center overflow-x-auto pb-2">
+            <button class="@TabClass(_profileTab == ProfileTab.Profile)" @onclick='() => _profileTab = ProfileTab.Profile'>
+                <i class="fa-solid fa-user me-1.5"></i> Perfil
+            </button>
+            <button class="@TabClass(_profileTab == ProfileTab.Orders)" @onclick='() => _profileTab = ProfileTab.Orders'>
+                <i class="fa-solid fa-bag-shopping me-1.5"></i> Mis pedidos
+            </button>
+        </div>
+
+        @* ── Tab content ── *@
+        <div class="max-w-2xl mx-auto tab-fade" @key="_profileTab">
+
+            @* ─── PERFIL ─── *@
+            @if (_profileTab == ProfileTab.Profile)
+            {
+                <div class="rounded-2xl bg-base-100 shadow-soft p-6 sm:p-8 space-y-6">
+                    <h2 class="text-lg font-semibold text-primary flex items-center gap-2">
+                        <i class="fa-solid fa-pen text-accent"></i> Editar perfil
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-medium">Nombre completo</span></label>
+                            <input type="text" @bind="_editName"
+                                   class="input input-bordered rounded-xl h-12 w-full border-base-300" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-medium">Tel&eacute;fono</span></label>
+                            <input type="tel" @bind="_editPhone"
+                                   class="input input-bordered rounded-xl h-12 w-full border-base-300"
+                                   placeholder="+52 (899) 123-4567" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-medium">Direcci&oacute;n de env&iacute;o predeterminada</span></label>
+                            <textarea @bind="_editAddress" rows="3"
+                                      class="textarea textarea-bordered rounded-xl w-full border-base-300 resize-none"
+                                      placeholder="Calle, n&uacute;mero, colonia, C.P., ciudad, estado"></textarea>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(_profileMsg))
+                    {
+                        <div class="alert @(_profileSuccess ? "alert-success" : "alert-error") rounded-xl text-sm py-2">
+                            <i class="fa-solid @(_profileSuccess ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                            @_profileMsg
+                        </div>
+                    }
+
+                    <div class="flex gap-3">
+                        <button class="btn btn-primary rounded-full flex-1 h-11" disabled="@_submitting" @onclick="SaveProfile">
+                            @if (_submitting) { <span class="loading loading-spinner loading-sm"></span> }
+                            Guardar cambios
+                        </button>
+                        <button class="btn btn-outline btn-error rounded-full h-11 px-6" @onclick="HandleLogout">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i> Cerrar sesi&oacute;n
+                        </button>
+                    </div>
+                </div>
+            }
+
+            @* ─── AVATAR ─── *@
+            @* ─── MIS PEDIDOS ─── *@
+            @if (_profileTab == ProfileTab.Orders)
+            {
+                <div class="space-y-4">
+                    <h2 class="text-lg font-semibold text-primary flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-accent"></i> Historial de pedidos
+                    </h2>
+
+                    @if (_ordersLoading)
+                    {
+                        <div class="space-y-3">
+                            @for (int i = 0; i < 3; i++)
+                            {
+                                <div class="rounded-2xl bg-base-100 shadow-soft p-5 space-y-2">
+                                    <div class="h-5 w-40 rounded-full skeleton-shimmer"></div>
+                                    <div class="h-4 w-60 rounded-full skeleton-shimmer"></div>
+                                    <div class="h-4 w-32 rounded-full skeleton-shimmer"></div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else if (_orders.Count == 0)
+                    {
+                        <div class="rounded-2xl bg-base-100 shadow-soft p-10 text-center space-y-4">
+                            <div class="w-16 h-16 rounded-full bg-secondary grid place-items-center mx-auto">
+                                <i class="fa-solid fa-bag-shopping text-primary text-2xl"></i>
+                            </div>
+                            <p class="text-base-content/60">A&uacute;n no tienes pedidos.</p>
+                            <a href="accesorios" class="btn btn-primary btn-sm rounded-full px-6">
+                                <i class="fa-solid fa-store me-1"></i> Explorar accesorios
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var order in _orders)
+                        {
+                            <div class="rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                                @* Order header *@
+                                <div class="flex flex-wrap items-center justify-between gap-3 p-5 border-b border-base-200">
+                                    <div>
+                                        <p class="font-semibold text-primary text-sm">@order.OrderNumber</p>
+                                        <p class="text-xs text-base-content/50">@order.CreatedAt.ToString("dd MMM yyyy, HH:mm", Mx)</p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="@StatusBadge(order.Status) badge badge-sm gap-1">
+                                            <i class="@StatusIcon(order.Status) text-[10px]"></i>
+                                            @StatusLabel(order.Status)
+                                        </span>
+                                        <span class="font-semibold text-primary text-sm">@FormatPrice(order.Total)</span>
+                                    </div>
+                                </div>
+
+                                @* Order items *@
+                                <div class="p-5 space-y-3">
+                                    @foreach (var item in order.Items)
+                                    {
+                                        <div class="flex items-center gap-3 text-sm">
+                                            <div class="w-2 h-2 rounded-full bg-accent flex-shrink-0"></div>
+                                            <span class="flex-1 text-base-content/80">@item.Name — @item.Color</span>
+                                            <span class="text-base-content/50">x@item.Quantity</span>
+                                            <span class="font-medium text-primary">@FormatPrice(item.LineTotal)</span>
+                                        </div>
+                                    }
+                                </div>
+
+                                @* Order footer *@
+                                <div class="bg-secondary/20 px-5 py-3 flex flex-wrap items-center gap-4 text-xs text-base-content/60">
+                                    <span>
+                                        <i class="fa-solid @(order.ShippingType == LokyPet.Domain.Enums.ShippingType.Local ? "fa-city" : "fa-truck") me-1"></i>
+                                        @(order.ShippingType == LokyPet.Domain.Enums.ShippingType.Local ? "Entrega local Reynosa" : $"Env\u00edo DHL — {FormatPrice(order.ShippingCost)}")
+                                    </span>
+                                    @if (!string.IsNullOrEmpty(order.TrackingNumber))
+                                    {
+                                        <span><i class="fa-solid fa-barcode me-1"></i> Gu&iacute;a: @order.TrackingNumber</span>
+                                    }
+                                </div>
+
+                                @* Track button *@
+                                <div class="px-5 py-3 border-t border-base-200">
+                                    <button class="btn btn-sm rounded-full bg-secondary text-secondary-content border-0 hover:bg-neutral hover:text-neutral-content transition-colors gap-1"
+                                            @onclick="() => ToggleTracking(order.OrderNumber)">
+                                        <i class="fa-solid @(_expandedTrackingOrderNumber == order.OrderNumber ? "fa-chevron-up" : "fa-map-location-dot") text-xs"></i>
+                                        @(_expandedTrackingOrderNumber == order.OrderNumber ? "Ocultar rastreo" : "Rastrear pedido")
+                                    </button>
+                                </div>
+
+                                @* Expanded tracking details *@
+                                @if (_expandedTrackingOrderNumber == order.OrderNumber)
+                                {
+                                    <div class="p-5 border-t border-base-200 bg-base-200/30 space-y-5 animate-fade-in-up">
+                                        @* Delivery estimate *@
+                                        <div class="bg-base-100 rounded-xl p-4 space-y-2">
+                                            <div class="flex items-center gap-2 text-primary font-medium text-sm">
+                                                <i class="fa-solid fa-calendar-days"></i>
+                                                <span>Fecha estimada de entrega</span>
+                                            </div>
+                                            <p class="text-lg font-bold text-primary">@GetTrackingDeliveryDateForOrder(order)</p>
+                                            <p class="text-xs text-base-content/50">
+                                                @(order.ShippingType == LokyPet.Domain.Enums.ShippingType.Local
+                                                    ? "Entrega local Reynosa — 24 a 48 horas"
+                                                    : $"Env\u00edo nacional por {order.ShippingCarrier ?? "DHL"} — 3 a 5 d\u00edas h\u00e1biles")
+                                            </p>
+                                        </div>
+
+                                        @* Mexico map with truck (only for national shipping) *@
+                                        @if (order.ShippingType == LokyPet.Domain.Enums.ShippingType.Nacional)
+                                        {
+                                            <div class="relative bg-base-100 rounded-2xl p-4 overflow-hidden">
+                                                <p class="text-xs font-medium text-base-content/50 mb-2">
+                                                    <i class="fa-solid fa-truck-fast me-1"></i> Ubicaci&oacute;n actual del paquete
+                                                </p>
+                                                <div class="relative w-full" style="padding-bottom: 75%;">
+                                                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M120,50 L180,30 L220,25 L260,20 L310,25 L350,40 L380,35 L420,45 L450,60 L480,55 L520,70 L540,90 L550,120 L530,150 L520,180 L500,200 L480,230 L460,250 L440,260 L410,280 L380,300 L350,320 L320,340 L290,360 L260,370 L230,380 L200,370 L180,350 L160,330 L140,300 L120,270 L100,240 L90,210 L80,180 L70,150 L75,120 L85,90 L100,70 Z"
+                                                              fill="oklch(0.90 0.03 99)" stroke="oklch(0.42 0.05 58)" stroke-width="2" opacity="0.5"/>
+                                                        <circle cx="450" cy="75" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="380" cy="100" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="300" cy="80" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="200" cy="60" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="340" cy="200" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="370" cy="250" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="420" cy="280" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="470" cy="260" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="320" cy="140" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="260" cy="100" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="500" cy="300" r="4" fill="oklch(0.42 0.05 58)" opacity="0.3"/>
+                                                        <circle cx="@_truckX" cy="@_truckY" r="8" fill="oklch(0.86 0.05 355)" opacity="0.4">
+                                                            <animate attributeName="r" values="8;14;8" dur="2s" repeatCount="indefinite"/>
+                                                            <animate attributeName="opacity" values="0.4;0.15;0.4" dur="2s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <circle cx="@_truckX" cy="@_truckY" r="5" fill="oklch(0.86 0.05 355)"/>
+                                                    </svg>
+                                                    <div class="absolute dhl-truck-bounce"
+                                                         style="left: calc(@(_truckX)px / 600 * 100% - 20px); top: calc(@(_truckY)px / 450 * 100% - 40px);">
+                                                        <div class="dhl-truck">
+                                                            <div class="dhl-truck-body">
+                                                                <div class="dhl-truck-cabin"></div>
+                                                                <div class="dhl-truck-cargo">
+                                                                    <span class="dhl-truck-label">DHL</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="dhl-truck-wheels">
+                                                                <span class="dhl-wheel"></span>
+                                                                <span class="dhl-wheel"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="text-xs text-base-content/50 mt-2 text-center">
+                                                    <i class="fa-solid fa-location-dot me-1"></i> @_truckStateName
+                                                </p>
+                                            </div>
+                                        }
+
+                                        @* Status timeline *@
+                                        <div class="bg-base-100 rounded-xl p-4">
+                                            <p class="text-sm font-semibold text-primary mb-3">Estado del pedido</p>
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <div class="badge @TrackingStatusBadge(order.Status) gap-1 py-3 px-4">
+                                                    <i class="@TrackingStatusIcon(order.Status) text-xs"></i>
+                                                    @TrackingStatusLabel(order.Status)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                }
+            }
+
+        </div>
+            }
+
+        </div>
+    </section>
+}
+
+</div> @* end page-enter *@
+
+@* Tab fade style *@
+<style>
+    .tab-fade {
+        animation: tab-fade-in 0.25s ease-in-out;
+    }
+    @@keyframes tab-fade-in {
+        from { opacity: 0; transform: translateY(4px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* DHL Truck 3D CSS */
+    .dhl-truck-bounce {
+        animation: truck-bounce 2s ease-in-out infinite;
+        z-index: 10;
+        position: absolute;
+        pointer-events: none;
+    }
+    @@keyframes truck-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+
+    .dhl-truck {
+        width: 48px;
+        perspective: 200px;
+    }
+    .dhl-truck-body {
+        display: flex;
+        height: 22px;
+        transform: rotateY(-8deg) rotateX(5deg);
+    }
+    .dhl-truck-cabin {
+        width: 14px;
+        height: 18px;
+        background: #604734;
+        border-radius: 4px 0 0 2px;
+        align-self: flex-end;
+        border: 1px solid #4a3628;
+    }
+    .dhl-truck-cargo {
+        flex: 1;
+        background: linear-gradient(135deg, #FFCC00 0%, #D4A800 100%);
+        border-radius: 0 3px 3px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #b8940a;
+        box-shadow: 2px 2px 6px rgba(96,71,52,0.25);
+    }
+    .dhl-truck-label {
+        font-size: 7px;
+        font-weight: 900;
+        color: #CC0000;
+        letter-spacing: 0.5px;
+        font-family: Arial, sans-serif;
+    }
+    .dhl-truck-wheels {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 4px;
+        margin-top: -2px;
+    }
+    .dhl-wheel {
+        width: 8px;
+        height: 8px;
+        background: #333;
+        border-radius: 50%;
+        border: 1.5px solid #666;
+        animation: wheel-spin 0.6s linear infinite;
+    }
+    @@keyframes wheel-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+@code {
+    // ===== State =====
+    private LokyPet.Domain.Entities.UserProfile? _user;
+    private bool _loading = true;
+    private bool _submitting;
+    private string? _errorMsg;
+    private string? _successMsg;
+
+    // Auth views
+    private AuthView _authView = AuthView.Login;
+    private LoginModel _loginModel = new();
+    private RegisterModel _registerModel = new();
+    private string _resetEmail = "";
+    private bool _resetSent;
+
+    // Profile tab
+    private ProfileTab _profileTab = ProfileTab.Profile;
+    private string _editName = "";
+    private string? _editPhone;
+    private string? _editAddress;
+    private string? _profileMsg;
+    private bool _profileSuccess;
+
+    // Orders
+    private List<LokyPet.Domain.Entities.Order> _orders = new();
+    private bool _ordersLoading;
+
+    // Tracking
+    private string? _expandedTrackingOrderNumber;
+    private int _truckX = 380;
+    private int _truckY = 100;
+    private string _truckStateName = "Nuevo León";
+
+    // Truck position presets (state name → SVG coords on the simplified map)
+    private static readonly (string Name, int X, int Y)[] _truckPositions =
+    {
+        ("Tamaulipas", 450, 75),
+        ("Nuevo León", 380, 100),
+        ("Chihuahua", 300, 80),
+        ("Sonora", 260, 100),
+        ("Jalisco", 340, 200),
+        ("Ciudad de México", 370, 250),
+        ("Oaxaca", 420, 280),
+        ("Veracruz", 470, 260),
+        ("Durango", 320, 140),
+        ("Baja California", 200, 60),
+        ("Yucatán", 500, 300),
+    };
+
+    // Formatting
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string FormatPrice(decimal v) => v.ToString("C2", Mx);
+
+    // ===== Lifecycle =====
+    protected override async Task OnInitializedAsync()
+    {
+        Auth.OnAuthStateChanged += OnAuthChanged;
+        await LoadUser();
+
+        var uri = Nav.Uri;
+        var queryIdx = uri.IndexOf('?');
+        if (queryIdx >= 0)
+        {
+            var queryStr = uri[(queryIdx + 1)..];
+            var pairs = queryStr.Split('&');
+            var tabVal = pairs.FirstOrDefault(p => p.StartsWith("tab="))?.Split('=').ElementAtOrDefault(1);
+            var pedidoVal = pairs.FirstOrDefault(p => p.StartsWith("pedido="))?.Split('=').ElementAtOrDefault(1);
+            if (tabVal == "rastreo")
+            {
+                _profileTab = ProfileTab.Orders;
+                _expandedTrackingOrderNumber = Uri.UnescapeDataString(pedidoVal ?? "");
+                // Randomize truck position
+                var pos = _truckPositions[Random.Shared.Next(_truckPositions.Length)];
+                _truckX = pos.X;
+                _truckY = pos.Y;
+                _truckStateName = pos.Name;
+            }
+        }
+    }
+
+    private async Task LoadUser()
+    {
+        _loading = true;
+        StateHasChanged();
+
+        _user = await Auth.GetCurrentUserAsync();
+        if (_user is not null)
+        {
+            _editName = _user.FullName;
+            _editPhone = _user.Phone;
+            _editAddress = _user.DefaultAddress;
+        }
+
+        _loading = false;
+        StateHasChanged();
+    }
+
+    private async void OnAuthChanged()
+    {
+        await InvokeAsync(async () =>
+        {
+            await LoadUser();
+            StateHasChanged();
+        });
+    }
+
+    // ===== Auth handlers =====
+    private async Task HandleLogin()
+    {
+        _errorMsg = null;
+        _submitting = true;
+        StateHasChanged();
+
+        var success = await Auth.SignInAsync(_loginModel.Email, _loginModel.Password);
+        _submitting = false;
+
+        if (!success)
+        {
+            var detail = (Auth as LokyPet.Client.Services.AuthService)?.LastError ?? "";
+            string msg;
+            if (detail.Contains("rate_limit", StringComparison.OrdinalIgnoreCase)
+                || detail.Contains("request this after", StringComparison.OrdinalIgnoreCase)
+                || detail.Contains("429", StringComparison.OrdinalIgnoreCase))
+                msg = "Demasiados intentos. Espera 1 minuto antes de intentar de nuevo.";
+            else if (detail.Contains("invalid", StringComparison.OrdinalIgnoreCase) || detail.Contains("credentials", StringComparison.OrdinalIgnoreCase))
+                msg = "Correo o contrase\u00f1a incorrectos. Intenta de nuevo.";
+            else
+                msg = $"Error al iniciar sesi\u00f3n.\n(Detalle: {detail})";
+            await ShowError(msg);
+        }
+    }
+
+    private async Task HandleRegister()
+    {
+        _errorMsg = null;
+        _successMsg = null;
+
+        if (!_registerModel.PrivacyAccepted)
+        {
+            await ShowError("Debes aceptar el Aviso de Privacidad.");
+            return;
+        }
+
+        _submitting = true;
+        StateHasChanged();
+
+        var success = await Auth.SignUpAsync(_registerModel.Email, _registerModel.Password, _registerModel.FullName);
+        _submitting = false;
+
+        if (success)
+        {
+            // Check if user was auto-logged in (email confirmation disabled)
+            var user = await Auth.GetCurrentUserAsync();
+            if (user is null)
+            {
+                // Email confirmation is enabled — user must verify their email first
+                _successMsg = "Cuenta creada. Revisa tu correo para confirmar tu cuenta e inicia sesión.";
+                _authView = AuthView.Login;
+                _registerModel = new();
+                StateHasChanged();
+                await Task.Delay(3000);
+                if (_successMsg is not null) { _successMsg = null; StateHasChanged(); }
+            }
+            // else: OnAuthStateChanged already refreshed the UI
+        }
+        else
+        {
+            var detail = (Auth as LokyPet.Client.Services.AuthService)?.LastError ?? "";
+            string msg;
+            if (detail.Contains("already_registered", StringComparison.OrdinalIgnoreCase) || detail.Contains("already", StringComparison.OrdinalIgnoreCase))
+                msg = "Este correo ya tiene una cuenta. Intenta iniciar sesión.";
+            else if (detail.Contains("rate_limit", StringComparison.OrdinalIgnoreCase)
+                     || detail.Contains("request this after", StringComparison.OrdinalIgnoreCase)
+                     || detail.Contains("429", StringComparison.OrdinalIgnoreCase))
+                msg = "Demasiados intentos. Espera 1 minuto antes de intentar de nuevo.";
+            else if (detail.Contains("invalid", StringComparison.OrdinalIgnoreCase))
+                msg = "El correo ingresado no es válido. Verifica que esté bien escrito.";
+            else if (detail.Contains("disabled", StringComparison.OrdinalIgnoreCase))
+                msg = "El registro por correo está deshabilitado en Supabase. Actívalo en Authentication → Providers → Email.";
+            else
+                msg = $"No se pudo crear la cuenta.\n(Detalle: {detail})";
+            await ShowError(msg);
+        }
+    }
+
+    /// <summary>Show error message that auto-dismisses after 3 seconds.</summary>
+    private async Task ShowError(string msg)
+    {
+        _errorMsg = msg;
+        StateHasChanged();
+        await Task.Delay(3000);
+        if (_errorMsg == msg) // Only clear if it's still the same message
+        {
+            _errorMsg = null;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleResetPassword()
+    {
+        if (string.IsNullOrWhiteSpace(_resetEmail)) return;
+        _submitting = true;
+        StateHasChanged();
+
+        await Auth.ResetPasswordAsync(_resetEmail);
+        _submitting = false;
+        _resetSent = true;
+        StateHasChanged();
+        await Task.Delay(3000);
+        _resetSent = false;
+        _authView = AuthView.Login;
+        StateHasChanged();
+    }
+
+    private async Task HandleLogout()
+    {
+        await Auth.SignOutAsync();
+        _user = null;
+        _authView = AuthView.Login;
+        _loginModel = new();
+        _registerModel = new();
+    }
+
+    // ===== Profile handlers =====
+    private async Task SaveProfile()
+    {
+        if (_user is null) return;
+        _profileMsg = null;
+        _submitting = true;
+        StateHasChanged();
+
+        _user.FullName = _editName?.Trim() ?? "";
+        _user.Phone = _editPhone?.Trim();
+        _user.DefaultAddress = _editAddress?.Trim();
+
+        var result = await Auth.UpdateProfileAsync(_user);
+        _submitting = false;
+
+        if (result is not null)
+        {
+            _profileMsg = "\u00a1Perfil actualizado!";
+            _profileSuccess = true;
+        }
+        else
+        {
+            var detail = (Auth as LokyPet.Client.Services.AuthService)?.LastError ?? "";
+            _profileMsg = string.IsNullOrEmpty(detail)
+                ? "Error al guardar los cambios."
+                : $"Error al guardar los cambios.\n(Detalle: {detail})";
+            _profileSuccess = false;
+        }
+
+        StateHasChanged();
+        var msgSnapshot = _profileMsg;
+        await Task.Delay(3000);
+        if (_profileMsg == msgSnapshot)
+        {
+            _profileMsg = null;
+            StateHasChanged();
+        }
+    }
+
+    // ===== Orders loading (lazy on tab switch) =====
+    private async Task LoadOrders()
+    {
+        if (_user is null || _orders.Count > 0) return;
+        _ordersLoading = true;
+        StateHasChanged();
+
+        _orders = await Orders.GetOrdersByUserAsync(_user.Id);
+        _ordersLoading = false;
+    }
+
+    // Override to trigger order loading when tab changes
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_profileTab == ProfileTab.Orders && _user is not null && _orders.Count == 0 && !_ordersLoading)
+        {
+            await LoadOrders();
+            StateHasChanged();
+        }
+    }
+
+    // ===== Tracking handlers =====
+    private void ToggleTracking(string orderNumber)
+    {
+        if (_expandedTrackingOrderNumber == orderNumber)
+        {
+            _expandedTrackingOrderNumber = null;
+        }
+        else
+        {
+            _expandedTrackingOrderNumber = orderNumber;
+            // Place truck at a random state position (simulated)
+            var pos = _truckPositions[Random.Shared.Next(_truckPositions.Length)];
+            _truckX = pos.X;
+            _truckY = pos.Y;
+            _truckStateName = pos.Name;
+        }
+    }
+
+    private string GetTrackingDeliveryDateForOrder(LokyPet.Domain.Entities.Order order)
+    {
+        var created = order.CreatedAt;
+        bool isLocal = order.ShippingType == LokyPet.Domain.Enums.ShippingType.Local;
+        int minDays = isLocal ? 1 : 3;
+        int maxDays = isLocal ? 2 : 5;
+        var minDate = AddBusinessDays(created, 1 + minDays);
+        var maxDate = AddBusinessDays(created, 1 + maxDays);
+        var culture = new System.Globalization.CultureInfo("es-MX");
+        return $"{minDate.ToString("d 'de' MMMM", culture)} — {maxDate.ToString("d 'de' MMMM", culture)}";
+    }
+
+    private static DateTime AddBusinessDays(DateTime start, int days)
+    {
+        var current = start;
+        int added = 0;
+        while (added < days)
+        {
+            current = current.AddDays(1);
+            if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday)
+                added++;
+        }
+        return current;
+    }
+
+    private static string TrackingStatusBadge(LokyPet.Domain.Enums.OrderStatus s) => s switch
+    {
+        LokyPet.Domain.Enums.OrderStatus.Paid => "badge-info",
+        LokyPet.Domain.Enums.OrderStatus.Preparing => "badge-warning",
+        LokyPet.Domain.Enums.OrderStatus.Shipped => "badge-accent",
+        LokyPet.Domain.Enums.OrderStatus.Delivered => "badge-success",
+        LokyPet.Domain.Enums.OrderStatus.Cancelled => "badge-error",
+        _ => "badge-ghost"
+    };
+
+    private static string TrackingStatusIcon(LokyPet.Domain.Enums.OrderStatus s) => s switch
+    {
+        LokyPet.Domain.Enums.OrderStatus.Paid => "fa-solid fa-credit-card",
+        LokyPet.Domain.Enums.OrderStatus.Preparing => "fa-solid fa-box",
+        LokyPet.Domain.Enums.OrderStatus.Shipped => "fa-solid fa-truck",
+        LokyPet.Domain.Enums.OrderStatus.Delivered => "fa-solid fa-circle-check",
+        LokyPet.Domain.Enums.OrderStatus.Cancelled => "fa-solid fa-ban",
+        _ => "fa-solid fa-circle-question"
+    };
+
+    private static string TrackingStatusLabel(LokyPet.Domain.Enums.OrderStatus s) => s switch
+    {
+        LokyPet.Domain.Enums.OrderStatus.Paid => "Pagado",
+        LokyPet.Domain.Enums.OrderStatus.Preparing => "En preparación",
+        LokyPet.Domain.Enums.OrderStatus.Shipped => "Enviado",
+        LokyPet.Domain.Enums.OrderStatus.Delivered => "Entregado",
+        LokyPet.Domain.Enums.OrderStatus.Cancelled => "Cancelado",
+        _ => "Desconocido"
+    };
+
+    // ===== UI helpers =====
+    private static string TabClass(bool isActive) =>
+        isActive
+            ? "btn btn-sm rounded-full bg-primary text-primary-content border-0 font-medium"
+            : "btn btn-sm rounded-full bg-secondary text-secondary-content border-0 font-medium hover:bg-neutral hover:text-neutral-content transition-colors";
+
+    private static string StatusBadge(LokyPet.Domain.Enums.OrderStatus s) => s switch
+    {
+        LokyPet.Domain.Enums.OrderStatus.Paid => "badge-info",
+        LokyPet.Domain.Enums.OrderStatus.Preparing => "badge-warning",
+        LokyPet.Domain.Enums.OrderStatus.Shipped => "badge-accent",
+        LokyPet.Domain.Enums.OrderStatus.Delivered => "badge-success",
+        LokyPet.Domain.Enums.OrderStatus.Cancelled => "badge-error",
+        _ => "badge-ghost"
+    };
+
+    private static string StatusIcon(LokyPet.Domain.Enums.OrderStatus s) => s switch
+    {
+        LokyPet.Domain.Enums.OrderStatus.Paid => "fa-solid fa-credit-card",
+        LokyPet.Domain.Enums.OrderStatus.Preparing => "fa-solid fa-box",
+        LokyPet.Domain.Enums.OrderStatus.Shipped => "fa-solid fa-truck",
+        LokyPet.Domain.Enums.OrderStatus.Delivered => "fa-solid fa-circle-check",
+        LokyPet.Domain.Enums.OrderStatus.Cancelled => "fa-solid fa-ban",
+        _ => "fa-solid fa-circle-question"
+    };
+
+    private static string StatusLabel(LokyPet.Domain.Enums.OrderStatus s) => s switch
+    {
+        LokyPet.Domain.Enums.OrderStatus.Paid => "Pagado",
+        LokyPet.Domain.Enums.OrderStatus.Preparing => "En preparaci\u00f3n",
+        LokyPet.Domain.Enums.OrderStatus.Shipped => "Enviado",
+        LokyPet.Domain.Enums.OrderStatus.Delivered => "Entregado",
+        LokyPet.Domain.Enums.OrderStatus.Cancelled => "Cancelado",
+        _ => "Desconocido"
+    };
+
+    public void Dispose()
+    {
+        Auth.OnAuthStateChanged -= OnAuthChanged;
+    }
+
+    // ===== Enums =====
+    private enum AuthView { Login, Register, ResetPassword }
+    private enum ProfileTab { Profile, Orders }
+
+    // ===== Models =====
+    private sealed class LoginModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Ingresa tu correo.")]
+        [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "Correo no v\u00e1lido.")]
+        public string Email { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Ingresa tu contrase\u00f1a.")]
+        public string Password { get; set; } = "";
+    }
+
+    private sealed class RegisterModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Ingresa tu nombre.")]
+        public string FullName { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Ingresa tu correo.")]
+        [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "Correo no v\u00e1lido.")]
+        public string Email { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Ingresa una contrase\u00f1a.")]
+        [System.ComponentModel.DataAnnotations.MinLength(6, ErrorMessage = "M\u00ednimo 6 caracteres.")]
+        public string Password { get; set; } = "";
+
+        public bool PrivacyAccepted { get; set; }
+    }
+}

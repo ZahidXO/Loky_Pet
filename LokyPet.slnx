@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LokyPet.Application/LokyPet.Application.csproj" />
+    <Project Path="src/LokyPet.Domain/LokyPet.Domain.csproj" />
+    <Project Path="src/LokyPet.Infrastructure/LokyPet.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/LokyPet.Web/">
+    <Project Path="src/LokyPet.Web/LokyPet.Client.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LokyPet.Application.Tests/LokyPet.Application.Tests.csproj" />
+    <Project Path="tests/LokyPet.Domain.Tests/LokyPet.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

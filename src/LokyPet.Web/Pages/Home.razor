@@ -1,0 +1,362 @@
+﻿@page "/"
+@using LokyPet.Application.DTOs
+@using LokyPet.Application.Interfaces
+@using LokyPet.Client.Components
+@inject LokyPet.Client.Services.CatalogService Catalog
+@inject ICartService Cart
+@implements IDisposable
+
+<PageTitle>LOKY PET — Accesorios sustentables para tu mascota</PageTitle>
+
+<div class="page-enter">
+
+@* ===== 1. HERO / BANNER CAROUSEL ===== *@
+<section class="relative overflow-hidden" @onmouseenter="PauseCarousel" @onmouseleave="ResumeCarousel">
+    <div class="paw-bg absolute inset-0 opacity-60"></div>
+
+    @* Slides container *@
+    <div class="relative">
+        @for (int i = 0; i < _slides.Length; i++)
+        {
+            var slide = _slides[i];
+            var idx = i;
+            <div class="@SlideClass(idx)">
+                <div class="relative mx-auto max-w-[1440px] px-6 py-16 grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <span class="inline-flex items-center gap-2 rounded-full bg-accent text-accent-content text-xs font-semibold px-3 py-1">
+                            <i class="fa-solid fa-leaf"></i> @slide.Badge
+                        </span>
+                        <h1 class="mt-4 font-logo text-4xl sm:text-5xl text-primary leading-tight">@slide.Title</h1>
+                        <p class="mt-3 text-base-content/70 max-w-md">@slide.Subtitle</p>
+                        @if (slide.Price.HasValue)
+                        {
+                            <div class="mt-3 flex items-baseline gap-3">
+                                <span class="text-3xl font-bold text-primary">@FormatPrice(slide.Price.Value)</span>
+                            </div>
+                        }
+                        <div class="mt-6">
+                            <a href="@slide.CtaHref"
+                               class="btn bg-primary text-primary-content border-0 rounded-full px-6">
+                                @slide.CtaText <i class="fa-solid fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl bg-secondary/40 p-6 shadow-soft">
+                        <img src="@slide.Image" alt="@slide.Title"
+                             class="w-full max-h-72 object-contain" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @* Pill indicators *@
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        @for (int i = 0; i < _slides.Length; i++)
+        {
+            var idx = i;
+            <button @onclick="() => GoToSlide(idx)"
+                    class="@IndicatorClass(idx)"
+                    aria-label="Ir a slide @(idx + 1)"></button>
+        }
+    </div>
+</section>
+
+@* ===== Wave separator ===== *@
+<svg class="w-full -mt-1" viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,24 C360,48 720,0 1080,24 C1260,36 1380,36 1440,24 L1440,48 L0,48 Z" fill="oklch(var(--b1))"/>
+</svg>
+
+<div class="mx-auto max-w-[1440px] px-6 pb-16 space-y-14">
+
+@* ===== 2. COMPRA POR CATEGORÍA ===== *@
+<section>
+    <h2 class="text-2xl font-semibold text-primary text-center mb-8">Compra por categoría</h2>
+
+    @if (_loading)
+    {
+        <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full skeleton-shimmer"></div>
+                    <div class="h-4 w-20 rounded-full skeleton-shimmer"></div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
+            @foreach (var cat in _categoryCards)
+            {
+                <a href="accesorios?cat=@cat.Slug" class="group flex flex-col items-center gap-3 transition-transform hover:scale-105">
+                    <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-secondary/40 shadow-soft p-4 overflow-hidden ring-2 ring-transparent group-hover:ring-accent transition-all">
+                        <img src="@cat.Image" alt="@cat.Name"
+                             class="w-full h-full object-contain" loading="lazy" />
+                    </div>
+                    <span class="text-sm sm:text-base font-semibold text-primary">@cat.Name</span>
+                </a>
+            }
+        </div>
+    }
+</section>
+
+@* ===== Wave separator ===== *@
+<svg class="w-full" viewBox="0 0 1440 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,16 C360,0 720,32 1080,16 C1260,8 1380,8 1440,16 L1440,32 L0,32 Z" fill="oklch(var(--a) / 0.12)"/>
+</svg>
+
+@* ===== 4. PROPUESTA DE VALOR ===== *@
+<section>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        @foreach (var v in _valuePills)
+        {
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5 text-center flex flex-col items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                    <i class="fa-solid @v.Icon text-lg text-primary"></i>
+                </div>
+                <h3 class="text-sm font-semibold text-primary">@v.Title</h3>
+                <p class="text-xs text-base-content/60">@v.Description</p>
+            </div>
+        }
+    </div>
+</section>
+
+@* ===== Wave separator ===== *@
+<svg class="w-full" viewBox="0 0 1440 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,16 C480,0 960,32 1440,16 L1440,32 L0,32 Z" fill="oklch(var(--s) / 0.10)"/>
+</svg>
+
+@* ===== 5. NOVEDADES / DESTACADOS ===== *@
+<section>
+    <h2 class="text-2xl font-semibold text-primary mb-5">Destacados</h2>
+
+    @if (_loading)
+    {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @for (int i = 0; i < 5; i++)
+            {
+                <div class="rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <div class="aspect-square skeleton-shimmer"></div>
+                    <div class="p-4 space-y-2">
+                        <div class="h-4 w-3/4 rounded-full skeleton-shimmer"></div>
+                        <div class="h-4 w-1/2 rounded-full skeleton-shimmer"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @foreach (var p in _destacados)
+            {
+                <ProductCard Product="p" OnAddToCart="HandleAddToCart" />
+            }
+        </div>
+    }
+</section>
+
+</div>
+</div>
+
+@* ===== Carousel transition styles ===== *@
+<style>
+    .carousel-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.6s ease-in-out;
+        pointer-events: none;
+    }
+    .carousel-slide.active {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar { height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: oklch(var(--b2)); border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: oklch(var(--p) / 0.3); border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: oklch(var(--p) / 0.5); }
+</style>
+
+@code {
+    // ===== Loading state =====
+    private bool _loading = true;
+
+    // ===== Catalog data (grouped) =====
+    private List<ProductVariantDto> _allVariants = new();
+    private List<DemoProduct> _destacados = new();
+
+    // ===== Carousel =====
+    private int _currentSlide;
+    private System.Threading.Timer? _carouselTimer;
+    private bool _paused;
+
+    // ===== Slide definitions =====
+    private readonly SlideData[] _slides =
+    {
+        new("Upcycling textil · Reynosa", "Camas que se transforman",
+            "Camas artesanales con textiles reciclados para el descanso de tu mascota.",
+            160m, "Ver camas", "accesorios?cat=camas", "images/products/cama.png"),
+        new("Nuevos productos", "Cojines a solo $50",
+            "Cojines rellenables hechos con materiales upcycled, suaves y durables.",
+            50m, "Ver cojines", "accesorios?cat=cojines", "images/products/cojin-rellenable.png"),
+        new("Nuestra historia", "Hecho en Reynosa con textiles reciclados",
+            "Accesorios sustentables para tu mascota, confeccionados artesanalmente en Tamaulipas.",
+            null, "Conócenos", "sobre-nosotros", "images/products/pelota-de-tiras.png"),
+    };
+
+    // ===== Category cards =====
+    private readonly CategoryCard[] _categoryCards =
+    {
+        new("Camas", "camas", "images/products/cama.png"),
+        new("Juguetes", "juguetes", "images/products/pelota-de-tiras.png"),
+        new("Cojines", "cojines", "images/products/cojin-rellenable.png"),
+    };
+
+    // ===== Value proposition =====
+    private readonly ValuePill[] _valuePills =
+    {
+        new("fa-location-dot", "Hecho en Reynosa", "Confección artesanal en Tamaulipas"),
+        new("fa-recycle", "Upcycling textil", "Textiles reciclados con segunda vida"),
+        new("fa-truck-fast", "Envío gratis en Reynosa", "Entrega en 24 a 48 horas hábiles"),
+        new("fa-box", "Envíos a todo México", "Por DHL en 3 a 5 días hábiles"),
+    };
+
+    // ===== Lifecycle =====
+    protected override async Task OnInitializedAsync()
+    {
+        StartCarouselTimer();
+
+        try
+        {
+            _allVariants = await Catalog.GetAllVariantsAsync();
+
+            // Group all variants by product
+            var allGrouped = GroupVariants(_allVariants);
+
+            // Destacados: all grouped products
+            _destacados = allGrouped;
+        }
+        catch
+        {
+            // If catalog fails, show empty — the UI handles it gracefully
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    // ===== Group variants into DemoProducts =====
+    private static List<DemoProduct> GroupVariants(List<ProductVariantDto> variants)
+    {
+        return variants
+            .GroupBy(v => v.ProductId)
+            .Select(g =>
+            {
+                var first = g.First();
+                var colorVariants = g.Select(v => new ColorVariantInfo
+                {
+                    Slug = v.Slug,
+                    ColorName = v.ColorName,
+                    ColorHex = v.ColorHex,
+                    Stock = v.Stock
+                }).ToList();
+
+                return new DemoProduct
+                {
+                    Sku = first.Sku,
+                    Name = first.ProductName,
+                    Slug = first.Slug,
+                    Category = first.CategoryName,
+                    CategorySlug = first.CategorySlug,
+                    ColorName = first.ColorName,
+                    ColorHex = first.ColorHex,
+                    PriceMxn = first.PriceMxn,
+                    CompareAtPriceMxn = first.CompareAtPriceMxn,
+                    Stock = g.Sum(v => v.Stock),
+                    Image = first.Image,
+                    Description = first.Description,
+                    ColorVariants = colorVariants
+                };
+            })
+            .OrderBy(p => p.Name)
+            .ToList();
+    }
+
+    // ===== Carousel logic =====
+    private void StartCarouselTimer()
+    {
+        _carouselTimer = new System.Threading.Timer(_ =>
+        {
+            if (_paused) return;
+            _currentSlide = (_currentSlide + 1) % _slides.Length;
+            InvokeAsync(StateHasChanged);
+        }, null, 5000, 5000);
+    }
+
+    private void PauseCarousel() => _paused = true;
+    private void ResumeCarousel() => _paused = false;
+
+    private void GoToSlide(int index)
+    {
+        _currentSlide = index;
+        // Reset timer so the 5s starts fresh after manual navigation
+        _carouselTimer?.Change(5000, 5000);
+    }
+
+    private string SlideClass(int index) =>
+        index == _currentSlide ? "carousel-slide active" : "carousel-slide";
+
+    private string IndicatorClass(int index) =>
+        index == _currentSlide
+            ? "w-8 h-2 rounded-full bg-primary transition-all duration-300"
+            : "w-2 h-2 rounded-full bg-primary/30 hover:bg-primary/50 transition-all duration-300";
+
+    // ===== Add to cart =====
+    private async Task HandleAddToCart(DemoProduct demo)
+    {
+        // Find the matching variant to get full data
+        var variant = _allVariants.FirstOrDefault(v => v.Sku == demo.Sku);
+
+        if (variant is null || variant.IsOutOfStock) return;
+
+        await Cart.AddItemAsync(new CartItemDto
+        {
+            VariantId = variant.Id,
+            VariantSlug = variant.Slug,
+            Sku = variant.Sku,
+            ProductName = variant.ProductName,
+            ColorName = variant.ColorName,
+            ColorHex = variant.ColorHex,
+            UnitPrice = variant.PriceMxn,
+            CompareAtPrice = variant.CompareAtPriceMxn,
+            Image = variant.Image,
+            Quantity = 1,
+            MaxStock = variant.Stock
+        });
+    }
+
+    // ===== Helpers =====
+    private static readonly System.Globalization.CultureInfo MxCulture = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string FormatPrice(decimal v) => v.ToString("C0", MxCulture);
+
+    // ===== Cleanup =====
+    public void Dispose()
+    {
+        _carouselTimer?.Dispose();
+    }
+
+    // ===== Records for data =====
+    private sealed record SlideData(
+        string Badge, string Title, string Subtitle,
+        decimal? Price,
+        string CtaText, string CtaHref, string Image);
+
+    private sealed record CategoryCard(string Name, string Slug, string Image);
+    private sealed record ValuePill(string Icon, string Title, string Description);
+}

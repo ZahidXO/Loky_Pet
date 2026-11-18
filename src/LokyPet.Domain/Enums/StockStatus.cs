@@ -1,0 +1,8 @@
+namespace LokyPet.Domain.Enums;
+
+public enum StockStatus
+{
+    InStock,
+    LowStock,
+    OutOfStock
+}

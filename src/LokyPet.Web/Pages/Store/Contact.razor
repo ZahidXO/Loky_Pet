@@ -1,0 +1,441 @@
+@page "/contacto"
+@inject LokyPet.Application.Interfaces.IContactService ContactSvc
+@inject LokyPet.Application.Interfaces.IAuthService Auth
+@inject LokyPet.Client.Services.SocialLinksConfig SocialLinks
+
+<PageTitle>Contacto — LOKY PET</PageTitle>
+
+<div class="page-enter">
+
+@* ============================================================
+   1. HERO
+   ============================================================ *@
+<section class="relative overflow-hidden">
+    <div class="paw-bg absolute inset-0 opacity-60"></div>
+
+    <div class="relative mx-auto max-w-[1440px] px-6 py-16 text-center space-y-4">
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-secondary shadow-soft mb-2">
+            <i class="fa-solid fa-envelope text-primary text-3xl"></i>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-semibold text-primary">Cont&aacute;ctanos</h1>
+        <p class="text-base-content/70 max-w-xl mx-auto text-lg leading-relaxed">
+            &iquest;Tienes alguna pregunta sobre nuestros productos, tu pedido o env&iacute;os?
+            Estamos aqu&iacute; para ayudarte.
+        </p>
+    </div>
+</section>
+
+@* ===== Wave separator ===== *@
+<svg class="w-full -mt-1" viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,24 C360,48 720,0 1080,24 C1260,36 1380,36 1440,24 L1440,48 L0,48 Z" fill="oklch(var(--b1))"/>
+</svg>
+
+@* ============================================================
+   2. FORMULARIO + INFO DE CONTACTO (grid 2 columnas)
+   ============================================================ *@
+<section class="mx-auto max-w-[1440px] px-6 pb-16">
+    <div class="grid lg:grid-cols-5 gap-10 items-start">
+
+        @* ── Columna izquierda: formulario (3/5) ── *@
+        <div class="lg:col-span-3">
+            <div class="rounded-2xl bg-base-100 shadow-soft p-6 sm:p-8 space-y-6">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                        <i class="fa-solid fa-paper-plane text-primary text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-primary">Env&iacute;anos un mensaje</h2>
+                        <p class="text-sm text-base-content/60">Responderemos lo antes posible</p>
+                    </div>
+                </div>
+
+                <EditForm Model="_model" OnValidSubmit="HandleSubmit" FormName="contactForm">
+                    <DataAnnotationsValidator />
+
+                    @* Nombre *@
+                    <div class="form-control w-full">
+                        <label class="label" for="contact-name">
+                            <span class="label-text text-base-content/80 font-medium">Nombre completo <span class="text-error">*</span></span>
+                        </label>
+                        <InputText id="contact-name" @bind-Value="_model.Name"
+                                   class="@InputClass(_nameError)"
+                                   placeholder="Tu nombre" />
+                        <ValidationMessage For="@(() => _model.Name)" class="text-error text-xs mt-1" />
+                    </div>
+
+                    @* Correo *@
+                    <div class="form-control w-full">
+                        <label class="label" for="contact-email">
+                            <span class="label-text text-base-content/80 font-medium">Correo electr&oacute;nico <span class="text-error">*</span></span>
+                        </label>
+                        <InputText id="contact-email" @bind-Value="_model.Email" type="email"
+                                   class="@InputClass(_emailError)"
+                                   placeholder="ejemplo@correo.com" />
+                        <ValidationMessage For="@(() => _model.Email)" class="text-error text-xs mt-1" />
+                    </div>
+
+                    @* Teléfono (opcional) *@
+                    <div class="form-control w-full">
+                        <label class="label" for="contact-phone">
+                            <span class="label-text text-base-content/80 font-medium">Tel&eacute;fono <span class="text-base-content/40">(opcional)</span></span>
+                        </label>
+                        <InputText id="contact-phone" @bind-Value="_model.Phone" type="tel"
+                                   class="@InputClass(false)"
+                                   placeholder="+52 (899) 123-4567" />
+                    </div>
+
+                    @* Asunto *@
+                    <div class="form-control w-full">
+                        <label class="label" for="contact-subject">
+                            <span class="label-text text-base-content/80 font-medium">Asunto <span class="text-error">*</span></span>
+                        </label>
+                        <InputSelect id="contact-subject" @bind-Value="_model.Subject"
+                                     class="@SelectClass(_subjectError)">
+                            <option value="">Selecciona un asunto</option>
+                            <option value="Pedido">Pedido</option>
+                            <option value="Producto">Producto</option>
+                            <option value="Envíos y devoluciones">Env&iacute;os y devoluciones</option>
+                            <option value="Facturación">Facturaci&oacute;n</option>
+                            <option value="Otro">Otro</option>
+                        </InputSelect>
+                        <ValidationMessage For="@(() => _model.Subject)" class="text-error text-xs mt-1" />
+                    </div>
+
+                    @* Mensaje *@
+                    <div class="form-control w-full">
+                        <label class="label" for="contact-message">
+                            <span class="label-text text-base-content/80 font-medium">Mensaje <span class="text-error">*</span></span>
+                        </label>
+                        <InputTextArea id="contact-message" @bind-Value="_model.MessageText"
+                                       class="@TextareaClass(_messageError)"
+                                       placeholder="Escribe tu mensaje aqu&iacute;..."
+                                       rows="5" />
+                        <ValidationMessage For="@(() => _model.MessageText)" class="text-error text-xs mt-1" />
+                    </div>
+
+                    @* Aviso de privacidad *@
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-3">
+                            <InputCheckbox @bind-Value="_model.PrivacyAccepted"
+                                           class="checkbox checkbox-sm checkbox-primary" />
+                            <span class="label-text text-base-content/70 text-sm">
+                                He le&iacute;do y acepto el
+                                <a href="sobre-nosotros?tab=privacidad" class="link link-primary font-medium">Aviso de Privacidad</a>
+                                <span class="text-error">*</span>
+                            </span>
+                        </label>
+                        @if (_privacyError)
+                        {
+                            <span class="text-error text-xs mt-1">Debes aceptar el Aviso de Privacidad para continuar.</span>
+                        }
+                    </div>
+
+                    @* Botón enviar *@
+                    <button type="submit" disabled="@_sending"
+                            class="btn btn-primary w-full text-base gap-2 h-12 rounded-full shadow-soft hover:shadow-soft-lg transition-all duration-250">
+                        @if (_sending)
+                        {
+                            <span class="loading loading-spinner loading-sm"></span>
+                            <span>Enviando...</span>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Enviar mensaje</span>
+                        }
+                    </button>
+                </EditForm>
+            </div>
+        </div>
+
+        @* ── Columna derecha: info + redes (2/5) ── *@
+        <div class="lg:col-span-2 space-y-6">
+
+            @* Info corporativa *@
+            <div class="rounded-2xl bg-base-100 shadow-soft p-6 space-y-5">
+                <h3 class="text-lg font-semibold text-primary flex items-center gap-2">
+                    <i class="fa-solid fa-building text-accent"></i>
+                    Informaci&oacute;n de contacto
+                </h3>
+
+                <div class="space-y-4 text-sm text-base-content/80">
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-location-dot text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-primary text-sm">Direcci&oacute;n</p>
+                            <p>Blvd. del Maestro No. 320, Local 4-B, Fracc. Las Fuentes, C.P. 88710, Reynosa, Tamaulipas.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-envelope text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-primary text-sm">Correo electr&oacute;nico</p>
+                            <p>contacto@lokypet.com.mx</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-phone text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-primary text-sm">Tel&eacute;fono</p>
+                            <p>+52 (899) 900-LOKY (5659)</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-clock text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-primary text-sm">Horario de atenci&oacute;n</p>
+                            <p>Lunes a viernes &middot; 9:00 a 18:00 hrs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Redes sociales *@
+            <div class="rounded-2xl bg-base-100 shadow-soft p-6 space-y-5">
+                <h3 class="text-lg font-semibold text-primary flex items-center gap-2">
+                    <i class="fa-solid fa-share-nodes text-accent"></i>
+                    S&iacute;guenos
+                </h3>
+
+                <div class="space-y-3">
+                    @* Instagram *@
+                    <a href="@SocialLinks.Instagram.Url"
+                       target="_blank" rel="noopener noreferrer"
+                       class="flex items-center gap-4 rounded-2xl border border-base-300 p-4 group
+                              hover:shadow-soft hover:-translate-y-0.5 transition-all duration-250">
+                        <div class="w-12 h-12 rounded-full grid place-items-center flex-shrink-0
+                                    bg-gradient-to-br from-[#f09433] via-[#e6683c] to-[#bc1888]
+                                    group-hover:shadow-soft transition-all duration-250">
+                            <i class="fa-brands fa-instagram text-white text-xl"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-semibold text-primary text-sm">Instagram</p>
+                            <p class="text-base-content/60 text-sm truncate">@SocialLinks.Instagram.Handle</p>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-base-content/30 text-xs ml-auto flex-shrink-0
+                                  group-hover:text-primary transition-colors"></i>
+                    </a>
+
+                    @* Facebook *@
+                    <a href="@SocialLinks.Facebook.Url"
+                       target="_blank" rel="noopener noreferrer"
+                       class="flex items-center gap-4 rounded-2xl border border-base-300 p-4 group
+                              hover:shadow-soft hover:-translate-y-0.5 transition-all duration-250">
+                        <div class="w-12 h-12 rounded-full grid place-items-center flex-shrink-0
+                                    bg-[#1877F2]
+                                    group-hover:shadow-soft transition-all duration-250">
+                            <i class="fa-brands fa-facebook text-white text-xl"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-semibold text-primary text-sm">Facebook</p>
+                            <p class="text-base-content/60 text-sm truncate">@SocialLinks.Facebook.Handle</p>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-base-content/30 text-xs ml-auto flex-shrink-0
+                                  group-hover:text-primary transition-colors"></i>
+                    </a>
+                </div>
+            </div>
+
+            @* Mapa conceptual / CTA a Sobre nosotros *@
+            <div class="rounded-2xl bg-secondary/30 p-6 text-center space-y-3">
+                <i class="fa-solid fa-map-location-dot text-primary text-2xl"></i>
+                <p class="text-sm text-base-content/70">
+                    <strong class="text-primary">Reynosa, Tamaulipas</strong><br />
+                    Hecho en M&eacute;xico con textiles reciclados
+                </p>
+                <a href="sobre-nosotros" class="btn btn-sm btn-outline btn-primary rounded-full gap-1">
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                    Con&oacute;cenos
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</div> @* end page-enter *@
+
+@* ============================================================
+   TOAST DE ÉXITO / ERROR
+   ============================================================ *@
+@if (_showToast)
+{
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
+        <div class="alert @(_toastSuccess ? "alert-success" : "alert-error") shadow-soft-lg rounded-full px-6 py-3 flex items-center gap-3 max-w-md">
+            <i class="fa-solid @(_toastSuccess ? "fa-circle-check" : "fa-circle-xmark") text-lg"></i>
+            <span class="text-sm font-medium">@_toastMessage</span>
+        </div>
+    </div>
+}
+
+@code {
+    // ===== Form model =====
+    private ContactFormModel _model = new();
+    private bool _sending;
+
+    // ===== Toast =====
+    private bool _showToast;
+    private bool _toastSuccess;
+    private string _toastMessage = "";
+
+    // ===== Validation error flags (for input styling) =====
+    private bool _nameError;
+    private bool _emailError;
+    private bool _subjectError;
+    private bool _messageError;
+    private bool _privacyError;
+
+    // ===== Lifecycle — auto-fill from user profile =====
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var user = await Auth.GetCurrentUserAsync();
+            if (user is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(user.FullName))
+                    _model.Name = user.FullName;
+                if (!string.IsNullOrWhiteSpace(user.Email))
+                    _model.Email = user.Email;
+                if (!string.IsNullOrWhiteSpace(user.Phone))
+                    _model.Phone = user.Phone;
+            }
+        }
+        catch { /* No session — form stays empty */ }
+    }
+
+    private async Task HandleSubmit()
+    {
+        // Reset errors
+        _nameError = _emailError = _subjectError = _messageError = _privacyError = false;
+
+        // Manual validation
+        bool valid = true;
+
+        if (string.IsNullOrWhiteSpace(_model.Name))
+        {
+            _nameError = true;
+            valid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_model.Email) || !IsValidEmail(_model.Email))
+        {
+            _emailError = true;
+            valid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_model.Subject))
+        {
+            _subjectError = true;
+            valid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_model.MessageText))
+        {
+            _messageError = true;
+            valid = false;
+        }
+
+        if (!_model.PrivacyAccepted)
+        {
+            _privacyError = true;
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        _sending = true;
+        StateHasChanged();
+
+        var contactMessage = new LokyPet.Domain.Entities.ContactMessage
+        {
+            Name = _model.Name,
+            Email = _model.Email,
+            Phone = _model.Phone,
+            Subject = _model.Subject,
+            Message = _model.MessageText
+        };
+
+        var success = await ContactSvc.SendMessageAsync(contactMessage);
+
+        _sending = false;
+
+        if (success)
+        {
+            _model = new(); // Reset form
+            await ShowToast(true, "\u00a1Mensaje enviado! Te responderemos lo antes posible.");
+        }
+        else
+        {
+            await ShowToast(false, "Ocurri\u00f3 un error al enviar tu mensaje. Intenta de nuevo.");
+        }
+    }
+
+    private async Task ShowToast(bool success, string message)
+    {
+        _toastSuccess = success;
+        _toastMessage = message;
+        _showToast = true;
+        StateHasChanged();
+
+        await Task.Delay(3000);
+        _showToast = false;
+        StateHasChanged();
+    }
+
+    private static bool IsValidEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email)) return false;
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email.Trim();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    // ===== Input CSS classes =====
+    private static string InputClass(bool hasError) =>
+        $"input input-bordered w-full bg-base-100 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent rounded-xl h-12 text-base-content {(hasError ? "input-error" : "border-base-300")}";
+
+    private static string SelectClass(bool hasError) =>
+        $"select select-bordered w-full bg-base-100 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent rounded-xl h-12 text-base-content {(hasError ? "select-error" : "border-base-300")}";
+
+    private static string TextareaClass(bool hasError) =>
+        $"textarea textarea-bordered w-full bg-base-100 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent rounded-xl text-base-content resize-none {(hasError ? "textarea-error" : "border-base-300")}";
+
+    // ===== Form model with basic annotations =====
+    private sealed class ContactFormModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El nombre es obligatorio.")]
+        public string Name { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El correo es obligatorio.")]
+        [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "Ingresa un correo v\u00e1lido.")]
+        public string Email { get; set; } = "";
+
+        public string? Phone { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Selecciona un asunto.")]
+        public string Subject { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El mensaje es obligatorio.")]
+        public string MessageText { get; set; } = "";
+
+        public bool PrivacyAccepted { get; set; }
+    }
+}

@@ -1,4 +1,7 @@
 {
+  "buildCommand": "dotnet publish src/LokyPet.Web/LokyPet.Client.csproj -c Release -o publish",
+  "outputDirectory": "publish/wwwroot",
+  "framework": null,
   "rewrites": [
     {
       "source": "/((?!_framework|_content|css|js|images|favicon|icon-|appsettings).*)",

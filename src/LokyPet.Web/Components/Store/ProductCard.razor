@@ -1,0 +1,74 @@
+@* ProductCard: imagen 1:1 sobre fondo secondary claro con object-contain.
+   Botón "+" arriba der.; nombre 2 líneas máx.;
+   precio final; swatches de color abajo derecha.
+   Hover: elevación suave y zoom 1.05 de la imagen. *@
+
+<article class="group relative rounded-2xl bg-base-100 shadow-soft hover:shadow-soft-lg transition-all duration-250 ease-loky overflow-hidden">
+
+    @* Botón "+" - top right *@
+    <button class="absolute top-3 end-3 z-10 btn btn-circle btn-sm bg-primary text-primary-content border-0 shadow-soft opacity-0 group-hover:opacity-100 hover:scale-110 transition-all duration-150 disabled:opacity-40"
+            disabled="@Product.IsOutOfStock"
+            @onclick="OnAdd"
+            @onclick:stopPropagation="true"
+            aria-label="Agregar al carrito">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    @* Imagen *@
+    <a href="accesorios/@Product.Slug" class="block aspect-square bg-secondary/40 p-4">
+        @if (Product.IsOutOfStock)
+        {
+            <span class="absolute top-12 end-3 z-10 inline-flex items-center rounded-full bg-neutral/80 text-neutral-content text-xs font-semibold px-2 py-0.5">Agotado</span>
+        }
+        <img src="@Product.Image" alt="@Product.Name"
+             loading="lazy"
+             class="w-full h-full object-contain transition-transform duration-250 ease-loky group-hover:scale-105" />
+    </a>
+
+    @* Cuerpo *@
+    <div class="p-3 sm:p-4">
+        <a href="accesorios/@Product.Slug" class="block">
+            <h3 class="text-sm font-medium text-base-content line-clamp-2 min-h-[2.5rem] hover:text-primary transition-colors">
+                @Product.Name
+            </h3>
+        </a>
+
+        <div class="mt-2">
+            <PriceTag Price="Product.PriceMxn" Size="sm" />
+        </div>
+
+        @* Color swatches - bottom right aligned *@
+        @if (Product.ColorVariants.Any())
+        {
+            <div class="mt-2 flex items-center justify-end gap-1 flex-wrap">
+                @{ var maxShow = 5; var total = Product.ColorVariants.Count; }
+                @foreach (var cv in Product.ColorVariants.Take(maxShow))
+                {
+                    <a href="accesorios/@cv.Slug" title="@cv.ColorName" @onclick:stopPropagation="true">
+                        <ColorSwatch Hex="cv.ColorHex" Title="@cv.ColorName" />
+                    </a>
+                }
+                @if (total > maxShow)
+                {
+                    <span class="text-[10px] text-base-content/50 font-medium">+@(total - maxShow)</span>
+                }
+            </div>
+        }
+        else if (Product.ColorHex.Length > 0)
+        {
+            <div class="mt-2 flex justify-end">
+                <ColorSwatch Hex="Product.ColorHex" Title="@Product.ColorName" />
+            </div>
+        }
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public DemoProduct Product { get; set; } = default!;
+    [Parameter] public EventCallback<DemoProduct> OnAddToCart { get; set; }
+
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string Format(decimal v) => v.ToString("C2", Mx);
+
+    private Task OnAdd() => OnAddToCart.InvokeAsync(Product);
+}

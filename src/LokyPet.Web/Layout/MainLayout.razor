@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+@implements IDisposable
+@inject LokyPet.Application.Interfaces.ICartService Cart
+
+@* Layout por defecto de la tienda pública.
+   Los módulos Dashboard y Cuenta usarán sus propios layouts en fases posteriores. *@
+<div class="min-h-screen flex flex-col bg-base-100">
+    <AnnouncementBar />
+    <Navbar CartCount="_cartCount" />
+
+    <main class="flex-1 pb-20 lg:pb-0">
+        @Body
+    </main>
+
+    <Footer />
+</div>
+
+<CartDrawer @ref="_cartDrawer" />
+
+@code {
+    private CartDrawer _cartDrawer = default!;
+    private int _cartCount;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cart.OnChange += OnCartChanged;
+        _cartCount = await Cart.GetCountAsync();
+    }
+
+    private async void OnCartChanged()
+    {
+        await InvokeAsync(async () =>
+        {
+            _cartCount = await Cart.GetCountAsync();
+            StateHasChanged();
+        });
+    }
+
+    /// <summary>Opens the cart drawer from any child component via CascadingValue or direct ref.</summary>
+    public Task OpenCartDrawerAsync() => _cartDrawer.OpenAsync();
+
+    public void Dispose()
+    {
+        Cart.OnChange -= OnCartChanged;
+    }
+}

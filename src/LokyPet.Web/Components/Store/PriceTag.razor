@@ -1,0 +1,22 @@
+@* Precio final (café semibold). Formato es-MX. *@
+
+<div class="flex items-baseline gap-2 @CssClass">
+    <span class="font-semibold text-primary @SizeClass">@Format(Price)</span>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public decimal Price { get; set; }
+    [Parameter] public string Size { get; set; } = "md";
+    [Parameter] public string CssClass { get; set; } = "";
+
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+
+    private string SizeClass => Size switch
+    {
+        "lg" => "text-3xl",
+        "sm" => "text-sm",
+        _ => "text-lg"
+    };
+
+    private static string Format(decimal value) => value.ToString("C2", Mx);
+}

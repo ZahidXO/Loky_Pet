@@ -1,0 +1,20 @@
+@* Muestra de color circular. Las bicolores se muestran divididas en diagonal. *@
+
+@if (Hex.Length >= 2)
+{
+    <span class="color-swatch color-swatch--dual @(Active ? "color-swatch--active" : "")"
+          style="--c1:@Hex[0]; --c2:@Hex[1];"
+          title="@Title" role="button" aria-label="@Title"></span>
+}
+else if (Hex.Length == 1)
+{
+    <span class="color-swatch @(Active ? "color-swatch--active" : "")"
+          style="background-color:@Hex[0];"
+          title="@Title" role="button" aria-label="@Title"></span>
+}
+
+@code {
+    [Parameter, EditorRequired] public string[] Hex { get; set; } = Array.Empty<string>();
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public bool Active { get; set; }
+}

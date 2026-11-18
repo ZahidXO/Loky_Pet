@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <WasmBuildNative>false</WasmBuildNative>
+    <BlazorWebAssemblyLoadAllGlobalizationData>false</BlazorWebAssemblyLoadAllGlobalizationData>
+    <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**;Styles\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazor-ApexCharts" Version="4.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.11" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LokyPet.Application\LokyPet.Application.csproj" />
+    <ProjectReference Include="..\LokyPet.Infrastructure\LokyPet.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <!-- Compilar Tailwind/DaisyUI antes de construir la app -->
+  <Target Name="TailwindBuild" BeforeTargets="BeforeBuild">
+    <Exec Command="node_modules\.bin\tailwind.cmd -i ./Styles/app.css -o ./wwwroot/css/app.css --minify" Condition="'$(Configuration)' == 'Release'" />
+    <Exec Command="node_modules\.bin\tailwind.cmd -i ./Styles/app.css -o ./wwwroot/css/app.css" Condition="'$(Configuration)' != 'Release'" />
+  </Target>
+
+</Project>

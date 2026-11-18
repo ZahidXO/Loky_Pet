@@ -1,0 +1,280 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================================================
+   LOKY PET — Estilos base del sistema de diseño (tema "lokypet")
+   Fuentes: Pacifico (script, solo logo/titulares) + Poppins (texto)
+   =================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Remove focus outlines when navigating by mouse/touch.
+     Only show them for keyboard navigation (:focus-visible). */
+  :focus:not(:focus-visible) {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  body {
+    @apply font-sans bg-base-100 text-base-content;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold text-primary;
+  }
+
+  /* Selección de texto con la paleta */
+  ::selection {
+    background-color: #f0c5d4;
+    color: #604734;
+  }
+
+  /* Scrollbar suave */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #f7eecb; }
+  ::-webkit-scrollbar-thumb {
+    background: #d8c4a6;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #c3ab88; }
+}
+
+@layer components {
+  /* Logotipo / titulares caligráficos */
+  .font-logo {
+    @apply font-script;
+    letter-spacing: 0.5px;
+  }
+
+  /* Navbar "glass": crema translúcido con blur */
+  .navbar-glass {
+    background-color: rgba(252, 247, 217, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(96, 71, 52, 0.08);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .navbar-glass--scrolled {
+    box-shadow: 0 8px 24px rgba(96, 71, 52, 0.08);
+    background-color: rgba(252, 247, 217, 0.9);
+  }
+
+  /* Indicador de línea inferior animado del submódulo */
+  .nav-pill {
+    @apply relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200;
+    overflow: hidden;
+  }
+  /* Estado: seleccionado (café) */
+  .nav-pill--active {
+    color: #604734;
+  }
+  /* Estado: no seleccionado (rosa/secondary-content muted) */
+  .nav-pill--inactive {
+    color: #c4a08e;
+  }
+  /* Estado: hover sobre no seleccionado (gris/neutral) */
+  .nav-pill--inactive:hover {
+    color: #8a7560;
+  }
+
+  /* Línea inferior que aparece en hover y se queda en activo */
+  .nav-pill__line {
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] rounded-full;
+    width: 0;
+    background-color: #604734;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+  }
+  /* Activo: la línea se queda visible (café) */
+  .nav-pill__line--active {
+    width: 60% !important;
+    opacity: 1 !important;
+    background-color: #604734;
+  }
+  /* Hover en inactivo: la línea aparece en gris */
+  .nav-pill--inactive:hover .nav-pill__line:not(.nav-pill__line--active) {
+    width: 60%;
+    opacity: 1;
+    background-color: #8a7560;
+  }
+
+  /* Cart / Account icon hover highlight */
+  .nav-icon--active .fa-bag-shopping,
+  .nav-icon--active .fa-user {
+    color: #604734;
+  }
+
+  /* Mobile bottom nav: animated underline indicator (mirrors desktop nav-pill__line) */
+  .mobile-nav__line {
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] rounded-full;
+    width: 0;
+    background-color: #604734;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+  }
+  /* Active state: line stays visible */
+  .mobile-nav__line--active {
+    width: 50% !important;
+    opacity: 1 !important;
+    background-color: #604734;
+  }
+  /* Hover on mobile nav item: line appears in grey */
+  a:hover .mobile-nav__line:not(.mobile-nav__line--active) {
+    width: 50%;
+    opacity: 1;
+    background-color: #8a7560;
+  }
+
+  /* Muestra de color circular */
+  .color-swatch {
+    @apply inline-block rounded-full border transition-all duration-150;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-color: rgba(96, 71, 52, 0.15);
+    cursor: pointer;
+  }
+  .color-swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px #604734;
+  }
+  .color-swatch--active {
+    box-shadow: 0 0 0 2px #604734;
+  }
+  /* Muestra bicolor: círculo dividido en diagonal */
+  .color-swatch--dual {
+    background-image: linear-gradient(
+      135deg,
+      var(--c1) 0%,
+      var(--c1) 50%,
+      var(--c2) 50%,
+      var(--c2) 100%
+    );
+  }
+
+  /* Skeleton con shimmer rosa */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      #f6d8d6 25%,
+      #fbe7e6 50%,
+      #f6d8d6 75%
+    );
+    background-size: 936px 100%;
+    @apply animate-shimmer;
+  }
+
+  /* Transición entre submódulos (fade + translateY) */
+  .page-enter {
+    animation: fade-in-up 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Patitas decorativas sutiles (fondo) */
+  .paw-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23604734' fill-opacity='0.06'%3E%3Ccircle cx='60' cy='70' r='16'/%3E%3Ccircle cx='38' cy='48' r='8'/%3E%3Ccircle cx='60' cy='40' r='8'/%3E%3Ccircle cx='82' cy='48' r='8'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+}
+
+@layer utilities {
+  .ease-loky {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Respetar prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .coin {
+    animation: none;
+  }
+}
+
+/* 3D Coin Loading Animation */
+.loading-coin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #fcf7d9;
+}
+
+.coin {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: coin-spin 2.5s linear infinite;
+}
+
+.coin-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  border: 4px solid #8a7560;
+}
+
+.coin-front {
+  background: linear-gradient(135deg, #604734 0%, #8a7560 100%);
+  color: #fcf7d9;
+  font-size: 2.5rem;
+}
+
+.coin-back {
+  background: linear-gradient(135deg, #8a7560 0%, #604734 100%);
+  color: #fcf7d9;
+  transform: rotateY(180deg);
+}
+
+.coin-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.8rem;
+}
+
+@keyframes coin-spin {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.loading-text {
+  margin-top: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #604734;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+#blazor-error-ui {
+  background: #d98a8a;
+  color: #3a1212;
+  bottom: 0;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+  display: none;
+  left: 0;
+  padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+#blazor-error-ui .dismiss {
+  cursor: pointer;
+  position: absolute;
+  right: 0.75rem;
+  top: 0.5rem;
+}

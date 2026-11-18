@@ -1,0 +1,277 @@
+@page "/carrito"
+@implements IDisposable
+@inject LokyPet.Application.Interfaces.ICartService CartService
+@inject LokyPet.Client.Services.CatalogService Catalog
+@inject NavigationManager Nav
+
+<PageTitle>Carrito — LOKY PET</PageTitle>
+
+<section class="mx-auto max-w-[1440px] px-4 sm:px-6 py-10 page-enter">
+
+    @if (_loading)
+    {
+        <div class="flex justify-center py-20">
+            <span class="loading loading-spinner loading-lg text-primary"></span>
+        </div>
+    }
+    else if (!_items.Any())
+    {
+        @* ── Empty state ── *@
+        <div class="text-center py-20">
+            <div class="mx-auto w-20 h-20 rounded-full bg-secondary grid place-items-center mb-5">
+                <i class="fa-solid fa-paw text-primary text-3xl"></i>
+            </div>
+            <h1 class="text-2xl font-semibold text-primary mb-2">
+                Tu carrito está esperando a su primer juguete 🐾
+            </h1>
+            <p class="text-base-content/60 mb-6">Agrega accesorios increíbles para tu mascota</p>
+            <a href="accesorios" class="btn bg-primary text-primary-content border-0 rounded-full px-8">
+                Explorar accesorios
+            </a>
+        </div>
+    }
+    else
+    {
+        <h1 class="text-2xl font-semibold text-primary mb-6">Tu carrito</h1>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            @* ── Items column ── *@
+            <div class="lg:col-span-2 space-y-4">
+                @foreach (var item in _items)
+                {
+                    <div class="flex gap-4 bg-base-100 rounded-2xl shadow-soft p-4 transition-all duration-200">
+                        @* Image *@
+                        <img src="@item.Image" alt="@item.ProductName"
+                             class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-secondary/40 object-contain p-2 shrink-0" />
+
+                        @* Details *@
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <h3 class="text-sm sm:text-base font-medium text-base-content truncate">
+                                        @item.ProductName
+                                    </h3>
+                                    <p class="text-xs text-base-content/60">@item.ColorName</p>
+                                </div>
+                                <button class="btn btn-ghost btn-sm btn-circle text-error shrink-0"
+                                        title="Eliminar"
+                                        @onclick="() => RemoveItem(item.VariantSlug)">
+                                    <i class="fa-solid fa-trash-can text-sm"></i>
+                                </button>
+                            </div>
+
+                            @* Price *@
+                            <div class="mt-1 flex items-baseline gap-2">
+                                <span class="text-sm font-semibold text-primary">@FormatPrice(item.UnitPrice)</span>
+                            </div>
+
+                            @* Quantity controls + line subtotal *@
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-1">
+                                    <button class="btn btn-ghost btn-xs btn-circle"
+                                            disabled="@(item.Quantity <= 1)"
+                                            @onclick="() => UpdateQty(item.VariantSlug, item.Quantity - 1)">
+                                        <i class="fa-solid fa-minus text-xs"></i>
+                                    </button>
+                                    <span class="w-8 text-center text-sm font-medium">@item.Quantity</span>
+                                    <button class="btn btn-ghost btn-xs btn-circle"
+                                            disabled="@(item.Quantity >= item.MaxStock)"
+                                            @onclick="() => UpdateQty(item.VariantSlug, item.Quantity + 1)">
+                                        <i class="fa-solid fa-plus text-xs"></i>
+                                    </button>
+                                </div>
+                                <span class="text-sm font-semibold text-primary">@FormatPrice(item.LineTotal)</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @* ── Summary column ── *@
+            <div class="lg:col-span-1">
+                <div class="bg-base-100 rounded-2xl shadow-soft p-6 space-y-4 sticky top-24">
+                    <h2 class="font-semibold text-lg text-primary">Resumen del pedido</h2>
+
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-base-content/70">Subtotal</span>
+                            <span class="font-medium">@FormatPrice(_subtotal)</span>
+                        </div>
+
+                        <div class="flex justify-between text-base-content/60">
+                            <span>Envío</span>
+                            <span class="text-xs italic">Calculado al finalizar</span>
+                        </div>
+                    </div>
+
+                    <div class="divider my-0"></div>
+
+                    <div class="flex justify-between text-lg font-semibold text-primary">
+                        <span>Total</span>
+                        <span>@FormatPrice(_subtotal)</span>
+                    </div>
+
+                    <a href="checkout" class="btn bg-primary text-primary-content border-0 rounded-full w-full">
+                        Proceder al pago
+                    </a>
+
+                    <a href="accesorios" class="btn btn-ghost text-primary rounded-full w-full">
+                        Seguir comprando
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    @* ── Recommendations section ── *@
+    @if (_recommendations.Any())
+    {
+        <section class="mt-16">
+            <h2 class="text-xl font-semibold text-primary mb-6">También te puede interesar</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                @foreach (var v in _recommendations)
+                {
+                    <a href="accesorios/@v.Slug"
+                       class="group rounded-2xl bg-base-100 shadow-soft hover:shadow-soft-lg transition-all duration-250 overflow-hidden">
+                        <div class="aspect-square bg-secondary/40 p-3">
+                            <img src="@v.Image" alt="@v.ProductName" loading="lazy"
+                                 class="w-full h-full object-contain transition-transform duration-250 group-hover:scale-105" />
+                        </div>
+                        <div class="p-3">
+                            <p class="text-xs font-medium text-base-content line-clamp-2 min-h-[2rem]">
+                                @v.ProductName
+                            </p>
+                            <p class="mt-1 text-sm font-semibold text-primary">@FormatPrice(v.PriceMxn)</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+
+    @* ── Undo toast ── *@
+    @if (_showUndo)
+    {
+        <div class="toast toast-bottom toast-center z-50">
+            <div class="alert bg-neutral text-neutral-content shadow-lg rounded-full px-6">
+                <span>@_removedItem?.ProductName eliminado</span>
+                <button class="btn btn-ghost btn-sm text-accent font-semibold" @onclick="UndoRemove">
+                    Deshacer
+                </button>
+            </div>
+        </div>
+    }
+</section>
+
+@code {
+    private List<LokyPet.Application.DTOs.CartItemDto> _items = new();
+    private List<LokyPet.Application.DTOs.ProductVariantDto> _recommendations = new();
+    private bool _loading = true;
+
+    private decimal _subtotal;
+
+    // Undo state
+    private bool _showUndo;
+    private LokyPet.Application.DTOs.CartItemDto? _removedItem;
+    private System.Threading.Timer? _undoTimer;
+
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string FormatPrice(decimal v) => v.ToString("C2", Mx);
+
+    protected override async Task OnInitializedAsync()
+    {
+        CartService.OnChange += OnCartChanged;
+        await RefreshCart();
+        await LoadRecommendations();
+        _loading = false;
+    }
+
+    private async void OnCartChanged()
+    {
+        await InvokeAsync(async () =>
+        {
+            await RefreshCart();
+            StateHasChanged();
+        });
+    }
+
+    private async Task RefreshCart()
+    {
+        _items = await CartService.GetItemsAsync();
+        _subtotal = _items.Sum(i => i.LineTotal);
+    }
+
+    private async Task LoadRecommendations()
+    {
+        try
+        {
+            var all = await Catalog.GetAllVariantsAsync();
+            var cartSlugs = _items.Select(i => i.VariantSlug).ToHashSet();
+            _recommendations = all
+                .Where(v => !cartSlugs.Contains(v.Slug) && !v.IsOutOfStock)
+                .OrderBy(_ => Random.Shared.Next())
+                .Take(6)
+                .ToList();
+        }
+        catch
+        {
+            // Silently ignore catalog errors
+        }
+    }
+
+    private async Task UpdateQty(string slug, int qty)
+    {
+        await CartService.UpdateQuantityAsync(slug, qty);
+    }
+
+    private async Task RemoveItem(string slug)
+    {
+        var item = _items.FirstOrDefault(i => i.VariantSlug == slug);
+        if (item is null) return;
+
+        // Store for undo
+        _removedItem = new LokyPet.Application.DTOs.CartItemDto
+        {
+            VariantSlug = item.VariantSlug,
+            Sku = item.Sku,
+            ProductName = item.ProductName,
+            ColorName = item.ColorName,
+            ColorHex = item.ColorHex,
+            UnitPrice = item.UnitPrice,
+            CompareAtPrice = item.CompareAtPrice,
+            Image = item.Image,
+            Quantity = item.Quantity,
+            MaxStock = item.MaxStock
+        };
+
+        await CartService.RemoveItemAsync(slug);
+
+        // Show undo toast
+        _showUndo = true;
+        _undoTimer?.Dispose();
+        _undoTimer = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(() =>
+            {
+                _showUndo = false;
+                _removedItem = null;
+                StateHasChanged();
+            });
+        }, null, 3000, System.Threading.Timeout.Infinite);
+    }
+
+    private async Task UndoRemove()
+    {
+        if (_removedItem is null) return;
+        _undoTimer?.Dispose();
+        _showUndo = false;
+        await CartService.AddItemAsync(_removedItem);
+        _removedItem = null;
+    }
+
+    public void Dispose()
+    {
+        CartService.OnChange -= OnCartChanged;
+        _undoTimer?.Dispose();
+    }
+}

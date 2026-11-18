@@ -1,0 +1,129 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject LokyPet.Application.Interfaces.IAuthService Auth
+@inject NavigationManager Nav
+
+@* Dashboard Layout: sidebar colapsable + header. Solo accesible para admins. *@
+
+@if (_checking)
+{
+    <div class="min-h-screen bg-base-100 flex items-center justify-center">
+        <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+}
+else if (!_isAdmin)
+{
+    <div class="min-h-screen bg-base-100 flex flex-col items-center justify-center text-center px-6 page-enter">
+        <div class="w-20 h-20 rounded-full bg-error/10 grid place-items-center mb-5">
+            <i class="fa-solid fa-lock text-error text-3xl"></i>
+        </div>
+        <h1 class="text-2xl font-semibold text-primary mb-2">Acceso restringido</h1>
+        <p class="text-base-content/60 mb-6 max-w-sm">Necesitas una cuenta de administrador para acceder al dashboard.</p>
+        <a href="cuenta" class="btn btn-primary rounded-full px-6">
+            <i class="fa-solid fa-right-to-bracket me-1"></i> Iniciar sesi&oacute;n
+        </a>
+    </div>
+}
+else
+{
+    <div class="min-h-screen bg-base-200/50 flex">
+        @* ── Sidebar ── *@
+        <aside class="@SidebarClass transition-all duration-300 ease-loky bg-primary text-primary-content flex-shrink-0 flex flex-col z-30">
+            @* Brand *@
+            <div class="flex items-center gap-2 px-4 h-16 border-b border-primary-content/10">
+                <span class="grid place-items-center rounded-full bg-primary-content/20 w-9 h-9 flex-shrink-0">
+                    <i class="fa-solid fa-paw text-sm"></i>
+                </span>
+                @if (!_collapsed)
+                {
+                    <span class="font-script text-lg whitespace-nowrap">Loky Pet</span>
+                }
+            </div>
+
+            @* Nav links *@
+            <nav class="flex-1 py-4 space-y-1 px-2">
+                @foreach (var link in _sidebarLinks)
+                {
+                    var active = IsActive(link.Href);
+                    <a href="@link.Href"
+                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors
+                              @(active ? "bg-primary-content/20 text-primary-content" : "text-primary-content/50 hover:bg-primary-content/10 hover:text-primary-content/80")">
+                        <i class="@link.Icon w-5 text-center flex-shrink-0"></i>
+                        @if (!_collapsed)
+                        {
+                            <span>@link.Label</span>
+                        }
+                    </a>
+                }
+            </nav>
+
+            @* Collapse toggle *@
+            <button class="flex items-center justify-center h-12 border-t border-primary-content/10 hover:bg-primary-content/10 transition-colors"
+                    @onclick="() => _collapsed = !_collapsed">
+                <i class="fa-solid @(_collapsed ? "fa-angles-right" : "fa-angles-left") text-xs text-primary-content/60"></i>
+            </button>
+        </aside>
+
+        @* ── Main content ── *@
+        <div class="flex-1 flex flex-col min-w-0">
+            @* Header *@
+            <header class="h-16 bg-base-100 border-b border-base-300 flex items-center px-6 gap-4 flex-shrink-0">
+                <button class="lg:hidden btn btn-ghost btn-sm btn-circle" @onclick="() => _collapsed = !_collapsed">
+                    <i class="fa-solid fa-bars text-primary"></i>
+                </button>
+                <h1 class="text-lg font-semibold text-primary flex-1">Dashboard</h1>
+                <a href="" class="btn btn-ghost btn-sm rounded-full gap-1 text-sm text-base-content/60">
+                    <i class="fa-solid fa-store text-xs"></i> Ir a la tienda
+                </a>
+            </header>
+
+            @* Page content *@
+            <main class="flex-1 overflow-y-auto p-6">
+                @Body
+            </main>
+        </div>
+    </div>
+}
+
+@code {
+    private bool _checking = true;
+    private bool _isAdmin;
+    private bool _collapsed;
+
+    private record SidebarLink(string Label, string Href, string Icon);
+
+    private readonly SidebarLink[] _sidebarLinks =
+    {
+        new("Resumen", "dashboard", "fa-solid fa-chart-line"),
+        new("Inventario", "dashboard/inventario", "fa-solid fa-boxes-stacked"),
+        new("Pedidos", "dashboard/pedidos", "fa-solid fa-receipt"),
+        new("Mensajes", "dashboard/mensajes", "fa-solid fa-envelope"),
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        _isAdmin = await Auth.IsAdminAsync();
+        _checking = false;
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
+
+    private bool IsActive(string href)
+    {
+        var current = Nav.ToBaseRelativePath(Nav.Uri).Split('?')[0].TrimEnd('/');
+        return current == href || (href != "dashboard" && current.StartsWith(href));
+    }
+
+    private string SidebarClass => _collapsed
+        ? "w-16 hidden lg:flex"
+        : "w-60 fixed inset-y-0 left-0 lg:static lg:flex";
+}

@@ -1,0 +1,19 @@
+# .NET
+bin/
+obj/
+publish/
+*.user
+
+# Node
+node_modules/
+
+# Vercel
+.vercel/
+
+# Compilado de Tailwind (se regenera en build)
+# (se deja versionado wwwroot/css/app.css opcionalmente; aquí lo ignoramos)
+
+# IDE
+.vs/
+.idea/
+*.swp

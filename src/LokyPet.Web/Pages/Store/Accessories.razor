@@ -1,0 +1,403 @@
+@page "/accesorios"
+@using LokyPet.Application.DTOs
+@using LokyPet.Application.Interfaces
+@using LokyPet.Client.Components
+@using LokyPet.Client.Services
+@inject LokyPet.Client.Services.CatalogService Catalog
+@inject ICartService Cart
+@inject NavigationManager Nav
+
+<PageTitle>Accesorios — LOKY PET</PageTitle>
+
+<div class="page-enter">
+
+@* ===== 1. PAGE HEADER ===== *@
+<section class="mx-auto max-w-[1440px] px-6 pt-10 pb-4">
+    <h1 class="text-3xl font-semibold text-primary">Accesorios</h1>
+    <p class="mt-1 text-base-content/60">
+        @if (_loading)
+        {
+            <span class="inline-block h-4 w-32 rounded-full skeleton-shimmer"></span>
+        }
+        else
+        {
+            @ResultsSubtitle
+        }
+    </p>
+</section>
+
+@* ===== 2. CATEGORY CHIPS ===== *@
+<section class="mx-auto max-w-[1440px] px-6 pb-4">
+    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-thin snap-x snap-mandatory">
+        @* Todos chip *@
+        <button class="@ChipClass(string.IsNullOrEmpty(_activeCat)) snap-start flex-shrink-0"
+                @onclick="() => NavigateToFilter(null, false)">
+            Todos
+        </button>
+
+        @* Category chips *@
+        @foreach (var cat in _categories)
+        {
+            var slug = cat.Slug;
+            <button class="@ChipClass(_activeCat == slug) snap-start flex-shrink-0"
+                    @onclick="() => NavigateToFilter(slug, false)">
+                @cat.Name
+            </button>
+        }
+    </div>
+</section>
+
+@* ===== 3. FILTER / SORT BAR ===== *@
+<section class="mx-auto max-w-[1440px] px-6 pb-6">
+    <div class="flex flex-wrap items-center gap-3">
+        @* Sort dropdown *@
+        <div class="dropdown">
+            <label tabindex="0" class="btn btn-sm bg-base-100 border border-base-300 text-base-content rounded-full gap-1 shadow-sm">
+                <i class="fa-solid fa-arrow-down-wide-short text-xs"></i>
+                @SortLabel
+                <i class="fa-solid fa-chevron-down text-[10px] ms-1"></i>
+            </label>
+            <ul tabindex="0" class="dropdown-content z-20 menu p-2 shadow-lg bg-base-100 rounded-box w-56 mt-1">
+                <li><a class="@SortItemClass("recommended")" @onclick='() => SetSort("recommended")'>Recomendados</a></li>
+                <li><a class="@SortItemClass("price_asc")" @onclick='() => SetSort("price_asc")'>Precio: menor a mayor</a></li>
+                <li><a class="@SortItemClass("price_desc")" @onclick='() => SetSort("price_desc")'>Precio: mayor a menor</a></li>
+            </ul>
+        </div>
+
+        @* Active filter chips with remove button *@
+        @if (!string.IsNullOrEmpty(_activeCat))
+        {
+            var catName = _categories.FirstOrDefault(c => c.Slug == _activeCat)?.Name ?? _activeCat;
+            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary text-sm font-medium px-3 py-1">
+                @catName
+                <button class="ms-1 hover:text-error transition-colors" @onclick="RemoveCategoryFilter" aria-label="Quitar filtro de categoría">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </span>
+        }
+
+        @if (!string.IsNullOrEmpty(_searchQuery))
+        {
+            <span class="inline-flex items-center gap-1 rounded-full bg-info/10 text-info text-sm font-medium px-3 py-1">
+                &ldquo;@_searchQuery&rdquo;
+                <button class="ms-1 hover:text-error transition-colors" @onclick="RemoveSearchFilter" aria-label="Quitar búsqueda">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </span>
+        }
+    </div>
+</section>
+
+@* ===== 4. PRODUCT GRID / LOADING / EMPTY ===== *@
+<section class="mx-auto max-w-[1440px] px-6 pb-16">
+
+    @if (_loading)
+    {
+        @* Skeleton grid — 5 shimmer cards *@
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @for (int i = 0; i < 5; i++)
+            {
+                <div class="rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <div class="aspect-square skeleton-shimmer"></div>
+                    <div class="p-4 space-y-2">
+                        <div class="h-4 w-3/4 rounded-full skeleton-shimmer"></div>
+                        <div class="h-4 w-1/2 rounded-full skeleton-shimmer"></div>
+                        <div class="h-4 w-1/3 rounded-full skeleton-shimmer"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else if (_groupedProducts.Count == 0)
+    {
+        @* Empty state *@
+        <div class="flex flex-col items-center justify-center py-20 text-center">
+            <div class="w-20 h-20 rounded-full bg-secondary grid place-items-center mb-5">
+                <i class="fa-solid fa-paw text-primary text-3xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-primary mb-2">No encontramos productos con esos filtros</h2>
+            <p class="text-base-content/60 mb-6 max-w-sm">Intenta con otra categoría o quita los filtros para ver todo el catálogo.</p>
+            <button class="btn bg-primary text-primary-content border-0 rounded-full px-6"
+                    @onclick="ClearAllFilters">
+                <i class="fa-solid fa-arrow-rotate-left me-1"></i> Limpiar filtros
+            </button>
+        </div>
+    }
+    else
+    {
+        @* Product grid with staggered reveal animation *@
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 products-grid" @key="_animKey">
+            @{ var idx = 0; }
+            @foreach (var p in _groupedProducts)
+            {
+                var delay = idx * 50; // 50ms stagger per card
+                <div class="product-reveal" style="animation-delay: @(delay)ms">
+                    <ProductCard Product="p" OnAddToCart="HandleAddToCart" />
+                </div>
+                idx++;
+            }
+        </div>
+    }
+
+</section>
+
+</div>
+
+@* ===== Scrollbar & animation styles ===== *@
+<style>
+    .scrollbar-thin::-webkit-scrollbar { height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: oklch(var(--b2)); border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: oklch(var(--p) / 0.3); border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: oklch(var(--p) / 0.5); }
+
+    /* Staggered product reveal */
+    .product-reveal {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+        animation: product-pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @@keyframes product-pop-in {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.96);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+</style>
+
+@code {
+    // ===== State =====
+    private List<ProductVariantDto> _allVariants = new();
+    private List<DemoProduct> _groupedProducts = new();
+    private List<CategoryDto> _categories = new();
+    private string? _activeCat;
+    private string? _searchQuery;
+    private string _sortBy = "recommended";
+    private bool _loading = true;
+    private int _animKey;  // Incremented on filter change to re-trigger CSS animation
+
+    // ===== Lifecycle =====
+    protected override async Task OnInitializedAsync()
+    {
+        ParseQueryParams();
+
+        try
+        {
+            _categories = await Catalog.GetCategoriesAsync();
+            _allVariants = await Catalog.GetAllVariantsAsync();
+            ApplyFilters();
+        }
+        catch
+        {
+            // Graceful degradation — empty lists are handled by the UI
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    // ===== Query parameter parsing (no Microsoft.AspNetCore.WebUtilities) =====
+    private void ParseQueryParams()
+    {
+        var uri = new Uri(Nav.Uri);
+        var queryString = uri.Query;
+        if (string.IsNullOrEmpty(queryString)) return;
+
+        var pairs = queryString.TrimStart('?')
+            .Split('&', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var pair in pairs)
+        {
+            var parts = pair.Split('=', 2);
+            if (parts.Length != 2) continue;
+
+            var key = Uri.UnescapeDataString(parts[0]).ToLowerInvariant();
+            var value = Uri.UnescapeDataString(parts[1]);
+
+            switch (key)
+            {
+                case "cat":
+                    _activeCat = value;
+                    break;
+                case "q":
+                    _searchQuery = value;
+                    break;
+            }
+        }
+    }
+
+    // ===== Filtering & sorting =====
+    private void ApplyFilters()
+    {
+        var filtered = _allVariants.AsEnumerable();
+
+        if (!string.IsNullOrEmpty(_activeCat))
+            filtered = filtered.Where(v => v.CategorySlug.Equals(_activeCat, StringComparison.OrdinalIgnoreCase));
+
+        if (!string.IsNullOrEmpty(_searchQuery))
+        {
+            var q = _searchQuery;
+            filtered = filtered.Where(v =>
+                v.ProductName.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                v.ColorName.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                v.Sku.Contains(q, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Group by ProductId → one card per base product
+        var groups = filtered.GroupBy(v => v.ProductId).Select(g =>
+        {
+            var first = g.First();
+            var colorVariants = g.Select(v => new ColorVariantInfo
+            {
+                Slug = v.Slug, ColorName = v.ColorName, ColorHex = v.ColorHex, Stock = v.Stock
+            }).ToList();
+
+            return new DemoProduct
+            {
+                Sku = first.Sku,
+                Name = first.ProductName,
+                Slug = first.Slug,
+                Category = first.CategoryName,
+                CategorySlug = first.CategorySlug,
+                ColorName = first.ColorName,
+                ColorHex = first.ColorHex,
+                PriceMxn = first.PriceMxn,
+                CompareAtPriceMxn = first.CompareAtPriceMxn,
+                Stock = g.Sum(v => v.Stock),
+                Image = first.Image,
+                Description = first.Description,
+                ColorVariants = colorVariants
+            };
+        });
+
+        _groupedProducts = (_sortBy switch
+        {
+            "price_asc" => groups.OrderBy(p => p.PriceMxn),
+            "price_desc" => groups.OrderByDescending(p => p.PriceMxn),
+            _ => groups.OrderBy(p => p.Name)
+        }).ToList();
+    }
+
+    // ===== Navigation helpers =====
+    private void NavigateToFilter(string? catSlug, bool oferta)
+    {
+        _activeCat = catSlug;
+        _animKey++;          // Trigger stagger animation on grid
+        ApplyFilters();
+        UpdateUrl();
+    }
+
+    private void RemoveCategoryFilter()
+    {
+        _activeCat = null;
+        _animKey++;
+        ApplyFilters();
+        UpdateUrl();
+    }
+
+    private void RemoveSearchFilter()
+    {
+        _searchQuery = null;
+        _animKey++;
+        ApplyFilters();
+        UpdateUrl();
+    }
+
+    private void ClearAllFilters()
+    {
+        _activeCat = null;
+        _searchQuery = null;
+        _sortBy = "recommended";
+        _animKey++;
+        ApplyFilters();
+        UpdateUrl();
+    }
+
+    private void SetSort(string sort)
+    {
+        _sortBy = sort;
+        _animKey++;
+        ApplyFilters();
+    }
+
+    /// <summary>Update the browser URL without a full page reload.</summary>
+    private void UpdateUrl()
+    {
+        var url = "/accesorios";
+        var queryParts = new List<string>();
+
+        if (!string.IsNullOrEmpty(_activeCat))
+            queryParts.Add($"cat={Uri.EscapeDataString(_activeCat)}");
+
+        if (!string.IsNullOrEmpty(_searchQuery))
+            queryParts.Add($"q={Uri.EscapeDataString(_searchQuery)}");
+
+        if (queryParts.Count > 0)
+            url += "?" + string.Join("&", queryParts);
+
+        Nav.NavigateTo(url, replace: true);
+    }
+
+    // ===== Add to cart =====
+    private async Task HandleAddToCart(DemoProduct demo)
+    {
+        var variant = _allVariants.FirstOrDefault(v => v.Sku == demo.Sku);
+        if (variant is null || variant.IsOutOfStock) return;
+
+        await Cart.AddItemAsync(new CartItemDto
+        {
+            VariantId = variant.Id,
+            VariantSlug = variant.Slug,
+            Sku = variant.Sku,
+            ProductName = variant.ProductName,
+            ColorName = variant.ColorName,
+            ColorHex = variant.ColorHex,
+            UnitPrice = variant.PriceMxn,
+            CompareAtPrice = variant.CompareAtPriceMxn,
+            Image = variant.Image,
+            Quantity = 1,
+            MaxStock = variant.Stock
+        });
+    }
+
+    // ===== UI helpers =====
+    private string ResultsSubtitle
+    {
+        get
+        {
+            var count = _groupedProducts.Count;
+            var noun = count == 1 ? "producto" : "productos";
+
+            if (!string.IsNullOrEmpty(_searchQuery))
+                return $"{count} {noun} para \"{_searchQuery}\"";
+
+            if (!string.IsNullOrEmpty(_activeCat))
+            {
+                var catName = _categories.FirstOrDefault(c => c.Slug == _activeCat)?.Name ?? _activeCat;
+                return $"{count} {noun} en {catName}";
+            }
+
+            return $"{count} {noun}";
+        }
+    }
+
+    private static string ChipClass(bool isActive) =>
+        isActive
+            ? "btn btn-sm rounded-full bg-primary text-primary-content border-0 font-medium"
+            : "btn btn-sm rounded-full bg-secondary text-secondary-content border-0 font-medium hover:bg-neutral hover:text-neutral-content transition-colors";
+
+    private string SortLabel => _sortBy switch
+    {
+        "price_asc" => "Precio: menor a mayor",
+        "price_desc" => "Precio: mayor a menor",
+        _ => "Recomendados"
+    };
+
+    private string SortItemClass(string sort) =>
+        _sortBy == sort ? "active font-semibold" : "";
+}

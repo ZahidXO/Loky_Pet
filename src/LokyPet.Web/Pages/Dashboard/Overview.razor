@@ -1,0 +1,286 @@
+@page "/dashboard"
+@layout LokyPet.Client.Layout.DashboardLayout
+@inject LokyPet.Client.Services.DashboardService Dash
+
+<PageTitle>Resumen — Dashboard LOKY PET</PageTitle>
+
+<div class="space-y-6 page-enter">
+
+    <h2 class="text-2xl font-semibold text-primary">Resumen de ventas</h2>
+
+    @if (_loading)
+    {
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            @for (int i = 0; i < 8; i++)
+            {
+                <div class="rounded-2xl bg-base-100 shadow-soft p-5 space-y-2">
+                    <div class="h-4 w-20 rounded-full skeleton-shimmer"></div>
+                    <div class="h-8 w-28 rounded-full skeleton-shimmer"></div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        @* ── KPIs ── *@
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Ventas totales</p>
+                <p class="text-2xl font-semibold text-primary">@FormatPrice(_totalSales)</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Pedidos</p>
+                <p class="text-2xl font-semibold text-primary">@_orders.Count</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Ticket promedio</p>
+                <p class="text-2xl font-semibold text-primary">@FormatPrice(_avgTicket)</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Piezas vendidas</p>
+                <p class="text-2xl font-semibold text-primary">@_totalPieces</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Ingresos env&iacute;o DHL</p>
+                <p class="text-2xl font-semibold text-primary">@FormatPrice(_shippingRevenue)</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Pedidos locales</p>
+                <p class="text-2xl font-semibold text-primary">@_localOrders</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60">Pedidos nacionales</p>
+                <p class="text-2xl font-semibold text-primary">@_nationalOrders</p>
+            </div>
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <p class="text-sm text-base-content/60 flex items-center gap-1">
+                    Stock bajo
+                    @if (_lowStockCount > 0)
+                    {
+                        <span class="badge badge-warning badge-xs">!</span>
+                    }
+                </p>
+                <p class="text-2xl font-semibold @(_lowStockCount > 0 ? "text-warning" : "text-primary")">@_lowStockCount</p>
+            </div>
+        </div>
+
+        @* ── Charts ── *@
+        <div class="grid lg:grid-cols-2 gap-6">
+            @* Ventas por categoría (dona) *@
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <h3 class="text-base font-semibold text-primary mb-4">
+                    @(_orders.Count > 0 ? "Ventas por categor\u00eda" : "Stock por categor\u00eda")
+                </h3>
+                @if (_salesByCategory.Count > 0)
+                {
+                    <ApexChart TItem="ChartItem" Options="_donutOptions">
+                        <ApexPointSeries TItem="ChartItem"
+                                         Items="_salesByCategory"
+                                         Name="Ventas"
+                                         SeriesType="SeriesType.Donut"
+                                         XValue="@(e => e.Label)"
+                                         YAggregate="@(e => e.Sum(x => x.Value))" />
+                    </ApexChart>
+                }
+                else
+                {
+                    <p class="text-sm text-base-content/50 text-center py-8">Sin datos de ventas a&uacute;n</p>
+                }
+            </div>
+
+            @* Top 10 ítems (barras) *@
+            <div class="rounded-2xl bg-base-100 shadow-soft p-5">
+                <h3 class="text-base font-semibold text-primary mb-4">
+                    @(_orders.Count > 0 ? "Top productos vendidos" : "Top productos por stock")
+                </h3>
+                @if (_topItems.Count > 0)
+                {
+                    <ApexChart TItem="ChartItem" Options="_barOptions">
+                        <ApexPointSeries TItem="ChartItem"
+                                         Items="_topItems"
+                                         Name="Unidades"
+                                         SeriesType="SeriesType.Bar"
+                                         XValue="@(e => e.Label)"
+                                         YAggregate="@(e => e.Sum(x => x.Value))" />
+                    </ApexChart>
+                }
+                else
+                {
+                    <p class="text-sm text-base-content/50 text-center py-8">Sin datos a&uacute;n</p>
+                }
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+    private bool _loading = true;
+    private List<DashboardService.OrderRow> _orders = new();
+    private List<DashboardService.VariantRow> _variants = new();
+
+    // KPIs
+    private decimal _totalSales;
+    private decimal _avgTicket;
+    private int _totalPieces;
+    private decimal _shippingRevenue;
+    private int _localOrders;
+    private int _nationalOrders;
+    private int _lowStockCount;
+
+    // Charts
+    private List<ChartItem> _salesByCategory = new();
+    private List<ChartItem> _topItems = new();
+
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string FormatPrice(decimal v) => v.ToString("C2", Mx);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _orders = await Dash.GetAllOrdersAsync();
+            _variants = await Dash.GetAllVariantsAsync();
+            CalculateKPIs();
+            BuildCharts();
+        }
+        catch { /* Graceful — empty state */ }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private void CalculateKPIs()
+    {
+        _totalSales = _orders.Sum(o => o.Total);
+        _avgTicket = _orders.Count > 0 ? _totalSales / _orders.Count : 0;
+        _totalPieces = _orders.SelectMany(o => o.Items ?? Enumerable.Empty<DashboardService.OrderItemRow>()).Sum(i => i.Quantity);
+        _localOrders = _orders.Count(o => o.ShippingType == "local");
+        _nationalOrders = _orders.Count(o => o.ShippingType == "nacional");
+        // DHL shipping revenue: only from national orders (DHL carrier)
+        _shippingRevenue = _orders
+            .Where(o => o.ShippingType == "nacional")
+            .Sum(o => o.ShippingCost);
+        _lowStockCount = _variants.Count(v => v.IsActive && v.Stock <= 3 && !v.IsOutOfStock);
+    }
+
+    private void BuildCharts()
+    {
+        // Build a lookup: variant_id -> category name, and sku -> category name
+        var variantCategoryById = _variants
+            .Where(v => v.Product?.Category?.Name is not null)
+            .ToDictionary(v => v.Id, v => v.Product!.Category!.Name);
+        var variantCategoryBySku = _variants
+            .Where(v => v.Product?.Category?.Name is not null)
+            .GroupBy(v => v.Sku)
+            .ToDictionary(g => g.Key, g => g.First().Product!.Category!.Name, StringComparer.OrdinalIgnoreCase);
+
+        // Build a lookup: variant_id -> product name, and sku -> product name
+        var variantProductById = _variants
+            .Where(v => v.Product?.Name is not null)
+            .ToDictionary(v => v.Id, v => v.Product!.Name);
+        var variantProductBySku = _variants
+            .Where(v => v.Product?.Name is not null)
+            .GroupBy(v => v.Sku)
+            .ToDictionary(g => g.Key, g => g.First().Product!.Name, StringComparer.OrdinalIgnoreCase);
+
+        // Helper: resolve category for an order item
+        string ResolveCategory(DashboardService.OrderItemRow item)
+        {
+            if (item.VariantId.HasValue && variantCategoryById.TryGetValue(item.VariantId.Value, out var cat))
+                return cat;
+            if (!string.IsNullOrEmpty(item.Sku) && variantCategoryBySku.TryGetValue(item.Sku, out var catBySku))
+                return catBySku;
+            return GuessCat(item.Name);
+        }
+
+        // Helper: resolve product name for an order item
+        string ResolveProductName(DashboardService.OrderItemRow item)
+        {
+            if (item.VariantId.HasValue && variantProductById.TryGetValue(item.VariantId.Value, out var name))
+                return name;
+            if (!string.IsNullOrEmpty(item.Sku) && variantProductBySku.TryGetValue(item.Sku, out var nameBySku))
+                return nameBySku;
+            return item.Name ?? item.Sku ?? "?";
+        }
+
+        // Sales by category (from orders) - using accurate category lookup
+        var categoryGroups = _orders
+            .SelectMany(o => (o.Items ?? new()).Select(i => new { Category = ResolveCategory(i), i.LineTotal }))
+            .GroupBy(x => x.Category)
+            .Select(g => new ChartItem(g.Key, g.Sum(x => x.LineTotal)))
+            .OrderByDescending(c => c.Value)
+            .ToList();
+
+        // If no sales data, build category chart from catalog stock
+        if (categoryGroups.Count == 0 && _variants.Count > 0)
+        {
+            categoryGroups = _variants
+                .Where(v => v.IsActive)
+                .GroupBy(v => v.Product?.Category?.Name ?? "Otro")
+                .Select(g => new ChartItem(g.Key, g.Sum(v => v.Stock)))
+                .OrderByDescending(c => c.Value)
+                .ToList();
+        }
+        _salesByCategory = categoryGroups;
+
+        // Top products — combine sales data with catalog data, using accurate product names
+        var soldItems = _orders
+            .SelectMany(o => o.Items ?? new())
+            .GroupBy(i => ResolveProductName(i))
+            .ToDictionary(g => g.Key, g => (int)g.Sum(x => x.Quantity));
+
+        var topList = new List<ChartItem>();
+
+        // Add sold products first
+        foreach (var kvp in soldItems.OrderByDescending(x => x.Value))
+        {
+            topList.Add(new ChartItem(Truncate(kvp.Key, 20), kvp.Value));
+        }
+
+        // If fewer than 10, fill with catalog products not yet sold (sorted by stock)
+        if (topList.Count < 10 && _variants.Count > 0)
+        {
+            var soldNames = new HashSet<string>(soldItems.Keys, StringComparer.OrdinalIgnoreCase);
+            var catalogFill = _variants
+                .Where(v => v.IsActive && !v.IsOutOfStock)
+                .GroupBy(v => v.Product?.Name ?? v.Sku)
+                .Where(g => !soldNames.Contains(g.Key))
+                .Select(g => new ChartItem(Truncate(g.Key, 20), g.Sum(v => v.Stock)))
+                .OrderByDescending(x => x.Value)
+                .Take(10 - topList.Count);
+            topList.AddRange(catalogFill);
+        }
+
+        _topItems = topList.Take(10).ToList();
+    }
+
+    private static string GuessCat(string? name)
+    {
+        if (name is null) return "Otro";
+        if (name.Contains("Cama", StringComparison.OrdinalIgnoreCase)) return "Camas";
+        if (name.Contains("Coj", StringComparison.OrdinalIgnoreCase)) return "Cojines";
+        return "Juguetes";
+    }
+
+    private static string Truncate(string s, int max) =>
+        s.Length <= max ? s : s[..max] + "\u2026";
+
+    // Chart configs
+    private ApexChartOptions<ChartItem> _donutOptions = new()
+    {
+        Chart = new Chart { Background = "transparent" },
+        Colors = new List<string> { "#604734", "#f0c5d4", "#f6d8d6", "#8a7560" },
+        Legend = new Legend { Position = LegendPosition.Bottom }
+    };
+
+    private ApexChartOptions<ChartItem> _barOptions = new()
+    {
+        Chart = new Chart { Background = "transparent" },
+        Colors = new List<string> { "#604734" },
+        PlotOptions = new PlotOptions { Bar = new PlotOptionsBar { Horizontal = true, BorderRadius = 4 } }
+    };
+
+    private sealed record ChartItem(string Label, decimal Value);
+}

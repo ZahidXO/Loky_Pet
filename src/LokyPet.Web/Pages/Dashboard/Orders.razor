@@ -1,0 +1,104 @@
+@page "/dashboard/pedidos"
+@layout LokyPet.Client.Layout.DashboardLayout
+@inject LokyPet.Client.Services.DashboardService Dash
+
+<PageTitle>Pedidos — Dashboard LOKY PET</PageTitle>
+
+<div class="space-y-6 page-enter">
+    <h2 class="text-2xl font-semibold text-primary">Gesti&oacute;n de pedidos</h2>
+
+    @if (_loading)
+    {
+        <div class="space-y-3">
+            @for (int i = 0; i < 5; i++)
+            {
+                <div class="h-20 rounded-2xl skeleton-shimmer"></div>
+            }
+        </div>
+    }
+    else if (_orders.Count == 0)
+    {
+        <div class="rounded-2xl bg-base-100 shadow-soft p-10 text-center">
+            <div class="w-16 h-16 rounded-full bg-secondary grid place-items-center mx-auto mb-4">
+                <i class="fa-solid fa-receipt text-primary text-2xl"></i>
+            </div>
+            <p class="text-base-content/60">A&uacute;n no hay pedidos registrados.</p>
+        </div>
+    }
+    else
+    {
+        <div class="space-y-4">
+            @foreach (var order in _orders)
+            {
+                <div class="rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <div class="flex flex-wrap items-center justify-between gap-3 p-5 border-b border-base-200">
+                        <div>
+                            <p class="font-semibold text-primary">@order.OrderNumber</p>
+                            <p class="text-xs text-base-content/50">@order.CreatedAt.ToString("dd MMM yyyy HH:mm", Mx) &middot; @order.CustomerName</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select class="select select-bordered select-xs rounded-full"
+                                    value="@order.Status"
+                                    @onchange="e => ChangeStatus(order, e.Value?.ToString())">
+                                <option value="paid">Pagado</option>
+                                <option value="preparing">En preparaci&oacute;n</option>
+                                <option value="shipped">Enviado</option>
+                                <option value="delivered">Entregado</option>
+                                <option value="cancelled">Cancelado</option>
+                            </select>
+                            <span class="font-semibold text-primary">@FormatPrice(order.Total)</span>
+                        </div>
+                    </div>
+
+                    @* Items *@
+                    <div class="p-5 space-y-2">
+                        @foreach (var item in order.Items ?? new())
+                        {
+                            <div class="flex items-center gap-3 text-sm">
+                                <div class="w-2 h-2 rounded-full bg-accent flex-shrink-0"></div>
+                                <span class="flex-1 text-base-content/80">@item.Name — @item.Color</span>
+                                <span class="text-base-content/50">x@item.Quantity</span>
+                                <span class="font-medium">@FormatPrice(item.LineTotal)</span>
+                            </div>
+                        }
+                    </div>
+
+                    @* Footer *@
+                    <div class="bg-secondary/20 px-5 py-3 flex flex-wrap items-center gap-4 text-xs text-base-content/60">
+                        <span>
+                            <i class="fa-solid @(order.ShippingType == "local" ? "fa-city" : "fa-truck") me-1"></i>
+                            @(order.ShippingType == "local" ? "Local Reynosa" : $"DHL — {FormatPrice(order.ShippingCost)}")
+                        </span>
+                        <span><i class="fa-solid fa-envelope me-1"></i> @order.CustomerEmail</span>
+                        @if (!string.IsNullOrEmpty(order.TrackingNumber))
+                        {
+                            <span><i class="fa-solid fa-barcode me-1"></i> @order.TrackingNumber</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private bool _loading = true;
+    private List<DashboardService.OrderRow> _orders = new();
+
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string FormatPrice(decimal v) => v.ToString("C2", Mx);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try { _orders = await Dash.GetAllOrdersAsync(); }
+        catch { }
+        finally { _loading = false; }
+    }
+
+    private async Task ChangeStatus(DashboardService.OrderRow order, string? newStatus)
+    {
+        if (string.IsNullOrEmpty(newStatus)) return;
+        order.Status = newStatus;
+        await Dash.UpdateOrderStatusAsync(order.Id, newStatus, null);
+    }
+}

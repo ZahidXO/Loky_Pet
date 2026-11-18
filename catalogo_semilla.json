@@ -1,0 +1,1344 @@
+[
+  {
+    "sku": "CAM-AZU",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Azul",
+    "slug": "cama-azul",
+    "color": "Azul",
+    "color_hex": [
+      "#2F6FB5"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-ROS",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Rosa",
+    "slug": "cama-rosa",
+    "color": "Rosa",
+    "color_hex": [
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-VER",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Verde",
+    "slug": "cama-verde",
+    "color": "Verde",
+    "color_hex": [
+      "#4CAF50"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-AMA",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Amarillo",
+    "slug": "cama-amarillo",
+    "color": "Amarillo",
+    "color_hex": [
+      "#F5D04C"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-MOR",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Morado",
+    "slug": "cama-morado",
+    "color": "Morado",
+    "color_hex": [
+      "#8E5BB5"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-NEG",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Negro",
+    "slug": "cama-negro",
+    "color": "Negro",
+    "color_hex": [
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-BLA",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Blanco",
+    "slug": "cama-blanco",
+    "color": "Blanco",
+    "color_hex": [
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-GRI",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Gris",
+    "slug": "cama-gris",
+    "color": "Gris",
+    "color_hex": [
+      "#9E9E9E"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-MEZ",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Mezclilla",
+    "slug": "cama-mezclilla",
+    "color": "Mezclilla",
+    "color_hex": [
+      "#4A6A8A"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-AZB",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Azul con blanco",
+    "slug": "cama-azul-con-blanco",
+    "color": "Azul con blanco",
+    "color_hex": [
+      "#2F6FB5",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-RSG",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Rosa con gris",
+    "slug": "cama-rosa-con-gris",
+    "color": "Rosa con gris",
+    "color_hex": [
+      "#F4A6C1",
+      "#9E9E9E"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-RSC",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Rosa con café",
+    "slug": "cama-rosa-con-cafe",
+    "color": "Rosa con café",
+    "color_hex": [
+      "#F4A6C1",
+      "#7B5034"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CAM-NGR",
+    "producto_base": "Cama",
+    "categoria": "Camas",
+    "nombre": "Cama – Negro con rojo",
+    "slug": "cama-negro-con-rojo",
+    "color": "Negro con rojo",
+    "color_hex": [
+      "#1F1F1F",
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 160,
+    "precio_regular_mxn": 199,
+    "en_oferta": true,
+    "descuento_pct": 20,
+    "descripcion": "Innovador accesorio sostenible y lavable hecho con materiales reciclados que, mediante cierres ocultos, se transforma de un divertido juguete de peluche a una cómoda cama redonda para la mascota.",
+    "imagen": "/images/products/cama.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-AZU",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Azul",
+    "slug": "pelota-de-tiras-azul",
+    "color": "Azul",
+    "color_hex": [
+      "#2F6FB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-ROS",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Rosa",
+    "slug": "pelota-de-tiras-rosa",
+    "color": "Rosa",
+    "color_hex": [
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-VER",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Verde",
+    "slug": "pelota-de-tiras-verde",
+    "color": "Verde",
+    "color_hex": [
+      "#4CAF50"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-AMA",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Amarillo",
+    "slug": "pelota-de-tiras-amarillo",
+    "color": "Amarillo",
+    "color_hex": [
+      "#F5D04C"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-MOR",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Morado",
+    "slug": "pelota-de-tiras-morado",
+    "color": "Morado",
+    "color_hex": [
+      "#8E5BB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-NEG",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Negro",
+    "slug": "pelota-de-tiras-negro",
+    "color": "Negro",
+    "color_hex": [
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-BLA",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Blanco",
+    "slug": "pelota-de-tiras-blanco",
+    "color": "Blanco",
+    "color_hex": [
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-GRI",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Gris",
+    "slug": "pelota-de-tiras-gris",
+    "color": "Gris",
+    "color_hex": [
+      "#9E9E9E"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-VEB",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Verde y blanco",
+    "slug": "pelota-de-tiras-verde-y-blanco",
+    "color": "Verde y blanco",
+    "color_hex": [
+      "#4CAF50",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-AZB",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Azul con blanco",
+    "slug": "pelota-de-tiras-azul-con-blanco",
+    "color": "Azul con blanco",
+    "color_hex": [
+      "#2F6FB5",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-AZN",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Azul con negro",
+    "slug": "pelota-de-tiras-azul-con-negro",
+    "color": "Azul con negro",
+    "color_hex": [
+      "#2F6FB5",
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-RSC",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Rosa con café",
+    "slug": "pelota-de-tiras-rosa-con-cafe",
+    "color": "Rosa con café",
+    "color_hex": [
+      "#F4A6C1",
+      "#7B5034"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-NGR",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Negro con rojo",
+    "slug": "pelota-de-tiras-negro-con-rojo",
+    "color": "Negro con rojo",
+    "color_hex": [
+      "#1F1F1F",
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-ROJ",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Rojo",
+    "slug": "pelota-de-tiras-rojo",
+    "color": "Rojo",
+    "color_hex": [
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "PEL-MRS",
+    "producto_base": "Pelota de tiras",
+    "categoria": "Juguetes",
+    "nombre": "Pelota de tiras – Morado con rosa",
+    "slug": "pelota-de-tiras-morado-con-rosa",
+    "color": "Morado con rosa",
+    "color_hex": [
+      "#8E5BB5",
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Fabricada utilizando tiras de camisetas viejas entrelazadas para formar una pelota firme y divertida.",
+    "imagen": "/images/products/pelota-de-tiras.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-AZU",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Azul",
+    "slug": "raton-de-medias-azul",
+    "color": "Azul",
+    "color_hex": [
+      "#2F6FB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-ROS",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Rosa",
+    "slug": "raton-de-medias-rosa",
+    "color": "Rosa",
+    "color_hex": [
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-VER",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Verde",
+    "slug": "raton-de-medias-verde",
+    "color": "Verde",
+    "color_hex": [
+      "#4CAF50"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-AMA",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Amarillo",
+    "slug": "raton-de-medias-amarillo",
+    "color": "Amarillo",
+    "color_hex": [
+      "#F5D04C"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-MOR",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Morado",
+    "slug": "raton-de-medias-morado",
+    "color": "Morado",
+    "color_hex": [
+      "#8E5BB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-NEG",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Negro",
+    "slug": "raton-de-medias-negro",
+    "color": "Negro",
+    "color_hex": [
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-BLA",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Blanco",
+    "slug": "raton-de-medias-blanco",
+    "color": "Blanco",
+    "color_hex": [
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-GRI",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Gris",
+    "slug": "raton-de-medias-gris",
+    "color": "Gris",
+    "color_hex": [
+      "#9E9E9E"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-VEB",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Verde y blanco",
+    "slug": "raton-de-medias-verde-y-blanco",
+    "color": "Verde y blanco",
+    "color_hex": [
+      "#4CAF50",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-AZB",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Azul con blanco",
+    "slug": "raton-de-medias-azul-con-blanco",
+    "color": "Azul con blanco",
+    "color_hex": [
+      "#2F6FB5",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-AZN",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Azul con negro",
+    "slug": "raton-de-medias-azul-con-negro",
+    "color": "Azul con negro",
+    "color_hex": [
+      "#2F6FB5",
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-RSC",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Rosa con café",
+    "slug": "raton-de-medias-rosa-con-cafe",
+    "color": "Rosa con café",
+    "color_hex": [
+      "#F4A6C1",
+      "#7B5034"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-NGR",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Negro con rojo",
+    "slug": "raton-de-medias-negro-con-rojo",
+    "color": "Negro con rojo",
+    "color_hex": [
+      "#1F1F1F",
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-ROJ",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Rojo",
+    "slug": "raton-de-medias-rojo",
+    "color": "Rojo",
+    "color_hex": [
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "RAT-MRS",
+    "producto_base": "Ratón de medias",
+    "categoria": "Juguetes",
+    "nombre": "Ratón de medias – Morado con rosa",
+    "slug": "raton-de-medias-morado-con-rosa",
+    "color": "Morado con rosa",
+    "color_hex": [
+      "#8E5BB5",
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Elaborado utilizando una media vieja como base y rellena con tela reciclada, simulando la forma de un pequeño roedor.",
+    "imagen": "/images/products/raton-de-medias.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-AZU",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Azul",
+    "slug": "cuerda-de-juego-azul",
+    "color": "Azul",
+    "color_hex": [
+      "#2F6FB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-ROS",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Rosa",
+    "slug": "cuerda-de-juego-rosa",
+    "color": "Rosa",
+    "color_hex": [
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-VER",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Verde",
+    "slug": "cuerda-de-juego-verde",
+    "color": "Verde",
+    "color_hex": [
+      "#4CAF50"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-AMA",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Amarillo",
+    "slug": "cuerda-de-juego-amarillo",
+    "color": "Amarillo",
+    "color_hex": [
+      "#F5D04C"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-MOR",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Morado",
+    "slug": "cuerda-de-juego-morado",
+    "color": "Morado",
+    "color_hex": [
+      "#8E5BB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-NEG",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Negro",
+    "slug": "cuerda-de-juego-negro",
+    "color": "Negro",
+    "color_hex": [
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-BLA",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Blanco",
+    "slug": "cuerda-de-juego-blanco",
+    "color": "Blanco",
+    "color_hex": [
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-GRI",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Gris",
+    "slug": "cuerda-de-juego-gris",
+    "color": "Gris",
+    "color_hex": [
+      "#9E9E9E"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-VEB",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Verde y blanco",
+    "slug": "cuerda-de-juego-verde-y-blanco",
+    "color": "Verde y blanco",
+    "color_hex": [
+      "#4CAF50",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-AZB",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Azul con blanco",
+    "slug": "cuerda-de-juego-azul-con-blanco",
+    "color": "Azul con blanco",
+    "color_hex": [
+      "#2F6FB5",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-AZN",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Azul con negro",
+    "slug": "cuerda-de-juego-azul-con-negro",
+    "color": "Azul con negro",
+    "color_hex": [
+      "#2F6FB5",
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-RSC",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Rosa con café",
+    "slug": "cuerda-de-juego-rosa-con-cafe",
+    "color": "Rosa con café",
+    "color_hex": [
+      "#F4A6C1",
+      "#7B5034"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-NGR",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Negro con rojo",
+    "slug": "cuerda-de-juego-negro-con-rojo",
+    "color": "Negro con rojo",
+    "color_hex": [
+      "#1F1F1F",
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-ROJ",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Rojo",
+    "slug": "cuerda-de-juego-rojo",
+    "color": "Rojo",
+    "color_hex": [
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "CUE-MRS",
+    "producto_base": "Cuerda de juego",
+    "categoria": "Juguetes",
+    "nombre": "Cuerda de juego – Morado con rosa",
+    "slug": "cuerda-de-juego-morado-con-rosa",
+    "color": "Morado con rosa",
+    "color_hex": [
+      "#8E5BB5",
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": null,
+    "en_oferta": false,
+    "descuento_pct": null,
+    "descripcion": "Juguete trenzado hecho con tiras de mezclilla o algodón, ideal para que las mascotas muerdan y tiren de él.",
+    "imagen": "/images/products/cuerda-de-juego.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-AZU",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Azul",
+    "slug": "cojin-rellenable-azul",
+    "color": "Azul",
+    "color_hex": [
+      "#2F6FB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-ROS",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Rosa",
+    "slug": "cojin-rellenable-rosa",
+    "color": "Rosa",
+    "color_hex": [
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-VER",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Verde",
+    "slug": "cojin-rellenable-verde",
+    "color": "Verde",
+    "color_hex": [
+      "#4CAF50"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-AMA",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Amarillo",
+    "slug": "cojin-rellenable-amarillo",
+    "color": "Amarillo",
+    "color_hex": [
+      "#F5D04C"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-MOR",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Morado",
+    "slug": "cojin-rellenable-morado",
+    "color": "Morado",
+    "color_hex": [
+      "#8E5BB5"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-NEG",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Negro",
+    "slug": "cojin-rellenable-negro",
+    "color": "Negro",
+    "color_hex": [
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-BLA",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Blanco",
+    "slug": "cojin-rellenable-blanco",
+    "color": "Blanco",
+    "color_hex": [
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-GRI",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Gris",
+    "slug": "cojin-rellenable-gris",
+    "color": "Gris",
+    "color_hex": [
+      "#9E9E9E"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-VEB",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Verde y blanco",
+    "slug": "cojin-rellenable-verde-y-blanco",
+    "color": "Verde y blanco",
+    "color_hex": [
+      "#4CAF50",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-AZB",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Azul con blanco",
+    "slug": "cojin-rellenable-azul-con-blanco",
+    "color": "Azul con blanco",
+    "color_hex": [
+      "#2F6FB5",
+      "#FFFFFF"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-AZN",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Azul con negro",
+    "slug": "cojin-rellenable-azul-con-negro",
+    "color": "Azul con negro",
+    "color_hex": [
+      "#2F6FB5",
+      "#1F1F1F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-RSC",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Rosa con café",
+    "slug": "cojin-rellenable-rosa-con-cafe",
+    "color": "Rosa con café",
+    "color_hex": [
+      "#F4A6C1",
+      "#7B5034"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-NGR",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Negro con rojo",
+    "slug": "cojin-rellenable-negro-con-rojo",
+    "color": "Negro con rojo",
+    "color_hex": [
+      "#1F1F1F",
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-ROJ",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Rojo",
+    "slug": "cojin-rellenable-rojo",
+    "color": "Rojo",
+    "color_hex": [
+      "#D32F2F"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  },
+  {
+    "sku": "COJ-MRS",
+    "producto_base": "Cojín rellenable",
+    "categoria": "Cojines",
+    "nombre": "Cojín rellenable – Morado con rosa",
+    "slug": "cojin-rellenable-morado-con-rosa",
+    "color": "Morado con rosa",
+    "color_hex": [
+      "#8E5BB5",
+      "#F4A6C1"
+    ],
+    "precio_final_mxn": 50,
+    "precio_regular_mxn": 129,
+    "en_oferta": true,
+    "descuento_pct": 61,
+    "descripcion": "Pequeño cojín cuadrado hecho con tela resistente (como mezclilla) y relleno con retazos de tela o algodón.",
+    "imagen": "/images/products/cojin-rellenable.png",
+    "stock_inicial": 10
+  }
+]

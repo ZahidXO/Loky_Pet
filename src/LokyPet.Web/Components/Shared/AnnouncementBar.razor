@@ -1,0 +1,37 @@
+@* Barra de anuncios superior con mensajes rotativos (fade cada 4 s). Solo datos reales. *@
+@implements IDisposable
+
+<div class="bg-primary text-primary-content text-xs sm:text-sm">
+    <div class="mx-auto max-w-[1440px] px-4 h-9 flex items-center justify-center overflow-hidden">
+        <p class="text-center font-medium transition-opacity duration-500 ease-loky @(_fading ? "opacity-0" : "opacity-100")">
+            @_messages[_index]
+        </p>
+    </div>
+</div>
+
+@code {
+    private readonly string[] _messages =
+    {
+        "🐾 Envío GRATIS en Reynosa · Entrega en 24 a 48 horas hábiles",
+        "📦 Envíos a todo México por DHL · $139.00 MXN"
+    };
+
+    private int _index;
+    private bool _fading;
+    private System.Threading.Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        _timer = new System.Threading.Timer(async _ =>
+        {
+            _fading = true;
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(500);
+            _index = (_index + 1) % _messages.Length;
+            _fading = false;
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(4));
+    }
+
+    public void Dispose() => _timer?.Dispose();
+}

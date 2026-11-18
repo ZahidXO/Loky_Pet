@@ -1,0 +1,170 @@
+@page "/dashboard/inventario"
+@layout LokyPet.Client.Layout.DashboardLayout
+@inject LokyPet.Client.Services.DashboardService Dash
+
+<PageTitle>Inventario — Dashboard LOKY PET</PageTitle>
+
+<div class="space-y-6 page-enter">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-2xl font-semibold text-primary">Control de inventario</h2>
+        <div class="flex items-center gap-2">
+            <input type="search" @bind="_search" @bind:event="oninput"
+                   class="input input-bordered input-sm rounded-full w-48 border-base-300"
+                   placeholder="Buscar SKU o nombre..." />
+            <select @bind="_filterCat" class="select select-bordered select-sm rounded-full border-base-300">
+                <option value="">Todas las categor&iacute;as</option>
+                @foreach (var cat in _categories)
+                {
+                    <option value="@cat">@cat</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @if (_loading)
+    {
+        <div class="space-y-2">
+            @for (int i = 0; i < 8; i++)
+            {
+                <div class="h-12 rounded-xl skeleton-shimmer"></div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="table table-sm w-full">
+                    <thead>
+                        <tr class="text-xs text-base-content/60 uppercase">
+                            <th>SKU</th>
+                            <th>Producto</th>
+                            <th>Color</th>
+                            <th>Categor&iacute;a</th>
+                            <th class="text-right">Precio</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var v in FilteredVariants)
+                        {
+                            <tr class="hover:bg-base-200/50 transition-colors @(v.Stock <= 3 && !v.IsOutOfStock ? "bg-warning/5" : "")">
+                                <td class="font-mono text-xs">@v.Sku</td>
+                                <td class="text-sm font-medium text-primary">@(v.Product?.Name ?? "—")</td>
+                                <td class="text-sm">@v.ColorName</td>
+                                <td class="text-sm text-base-content/60">@(v.Product?.Category?.Name ?? "—")</td>
+                                <td class="text-right text-sm font-semibold">@FormatPrice(v.PriceMxn)</td>
+                                <td class="text-center">
+                                    <span class="badge @(v.Stock <= 3 ? "badge-warning" : "badge-success") badge-sm font-mono">
+                                        @v.Stock
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    @if (v.IsOutOfStock)
+                                    {
+                                        <span class="badge badge-error badge-sm">Agotado</span>
+                                    }
+                                    else if (!v.IsActive)
+                                    {
+                                        <span class="badge badge-ghost badge-sm">Inactivo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success badge-sm">Activo</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button class="btn btn-ghost btn-xs" title="Restar stock"
+                                                disabled="@(v.Stock <= 0)"
+                                                @onclick="() => AdjustStock(v, -1)">
+                                            <i class="fa-solid fa-minus text-xs"></i>
+                                        </button>
+                                        <button class="btn btn-ghost btn-xs" title="Sumar stock"
+                                                @onclick="() => AdjustStock(v, 1)">
+                                            <i class="fa-solid fa-plus text-xs"></i>
+                                        </button>
+                                        <button class="btn btn-ghost btn-xs @(v.IsOutOfStock ? "text-success" : "text-error")"
+                                                title="@(v.IsOutOfStock ? "Marcar disponible" : "Marcar agotado")"
+                                                @onclick="() => ToggleOutOfStock(v)">
+                                            <i class="fa-solid @(v.IsOutOfStock ? "fa-check" : "fa-ban") text-xs"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p class="text-xs text-base-content/40 text-center">
+            Mostrando @FilteredVariants.Count() de @_variants.Count &iacute;tems
+        </p>
+    }
+</div>
+
+@code {
+    private bool _loading = true;
+    private List<DashboardService.VariantRow> _variants = new();
+    private string _search = "";
+    private string _filterCat = "";
+    private List<string> _categories = new();
+
+    private static readonly System.Globalization.CultureInfo Mx = LokyPet.Domain.ValueObjects.Money.MxDot;
+    private static string FormatPrice(decimal v) => v.ToString("C2", Mx);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _variants = await Dash.GetAllVariantsAsync();
+            _categories = _variants
+                .Select(v => v.Product?.Category?.Name ?? "")
+                .Where(c => !string.IsNullOrEmpty(c))
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+        }
+        catch { }
+        finally { _loading = false; }
+    }
+
+    private IEnumerable<DashboardService.VariantRow> FilteredVariants
+    {
+        get
+        {
+            var result = _variants.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(_filterCat))
+                result = result.Where(v => v.Product?.Category?.Name?.Equals(_filterCat, StringComparison.OrdinalIgnoreCase) == true);
+
+            if (!string.IsNullOrWhiteSpace(_search))
+            {
+                var q = _search.Trim();
+                result = result.Where(v =>
+                    v.Sku.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                    (v.Product?.Name?.Contains(q, StringComparison.OrdinalIgnoreCase) == true) ||
+                    v.ColorName.Contains(q, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return result;
+        }
+    }
+
+    private async Task AdjustStock(DashboardService.VariantRow v, int delta)
+    {
+        v.Stock = Math.Max(0, v.Stock + delta);
+        await Dash.UpdateVariantStockAsync(v.Id, v.Stock, v.IsOutOfStock);
+        StateHasChanged();
+    }
+
+    private async Task ToggleOutOfStock(DashboardService.VariantRow v)
+    {
+        v.IsOutOfStock = !v.IsOutOfStock;
+        await Dash.UpdateVariantStockAsync(v.Id, v.Stock, v.IsOutOfStock);
+        StateHasChanged();
+    }
+}

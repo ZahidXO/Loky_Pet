@@ -1,0 +1,322 @@
+@* Navbar "glass": crema translúcido con blur, se compacta al hacer scroll.
+   Indicador píldora animado con sliding. Buscador live con dropdown, carrito e icono cuenta. *@
+@implements IDisposable
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+@inject LokyPet.Client.Services.CatalogService Catalog
+@inject LokyPet.Application.Interfaces.IAuthService Auth
+@using LokyPet.Application.DTOs
+@using System.Threading
+
+<header class="sticky top-0 z-40 navbar-glass @(_scrolled ? "navbar-glass--scrolled" : "")">
+    <div class="mx-auto max-w-[1440px] px-4 flex items-center gap-4 transition-all duration-250 ease-loky @(_scrolled ? "h-14" : "h-16 sm:h-20")">
+
+        @* ── Logotipo ── *@
+        <a href="" class="flex items-center gap-2 shrink-0">
+            <span class="grid place-items-center rounded-full bg-primary text-primary-content transition-all duration-250 @(_scrolled ? "w-9 h-9" : "w-10 h-10")">
+                <i class="fa-solid fa-paw"></i>
+            </span>
+            <span class="font-logo text-primary leading-none transition-all duration-250 @(_scrolled ? "text-xl" : "text-2xl")">Loky Pet</span>
+        </a>
+
+        @* ── Enlaces de submódulos (escritorio) con línea inferior animada ── *@
+        <nav class="hidden lg:flex items-center gap-1 mx-2 relative">
+            @foreach (var link in _links)
+            {
+                var active = IsActive(link.Href);
+                <a href="@link.Href"
+                   class="nav-pill @(active ? "nav-pill--active" : "nav-pill--inactive")">
+                    <i class="@link.Icon me-1.5 text-xs"></i>@link.Label
+                    <span class="nav-pill__line @(active ? "nav-pill__line--active" : "")"></span>
+                </a>
+            }
+        </nav>
+
+        @* ── Buscador prominente con dropdown live ── *@
+        <div class="hidden md:flex flex-1 max-w-md mx-auto relative" @onfocusout="OnSearchFocusOut">
+            <label class="input input-bordered border-base-300 rounded-full flex items-center gap-2 w-full h-10 bg-base-100/60 focus-within:ring-2 focus-within:ring-accent">
+                <i class="fa-solid fa-magnifying-glass text-primary/60"></i>
+                <input type="search"
+                       class="grow bg-transparent text-sm"
+                       placeholder="Busca camas, pelotas, cojines…"
+                       value="@_searchText"
+                       @oninput="OnSearchInput"
+                       @onkeydown="OnSearchKeyDown"
+                       @onfocus="OnSearchFocus" />
+            </label>
+
+            @if (_showSearch && _searchResults.Count > 0)
+            {
+                <div class="absolute top-12 inset-x-0 bg-base-100 rounded-2xl shadow-xl border border-base-300 overflow-hidden z-50 max-h-[28rem] overflow-y-auto">
+                    @foreach (var v in _searchResults)
+                    {
+                        <a href="accesorios/@v.Slug"
+                           class="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral/10 transition-colors cursor-pointer border-b border-base-200 last:border-b-0"
+                           @onclick="CloseSearch">
+                            <img src="@v.Image"
+                                 alt="@v.ProductName"
+                                 class="w-10 h-10 rounded-lg object-cover bg-base-200 shrink-0" />
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-primary truncate">@v.ProductName</p>
+                                <p class="text-xs text-primary/60 truncate">@v.ColorName</p>
+                            </div>
+                            <span class="text-sm font-semibold text-accent whitespace-nowrap">
+                                @FormatPrice(v.PriceMxn)
+                            </span>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+
+        @* ── Acciones derecha ── *@
+        <div class="flex items-center gap-1 ms-auto">
+            @* Buscador móvil (icono) *@
+            <button class="md:hidden btn btn-ghost btn-circle" aria-label="Buscar">
+                <i class="fa-solid fa-magnifying-glass text-primary"></i>
+            </button>
+
+            @* Carrito con contador siempre visible *@
+            <a href="carrito"
+               class="btn btn-ghost btn-circle relative group @(IsActive("carrito") ? "nav-icon--active" : "")"
+               aria-label="Carrito">
+                <i class="fa-solid fa-bag-shopping text-primary"></i>
+                @if (CartCount > 0)
+                {
+                    <span class="absolute -top-0.5 -end-0.5 grid place-items-center min-w-5 h-5 px-1 rounded-full bg-accent text-accent-content text-[10px] font-semibold animate-bounce-soft">
+                        @CartCount
+                    </span>
+                }
+                else
+                {
+                    <span class="absolute -top-0.5 -end-0.5 grid place-items-center min-w-5 h-5 px-1 rounded-full bg-base-300 text-base-content/60 text-[10px] font-semibold">
+                        0
+                    </span>
+                }
+            </a>
+
+            @* Mi Cuenta *@
+            <a href="cuenta"
+               class="btn btn-ghost btn-circle group @(IsActive("cuenta") ? "nav-icon--active" : "")"
+               aria-label="Mi cuenta">
+                <div class="w-8 h-8 rounded-full grid place-items-center transition-colors duration-200 @(_isLoggedIn ? "bg-secondary" : "group-hover:bg-neutral/20")">
+                    <i class="fa-solid fa-user text-primary text-sm"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</header>
+
+@* ── Barra inferior de navegación en móvil ── *@
+<nav class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-base-100/90 backdrop-blur border-t border-base-300">
+    <div class="grid grid-cols-5 h-16">
+        @foreach (var link in _links)
+        {
+            var active = IsActive(link.Href);
+            var isMobileCart = link.Href == "carrito";
+            var isMobileAccount = link.Href == "cuenta";
+
+            <a href="@link.Href"
+               class="group flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors relative @(active ? "text-primary" : "text-secondary-content/70 hover:text-neutral")">
+                @if (isMobileCart)
+                {
+                    <span class="relative">
+                        <i class="@link.Icon text-base transition-transform duration-200 @(active ? "scale-110" : "group-hover:scale-110")"></i>
+                        @if (CartCount > 0)
+                        {
+                            <span class="absolute -top-1.5 -end-2.5 grid place-items-center min-w-4 h-4 px-0.5 rounded-full bg-accent text-accent-content text-[8px] font-semibold animate-bounce-soft">
+                                @CartCount
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="absolute -top-1.5 -end-2.5 grid place-items-center min-w-4 h-4 px-0.5 rounded-full bg-base-300 text-base-content/60 text-[8px] font-semibold">
+                                0
+                            </span>
+                        }
+                    </span>
+                }
+                else if (isMobileAccount)
+                {
+                    <span class="grid place-items-center w-7 h-7 rounded-full transition-all duration-200 @(_isLoggedIn ? "bg-secondary" : "group-hover:bg-neutral/15")">
+                        <i class="@link.Icon text-base transition-transform duration-200 @(active ? "scale-110" : "group-hover:scale-110")"></i>
+                    </span>
+                }
+                else
+                {
+                    <i class="@link.Icon text-base transition-transform duration-200 @(active ? "scale-110" : "group-hover:scale-110")"></i>
+                }
+                <span>@link.Label</span>
+                @* Animated underline indicator (like desktop nav-pill) *@
+                <span class="mobile-nav__line @(active ? "mobile-nav__line--active" : "")"></span>
+            </a>
+        }
+    </div>
+</nav>
+
+@code {
+    [Parameter] public int CartCount { get; set; }
+
+    private bool _scrolled;
+    private bool _isLoggedIn;
+    private DotNetObjectReference<Navbar>? _ref;
+
+    // ── Search state ──
+    private string _searchText = "";
+    private List<ProductVariantDto> _searchResults = new();
+    private bool _showSearch;
+    private Timer? _debounceTimer;
+
+    private record NavLink(string Label, string Href, string Icon);
+
+    private readonly NavLink[] _links =
+    {
+        new("Home", "", "fa-solid fa-house"),
+        new("Accesorios", "accesorios", "fa-solid fa-store"),
+        new("Carrito", "carrito", "fa-solid fa-bag-shopping"),
+        new("Nosotros", "sobre-nosotros", "fa-solid fa-paw"),
+        new("Contacto", "contacto", "fa-solid fa-envelope"),
+    };
+
+    private bool IsActive(string href)
+    {
+        var current = Nav.ToBaseRelativePath(Nav.Uri).Split('?')[0].TrimEnd('/');
+        if (string.IsNullOrEmpty(href)) return string.IsNullOrEmpty(current);
+        return current == href || current.StartsWith(href + "/");
+    }
+
+    // ── Search logic ──
+
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        _searchText = e.Value?.ToString() ?? "";
+        _debounceTimer?.Dispose();
+        if (string.IsNullOrWhiteSpace(_searchText))
+        {
+            _searchResults.Clear();
+            _showSearch = false;
+            StateHasChanged();
+            return;
+        }
+        _debounceTimer = new Timer(async _ =>
+        {
+            try
+            {
+                var results = await Catalog.SearchAsync(_searchText);
+                _searchResults = results.Take(8).ToList();
+                _showSearch = _searchResults.Count > 0;
+                await InvokeAsync(StateHasChanged);
+            }
+            catch
+            {
+                // Ignore search errors silently
+            }
+        }, null, 300, Timeout.Infinite);
+    }
+
+    private void OnSearchKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(_searchText))
+        {
+            _showSearch = false;
+            Nav.NavigateTo($"accesorios?q={Uri.EscapeDataString(_searchText)}");
+        }
+        else if (e.Key == "Escape")
+        {
+            _showSearch = false;
+        }
+    }
+
+    private void OnSearchFocus()
+    {
+        if (_searchResults.Count > 0)
+        {
+            _showSearch = true;
+        }
+    }
+
+    private void OnSearchFocusOut()
+    {
+        // Small delay to allow click on dropdown item to register
+        _ = Task.Delay(200).ContinueWith(_ => InvokeAsync(() =>
+        {
+            _showSearch = false;
+            StateHasChanged();
+        }));
+    }
+
+    private void CloseSearch()
+    {
+        _showSearch = false;
+        _searchText = "";
+        _searchResults.Clear();
+    }
+
+    private static string FormatPrice(decimal price) =>
+        price.ToString("C2", LokyPet.Domain.ValueObjects.Money.MxDot);
+
+    // ── Scroll detection ──
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _ref = DotNetObjectReference.Create(this);
+            try { await JS.InvokeVoidAsync("lokypet.registerScroll", _ref); }
+            catch { /* JS aún no disponible: ignorar */ }
+
+            // Subscribe to location changes so the active indicator updates
+            Nav.LocationChanged += OnLocationChanged;
+
+            // Subscribe to auth state changes for account icon
+            Auth.OnAuthStateChanged += OnAuthStateChanged;
+
+            // Check initial auth state
+            try
+            {
+                var user = await Auth.GetCurrentUserAsync();
+                _isLoggedIn = user is not null;
+                StateHasChanged();
+            }
+            catch { /* Ignore auth errors on init */ }
+        }
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async void OnAuthStateChanged()
+    {
+        try
+        {
+            var user = await Auth.GetCurrentUserAsync();
+            await InvokeAsync(() =>
+            {
+                _isLoggedIn = user is not null;
+                StateHasChanged();
+            });
+        }
+        catch { /* Ignore auth errors */ }
+    }
+
+    [JSInvokable]
+    public Task OnScroll(bool scrolled)
+    {
+        if (_scrolled != scrolled)
+        {
+            _scrolled = scrolled;
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _ref?.Dispose();
+        _debounceTimer?.Dispose();
+        Nav.LocationChanged -= OnLocationChanged;
+        Auth.OnAuthStateChanged -= OnAuthStateChanged;
+    }
+}

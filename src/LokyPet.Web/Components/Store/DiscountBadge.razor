@@ -1,0 +1,12 @@
+@* Insignia de descuento ("-20%", "-61%") en accent con texto café. *@
+
+@if (Percent > 0)
+{
+    <span class="inline-flex items-center rounded-full bg-accent text-accent-content text-xs font-semibold px-2 py-0.5 shadow-soft-sm">
+        -@(Percent)%
+    </span>
+}
+
+@code {
+    [Parameter, EditorRequired] public int Percent { get; set; }
+}

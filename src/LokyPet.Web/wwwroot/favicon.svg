@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <circle cx="32" cy="32" r="30" fill="#604734"/>
+  <!-- Paw pad (center) -->
+  <ellipse cx="32" cy="38" rx="9" ry="7.5" fill="#fcf7d9"/>
+  <!-- Toe pads -->
+  <ellipse cx="21" cy="26" rx="5" ry="6" fill="#fcf7d9" transform="rotate(-10 21 26)"/>
+  <ellipse cx="32" cy="22" rx="5" ry="6" fill="#fcf7d9"/>
+  <ellipse cx="43" cy="26" rx="5" ry="6" fill="#fcf7d9" transform="rotate(10 43 26)"/>
+</svg>

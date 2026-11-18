@@ -1,0 +1,620 @@
+@page "/sobre-nosotros"
+@inject NavigationManager Nav
+
+<PageTitle>Sobre Nosotros — LOKY PET</PageTitle>
+
+<div class="page-enter">
+
+@* ============================================================
+   1. HERO DE MARCA
+   ============================================================ *@
+<section class="relative overflow-hidden">
+    <div class="paw-bg absolute inset-0 opacity-60"></div>
+
+    <div class="relative mx-auto max-w-[1440px] px-6 py-16 flex flex-col items-center text-center">
+        @* Logo + name (same style as navbar) *@
+        <div class="flex items-center gap-3 mb-4">
+            <span class="grid place-items-center rounded-full bg-primary text-primary-content w-12 h-12">
+                <i class="fa-solid fa-paw text-lg"></i>
+            </span>
+            <span class="font-script text-5xl sm:text-6xl text-primary leading-none">LOKY PET</span>
+        </div>
+        <p class="text-lg text-base-content/70 max-w-md">
+            Accesorios sustentables para tu mascota
+        </p>
+    </div>
+</section>
+
+@* ===== Wave separator ===== *@
+<svg class="w-full -mt-1" viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,24 C360,48 720,0 1080,24 C1260,36 1380,36 1440,24 L1440,48 L0,48 Z" fill="oklch(var(--b1))"/>
+</svg>
+
+@* ============================================================
+   2. HISTORIA, MISION, VISION Y VALORES
+   ============================================================ *@
+<section class="mx-auto max-w-[1440px] px-6 pb-16 space-y-16">
+
+    @* ── Nuestra Historia ── *@
+    <div class="rounded-2xl bg-base-100 shadow-soft p-8 sm:p-10">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                <i class="fa-solid fa-book-open text-primary text-xl"></i>
+            </div>
+            <h2 class="text-3xl font-semibold text-primary">Nuestra Historia</h2>
+        </div>
+        <p class="text-base-content/80 leading-relaxed text-lg max-w-3xl">
+            LOKY PET nace en Reynosa, Tamaulipas, con una idea sencilla: las telas que ya cumplieron su ciclo pueden convertirse en algo que haga feliz a una mascota. Camisetas, medias y mezclilla que antes terminaban en la basura hoy se transforman, en nuestro taller, en camas, juguetes y cojines hechos a mano, resistentes y llenos de color.
+        </p>
+    </div>
+
+    @* ── Mision y Vision ── *@
+    <div class="grid md:grid-cols-2 gap-6">
+        @* Mision *@
+        <div class="rounded-2xl bg-base-100 shadow-soft p-8 flex flex-col gap-4">
+            <div class="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center">
+                <i class="fa-solid fa-bullseye text-2xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-primary">Misi&oacute;n</h3>
+            <p class="text-base-content/70 leading-relaxed">
+                Confeccionar productos para mascotas funcionales, seguros y con estilo a partir de textiles reciclados, ofreciendo a las familias de M&eacute;xico una opci&oacute;n accesible que cuida a sus mascotas y al planeta al mismo tiempo.
+            </p>
+        </div>
+
+        @* Vision *@
+        <div class="rounded-2xl bg-base-100 shadow-soft p-8 flex flex-col gap-4">
+            <div class="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center">
+                <i class="fa-solid fa-eye text-2xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-primary">Visi&oacute;n</h3>
+            <p class="text-base-content/70 leading-relaxed">
+                Ser la marca mexicana referente en accesorios para mascotas de econom&iacute;a circular, reconocida por la calidad de su confecci&oacute;n, la transparencia de sus operaciones y su impacto ambiental positivo.
+            </p>
+        </div>
+    </div>
+
+    @* ── Valores ── *@
+    <div>
+        <h2 class="text-3xl font-semibold text-primary text-center mb-8">Nuestros Valores</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var valor in _valores)
+            {
+                <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center">
+                        <i class="fa-solid @valor.Icon text-xl text-primary"></i>
+                    </div>
+                    <h3 class="text-base font-semibold text-primary">@valor.Title</h3>
+                    <p class="text-sm text-base-content/60">@valor.Description</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@* ===== Wave separator ===== *@
+<svg class="w-full" viewBox="0 0 1440 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,16 C480,32 960,0 1440,16 L1440,32 L0,32 Z" fill="oklch(var(--s) / 0.15)"/>
+</svg>
+
+@* ============================================================
+   3. CENTRO DE TRANSPARENCIA LEGAL
+   ============================================================ *@
+<section id="transparencia" class="mx-auto max-w-[1440px] px-6 pb-16 space-y-10">
+
+    @* ── Header bar ── *@
+    <div class="rounded-2xl bg-primary text-primary-content p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+        <div class="flex items-center gap-3 flex-1 min-w-0">
+            <div class="w-12 h-12 rounded-full bg-primary-content/20 grid place-items-center flex-shrink-0">
+                <i class="fa-solid fa-paw text-primary-content text-xl"></i>
+            </div>
+            <div>
+                <p class="font-script text-2xl leading-tight">LOKY PET</p>
+                <p class="text-primary-content/70 text-sm">S.A. DE C.V. &bull; CIRCULAR ECONOMY</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-3 text-sm text-primary-content/80">
+            <span class="inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-location-dot"></i> Reynosa, Tamaulipas
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-shield-halved"></i> Legal &amp; Compliance
+            </span>
+        </div>
+    </div>
+
+    @* ── Hero ── *@
+    <div class="text-center space-y-4">
+        <span class="inline-flex items-center gap-2 rounded-full bg-accent text-accent-content text-xs font-semibold px-4 py-1.5 uppercase tracking-wider">
+            Centro de Transparencia Legal
+        </span>
+        <h2 class="text-3xl font-semibold text-primary">T&eacute;rminos, Condiciones y Pol&iacute;ticas Operativas</h2>
+        <p class="text-base-content/70 max-w-3xl mx-auto leading-relaxed">
+            Conoce las bases legales, ambientales y comerciales que rigen nuestras operaciones de upcycling textil para mascotas. En LOKY PET, S.A. DE C.V. priorizamos la transparencia, la seguridad del consumidor y el impacto ecol&oacute;gico positivo.
+        </p>
+        <p class="text-sm text-base-content/50 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-calendar"></i>
+            &Uacute;ltima actualizaci&oacute;n: Octubre 2026 | Aplicable en M&eacute;xico
+        </p>
+    </div>
+
+    @* ── Tabs ── *@
+    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-thin snap-x snap-mandatory">
+        @for (int i = 0; i < _tabs.Length; i++)
+        {
+            var idx = i;
+            var tab = _tabs[i];
+            <button class="@TabClass(idx) snap-start flex-shrink-0"
+                    @onclick="() => SetActiveTab(idx)">
+                <i class="fa-solid @tab.Icon me-1.5"></i> @tab.Label
+            </button>
+        }
+    </div>
+
+    @* ── Tab content with fade ── *@
+    <div class="tab-fade" @key="_activeTab">
+
+        @* ─────────── TAB 0: Terminos y Condiciones ─────────── *@
+        @if (_activeTab == 0)
+        {
+            <div class="space-y-6">
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-registered text-primary"></i>
+                        </div>
+                        <span class="flex-1">Propiedad Intelectual</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        La marca mixta LOKY PET, logotipos, dise&ntilde;os de moldes, fotograf&iacute;as y contenidos del sitio web son propiedad exclusiva de LOKY PET, S.A. DE C.V., protegidos bajo la Ley Federal de Protecci&oacute;n a la Propiedad Industrial e inscritos o en tr&aacute;mite ante el Instituto Mexicano de la Propiedad Industrial (IMPI) bajo la Clase 18.
+                    </div>
+                </details>
+            </div>
+        }
+
+        @* ─────────── TAB 1: Aviso de Privacidad ─────────── *@
+        @if (_activeTab == 1)
+        {
+            <div class="space-y-4">
+                @* 1. Identidad y Domicilio del Responsable *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-building text-primary"></i>
+                        </div>
+                        <span class="flex-1">1. Identidad y Domicilio del Responsable</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        LOKY PET, S.A. DE C.V., con domicilio en Blvd. del Maestro No. 320, Local 4-B, Fracc. Las Fuentes, C.P. 88710, Reynosa, Tamaulipas, es responsable del tratamiento de tus datos personales conforme a la Ley Federal de Protecci&oacute;n de Datos Personales en Posesi&oacute;n de los Particulares.
+                    </div>
+                </details>
+
+                @* 2. Datos Personales que Recabamos *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-list text-primary"></i>
+                        </div>
+                        <span class="flex-1">2. Datos Personales que Recabamos</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        Para atender tus compras y solicitudes recabamos datos de identificaci&oacute;n y contacto (nombre, correo electr&oacute;nico y tel&eacute;fono), datos de entrega (domicilio y c&oacute;digo postal), datos fiscales cuando solicitas factura (RFC, raz&oacute;n social, r&eacute;gimen fiscal y c&oacute;digo postal fiscal), tu historial de pedidos y los mensajes que nos env&iacute;as mediante el formulario de contacto. LOKY PET no recaba datos personales sensibles. Los datos de tarjetas bancarias son procesados directamente por las pasarelas de pago y no se almacenan en nuestros sistemas.
+                    </div>
+                </details>
+
+                @* 3. Finalidades del Tratamiento *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-bullseye text-primary"></i>
+                        </div>
+                        <span class="flex-1">3. Finalidades del Tratamiento</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        <strong>Finalidades primarias:</strong> procesar y entregar tus pedidos, gestionar env&iacute;os locales y nacionales, emitir tu Comprobante Fiscal Digital por Internet (CFDI 4.0), atender cambios, devoluciones y garant&iacute;as, administrar tu cuenta y responder tus preguntas.
+                        <br /><br />
+                        <strong>Finalidades secundarias:</strong> enviarte novedades, ofertas y encuestas de satisfacci&oacute;n. Puedes negarte a estas finalidades en cualquier momento escribiendo a contacto@lokypet.com.mx, sin que ello afecte tus compras.
+                    </div>
+                </details>
+
+                @* 4. Transferencia de Datos *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-right-left text-primary"></i>
+                        </div>
+                        <span class="flex-1">4. Transferencia de Datos</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        &Uacute;nicamente compartimos los datos necesarios con: la paqueter&iacute;a DHL, para la entrega de env&iacute;os nacionales; las pasarelas de pago, para procesar tus compras; y el Servicio de Administraci&oacute;n Tributaria (SAT), para la emisi&oacute;n de facturas. No vendemos ni rentamos tus datos personales a terceros.
+                    </div>
+                </details>
+
+                @* 5. Derechos ARCO y Revocacion del Consentimiento *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-user-gear text-primary"></i>
+                        </div>
+                        <span class="flex-1">5. Derechos ARCO y Revocaci&oacute;n del Consentimiento</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        Tienes derecho a Acceder, Rectificar y Cancelar tus datos personales, as&iacute; como a Oponerte a su tratamiento (derechos ARCO) o revocar tu consentimiento. Env&iacute;a tu solicitud a contacto@lokypet.com.mx indicando tu nombre, el derecho que deseas ejercer y una identificaci&oacute;n oficial. Daremos respuesta en un plazo m&aacute;ximo de 20 d&iacute;as h&aacute;biles.
+                    </div>
+                </details>
+
+                @* 6. Uso de Tecnologias de Almacenamiento Local *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-cookie-bite text-primary"></i>
+                        </div>
+                        <span class="flex-1">6. Uso de Tecnolog&iacute;as de Almacenamiento Local</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        Nuestro sitio utiliza el almacenamiento local de tu navegador para conservar tu carrito de compras y tu sesi&oacute;n. Esta informaci&oacute;n permanece en tu dispositivo y puedes eliminarla desde la configuraci&oacute;n de tu navegador.
+                    </div>
+                </details>
+
+                @* 7. Cambios al Aviso de Privacidad *@
+                <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                    <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                            <i class="fa-solid fa-bell text-primary"></i>
+                        </div>
+                        <span class="flex-1">7. Cambios al Aviso de Privacidad</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                        Cualquier modificaci&oacute;n a este aviso ser&aacute; publicada en esta secci&oacute;n del sitio web de LOKY PET, indicando la fecha de su &uacute;ltima actualizaci&oacute;n.
+                    </div>
+                </details>
+            </div>
+        }
+
+        @* ─────────── TAB 2: Envios y Devoluciones ─────────── *@
+        @if (_activeTab == 2)
+        {
+            <div class="space-y-8">
+                @* Header *@
+                <div class="text-center space-y-2">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20 mb-2">
+                        <i class="fa-solid fa-truck text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-primary">Pol&iacute;tica de Env&iacute;os, Entrega y Devoluciones</h3>
+                    <p class="text-base-content/60">Criterios de log&iacute;stica comercial y satisfacci&oacute;n del cliente</p>
+                </div>
+
+                @* 3 summary cards *@
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                            <i class="fa-solid fa-city text-lg text-primary"></i>
+                        </div>
+                        <h4 class="text-sm font-semibold text-primary">Entrega Local Reynosa</h4>
+                        <p class="text-xs text-base-content/60">24 a 48 horas h&aacute;biles en zona metropolitana de Reynosa.</p>
+                    </div>
+                    <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                            <i class="fa-solid fa-map-location-dot text-lg text-primary"></i>
+                        </div>
+                        <h4 class="text-sm font-semibold text-primary">Env&iacute;os Nacionales</h4>
+                        <p class="text-xs text-base-content/60">3 a 5 d&iacute;as h&aacute;biles mediante paqueter&iacute;as autorizadas en M&eacute;xico.</p>
+                    </div>
+                    <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                            <i class="fa-solid fa-rotate-left text-lg text-primary"></i>
+                        </div>
+                        <h4 class="text-sm font-semibold text-primary">Garant&iacute;a de Devoluci&oacute;n</h4>
+                        <p class="text-xs text-base-content/60">Hasta 10 d&iacute;as naturales por defectos de confecci&oacute;n o empaque.</p>
+                    </div>
+                </div>
+
+                @* Accordions *@
+                <div class="space-y-4">
+                    @* 1. Tiempos de Procesamiento y Despacho *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-box-open text-primary"></i>
+                            </div>
+                            <span class="flex-1">1. Tiempos de Procesamiento y Despacho</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Los pedidos se procesan y preparan en nuestra &aacute;rea de empaque en Reynosa en un plazo de 24 horas posteriores a la confirmaci&oacute;n del pago. Los env&iacute;os se realizan de lunes a viernes en d&iacute;as h&aacute;biles.
+                        </div>
+                    </details>
+
+                    @* 2. Condiciones para Cambios o Devoluciones *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-arrows-rotate text-primary"></i>
+                            </div>
+                            <span class="flex-1">2. Condiciones para Cambios o Devoluciones</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Para hacer efectiva una devoluci&oacute;n, el producto debe encontrarse sin uso, con sus etiquetas originales de tela y sin se&ntilde;ales de desgaste ajenas al proceso de confecci&oacute;n. No aplican devoluciones por da&ntilde;os causados por el uso indebido o mordeduras destructivas extremas de la mascota.
+                        </div>
+                    </details>
+
+                    @* 3. Precios, Facturacion y Pagos *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-credit-card text-primary"></i>
+                            </div>
+                            <span class="flex-1">3. Precios, Facturaci&oacute;n y Pagos</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Todos los precios expuestos est&aacute;n expresados en pesos mexicanos (MXN) e incluyen el Impuesto al Valor Agregado (IVA) correspondiente. Los pagos se procesan a trav&eacute;s de pasarelas de pago seguras cifradas (Shopify Payments, Mercado Pago, tarjetas de cr&eacute;dito/d&eacute;bito y pagos en efectivo en tiendas de conveniencia). LOKY PET emite Comprobantes Fiscales Digitales por Internet (CFDI 4.0) previa solicitud del cliente en un lapso no mayor a 5 d&iacute;as h&aacute;biles posteriores a la compra.
+                        </div>
+                    </details>
+                </div>
+
+                @* Tarifas de envio card *@
+                <div class="rounded-2xl bg-base-100 shadow-soft p-6 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-truck text-xl text-primary"></i>
+                        </div>
+                        <h4 class="text-lg font-semibold text-primary">Tarifas de env&iacute;o</h4>
+                    </div>
+                    <ul class="space-y-2 text-base-content/70 leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-success mt-1 flex-shrink-0"></i>
+                            <span>Entrega local en Reynosa: <strong class="text-primary">sin costo.</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-success mt-1 flex-shrink-0"></i>
+                            <span>Env&iacute;os fuera de Reynosa: <strong class="text-primary">$139.00 MXN por pedido.</strong> Todos los env&iacute;os nacionales se realizan por medio de DHL.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-success mt-1 flex-shrink-0"></i>
+                            <span>Al despachar tu pedido nacional recibir&aacute;s tu n&uacute;mero de gu&iacute;a DHL para darle seguimiento.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+
+        @* ─────────── TAB 3: Garantia de Sustentabilidad ─────────── *@
+        @if (_activeTab == 3)
+        {
+            <div class="space-y-8">
+                @* Header *@
+                <div class="text-center space-y-2">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/20 mb-2">
+                        <i class="fa-solid fa-leaf text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-primary">Garant&iacute;a de Sustentabilidad</h3>
+                    <p class="text-base-content/60">Nuestro compromiso con la econom&iacute;a circular y el upcycling textil</p>
+                </div>
+
+                @* 3 summary cards *@
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                            <i class="fa-solid fa-recycle text-lg text-primary"></i>
+                        </div>
+                        <h4 class="text-sm font-semibold text-primary">Textiles con Segunda Vida</h4>
+                        <p class="text-xs text-base-content/60">Camisetas, medias, mezclilla y retazos de algod&oacute;n transformados en productos para mascotas.</p>
+                    </div>
+                    <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                            <i class="fa-solid fa-scissors text-lg text-primary"></i>
+                        </div>
+                        <h4 class="text-sm font-semibold text-primary">Confecci&oacute;n Local</h4>
+                        <p class="text-xs text-base-content/60">Cada pieza se elabora en nuestro taller de Reynosa, Tamaulipas.</p>
+                    </div>
+                    <div class="rounded-2xl bg-base-100 shadow-soft p-6 text-center flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                            <i class="fa-solid fa-shield-heart text-lg text-primary"></i>
+                        </div>
+                        <h4 class="text-sm font-semibold text-primary">Calidad Respaldada</h4>
+                        <p class="text-xs text-base-content/60">Hasta 10 d&iacute;as naturales de garant&iacute;a por defectos de confecci&oacute;n o empaque.</p>
+                    </div>
+                </div>
+
+                @* 6 Accordions *@
+                <div class="space-y-4">
+                    @* 1. Origen de Nuestros Materiales *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-leaf text-primary"></i>
+                            </div>
+                            <span class="flex-1">1. Origen de Nuestros Materiales</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Nuestros productos se elaboran a partir de textiles reutilizados: tiras de camisetas, medias, mezclilla, algod&oacute;n y retazos de tela que se seleccionan, limpian y clasifican antes de su confecci&oacute;n. Al reutilizarlos, evitamos que terminen como residuo y reducimos la necesidad de producir materiales nuevos.
+                        </div>
+                    </details>
+
+                    @* 2. Proceso de Upcycling *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-scissors text-primary"></i>
+                            </div>
+                            <span class="flex-1">2. Proceso de Upcycling</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Cada textil se corta y se confecciona de forma artesanal aprovechando al m&aacute;ximo el material: los sobrantes del corte se utilizan como relleno para cojines y juguetes. Por la naturaleza del upcycling, cada pieza puede presentar ligeras variaciones de tono o textura que la hacen &uacute;nica.
+                        </div>
+                    </details>
+
+                    @* 3. Bienestar y Seguridad de tu Mascota *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-paw text-primary"></i>
+                            </div>
+                            <span class="flex-1">3. Bienestar y Seguridad de tu Mascota</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Dise&ntilde;amos cada producto pensando en la comodidad de tu mascota, con costuras resistentes y materiales suaves. Recomendamos supervisar a tu mascota durante el juego y revisar peri&oacute;dicamente el estado del producto.
+                        </div>
+                    </details>
+
+                    @* 4. Durabilidad y Cuidado *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-droplet text-primary"></i>
+                            </div>
+                            <span class="flex-1">4. Durabilidad y Cuidado</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Prolonga la vida de tu producto lav&aacute;ndolo a mano o en ciclo delicado con agua fr&iacute;a y dej&aacute;ndolo secar a la sombra. Un producto que dura m&aacute;s es un producto m&aacute;s sustentable.
+                        </div>
+                    </details>
+
+                    @* 5. Empaque Responsable *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-box text-primary"></i>
+                            </div>
+                            <span class="flex-1">5. Empaque Responsable</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Procuramos utilizar empaques reducidos y reutilizables, priorizando materiales reciclables en nuestros env&iacute;os.
+                        </div>
+                    </details>
+
+                    @* 6. Nuestro Compromiso *@
+                    <details open class="group rounded-2xl bg-base-100 shadow-soft overflow-hidden">
+                        <summary class="flex items-center gap-3 p-5 cursor-pointer select-none font-semibold text-primary hover:bg-base-200/50 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-accent/20 grid place-items-center flex-shrink-0">
+                                <i class="fa-solid fa-handshake text-primary"></i>
+                            </div>
+                            <span class="flex-1">6. Nuestro Compromiso</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-base-content/40 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-5 pb-5 text-base-content/70 leading-relaxed">
+                            Si tu producto presenta un defecto de confecci&oacute;n o empaque, lo atendemos dentro de los 10 d&iacute;as naturales posteriores a la entrega conforme a nuestra Pol&iacute;tica de Env&iacute;os, Entrega y Devoluciones. As&iacute; garantizamos que cada pieza cumpla con la calidad que tu mascota merece y con nuestro compromiso con el planeta.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        }
+
+    </div> @* end tab content *@
+
+</section>
+
+</div> @* end page-enter *@
+
+@* ===== Scrollbar & tab transition styles ===== *@
+<style>
+    .scrollbar-thin::-webkit-scrollbar { height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: oklch(var(--b2)); border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: oklch(var(--p) / 0.3); border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: oklch(var(--p) / 0.5); }
+
+    .tab-fade {
+        animation: tab-fade-in 0.25s ease-in-out;
+    }
+
+    @@keyframes tab-fade-in {
+        from { opacity: 0; transform: translateY(4px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+@code {
+    // ===== Tab state =====
+    private int _activeTab;
+
+    // ===== Tab definitions =====
+    private readonly TabDef[] _tabs =
+    {
+        new("fa-file-lines", "T\u00e9rminos y Condiciones"),
+        new("fa-user-shield", "Aviso de Privacidad"),
+        new("fa-truck", "Env\u00edos y Devoluciones"),
+        new("fa-leaf", "Garant\u00eda de Sustentabilidad"),
+    };
+
+    // ===== Valores data =====
+    private readonly ValorDef[] _valores =
+    {
+        new("fa-leaf", "Sustentabilidad", "Cada producto le da una segunda vida a un textil."),
+        new("fa-paw", "Bienestar animal", "Dise\u00f1amos pensando en la comodidad y seguridad de cada mascota."),
+        new("fa-scale-balanced", "Transparencia", "Operamos con reglas claras y cumplimiento legal."),
+        new("fa-lightbulb", "Creatividad", "Convertimos retazos en piezas \u00fanicas y divertidas."),
+        new("fa-gem", "Calidad artesanal", "Confecci\u00f3n cuidadosa, pieza por pieza."),
+        new("fa-map-pin", "Compromiso local", "Orgullosamente hechos en Reynosa, Tamaulipas."),
+    };
+
+    // ===== Tab query-param mapping =====
+    private static readonly Dictionary<string, int> TabMap = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["terminos"]         = 0,
+        ["privacidad"]       = 1,
+        ["envios"]           = 2,
+        ["sustentabilidad"]  = 3,
+    };
+
+    // ===== Lifecycle =====
+    protected override void OnInitialized()
+    {
+        ParseTabQueryParam();
+    }
+
+    /// <summary>Parse ?tab= from the URL and set _activeTab.</summary>
+    private void ParseTabQueryParam()
+    {
+        var uri = new Uri(Nav.Uri);
+        var query = uri.Query;
+        if (string.IsNullOrEmpty(query)) return;
+
+        var pairs = query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var pair in pairs)
+        {
+            var parts = pair.Split('=', 2);
+            if (parts.Length != 2) continue;
+
+            var key = Uri.UnescapeDataString(parts[0]).ToLowerInvariant();
+            if (key == "tab")
+            {
+                var value = Uri.UnescapeDataString(parts[1]);
+                if (TabMap.TryGetValue(value, out var idx))
+                {
+                    _activeTab = idx;
+                }
+                break;
+            }
+        }
+    }
+
+    // ===== Tab switching =====
+    private void SetActiveTab(int idx)
+    {
+        _activeTab = idx;
+    }
+
+    private string TabClass(int idx) =>
+        idx == _activeTab
+            ? "btn btn-sm rounded-full bg-primary text-primary-content border-0 font-medium"
+            : "btn btn-sm rounded-full bg-secondary text-secondary-content border-0 font-medium hover:bg-neutral hover:text-neutral-content transition-colors";
+
+    // ===== Records =====
+    private sealed record TabDef(string Icon, string Label);
+    private sealed record ValorDef(string Icon, string Title, string Description);
+}

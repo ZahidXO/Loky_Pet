@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <filter id="sf" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <filter id="sf2" x="-8%" y="-8%" width="116%" height="116%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="sf3" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <filter id="sf4" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+
+    <radialGradient id="s-head" cx="50%" cy="22%" r="72%">
+      <stop offset="0%" stop-color="#F8C462"/>
+      <stop offset="28%" stop-color="#ECA844"/>
+      <stop offset="55%" stop-color="#CC7834"/>
+      <stop offset="80%" stop-color="#AA5828"/>
+      <stop offset="100%" stop-color="#904420"/>
+    </radialGradient>
+    <radialGradient id="s-ear" cx="50%" cy="15%" r="82%">
+      <stop offset="0%" stop-color="#F8C868"/>
+      <stop offset="50%" stop-color="#EEAC48"/>
+      <stop offset="100%" stop-color="#D49038"/>
+    </radialGradient>
+    <radialGradient id="s-earpink" cx="50%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#F4B0A6"/>
+      <stop offset="100%" stop-color="#E0908A"/>
+    </radialGradient>
+    <radialGradient id="s-muzzle" cx="50%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#FDE8DC"/>
+      <stop offset="60%" stop-color="#F6D4C2"/>
+      <stop offset="100%" stop-color="#E8BAA6"/>
+    </radialGradient>
+    <radialGradient id="s-nose" cx="36%" cy="28%" r="64%">
+      <stop offset="0%" stop-color="#5C5458"/>
+      <stop offset="100%" stop-color="#2A242C"/>
+    </radialGradient>
+    <radialGradient id="s-patch" cx="50%" cy="38%" r="56%">
+      <stop offset="0%" stop-color="#5A5254"/>
+      <stop offset="100%" stop-color="#3C3438"/>
+    </radialGradient>
+    <radialGradient id="s-glow" cx="36%" cy="18%" r="58%">
+      <stop offset="0%" stop-color="#FFF" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s-blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F0A0A0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#F0A0A0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ===== OREJAS (detrás) ===== -->
+  <path d="M154 208 C144 150,156 82,184 62 C200 50,220 60,232 125 C238 158,234 188,230 210Z" fill="url(#s-ear)"/>
+  <path d="M170 202 C166 158,174 108,194 88 C204 78,216 84,222 130 C226 155,224 185,222 204Z" fill="url(#s-earpink)" opacity="0.55" filter="url(#sf)"/>
+
+  <path d="M358 208 C368 150,356 82,328 62 C312 50,292 60,280 125 C274 158,278 188,282 210Z" fill="url(#s-ear)"/>
+  <path d="M342 202 C346 158,338 108,318 88 C308 78,296 84,290 130 C286 155,288 185,290 204Z" fill="url(#s-earpink)" opacity="0.55" filter="url(#sf)"/>
+
+  <!-- ===== CABEZA (forma blob orgánica) ===== -->
+  <path d="M256 120
+           C316 120,374 142,406 184
+           C434 220,444 268,438 308
+           C432 350,410 390,376 416
+           C346 438,304 450,256 450
+           C208 450,166 438,136 416
+           C102 390,80 350,74 308
+           C68 268,78 220,106 184
+           C138 142,196 120,256 120Z"
+        fill="url(#s-head)"/>
+
+  <!-- Calidez naranja en la frente (difuminada) -->
+  <ellipse cx="256" cy="188" rx="88" ry="48" fill="#F0A838" opacity="0.2" filter="url(#sf3)"/>
+
+  <!-- ===== FRANJA MARRÓN (zona de ojos, difuminada) ===== -->
+  <ellipse cx="256" cy="280" rx="160" ry="55" fill="#884525" opacity="0.35" filter="url(#sf3)"/>
+  <ellipse cx="256" cy="284" rx="120" ry="38" fill="#6E3418" opacity="0.15" filter="url(#sf3)"/>
+
+  <!-- ===== PARCHES OSCUROS de los ojos (muy difuminados) ===== -->
+  <ellipse cx="192" cy="300" rx="44" ry="36" fill="url(#s-patch)" opacity="0.55" transform="rotate(-10 192 300)" filter="url(#sf2)"/>
+  <ellipse cx="320" cy="300" rx="44" ry="36" fill="url(#s-patch)" opacity="0.55" transform="rotate(10 320 300)" filter="url(#sf2)"/>
+
+  <!-- ===== HOCICO (forma orgánica continua) ===== -->
+  <!-- Un solo path que define toda la zona crema del hocico con lóbulos -->
+  <path d="M256 312
+           C220 312,168 328,152 365
+           C142 390,155 420,180 435
+           C205 448,235 452,256 452
+           C277 452,307 448,332 435
+           C357 420,370 390,360 365
+           C344 328,292 312,256 312Z"
+        fill="url(#s-muzzle)" filter="url(#sf)"/>
+
+  <!-- Lóbulos más claros (difuminados para fundirse) -->
+  <ellipse cx="210" cy="380" rx="42" ry="30" fill="#FFF0E6" opacity="0.35" filter="url(#sf2)"/>
+  <ellipse cx="302" cy="380" rx="42" ry="30" fill="#FFF0E6" opacity="0.35" filter="url(#sf2)"/>
+  <!-- Centro más claro -->
+  <ellipse cx="256" cy="370" rx="34" ry="24" fill="#FFF4EE" opacity="0.4" filter="url(#sf2)"/>
+
+  <!-- Transición pelo→hocico (difuminar la unión completamente) -->
+  <ellipse cx="256" cy="328" rx="90" ry="22" fill="#B86838" opacity="0.12" filter="url(#sf4)"/>
+
+  <!-- ===== OJOS (óvalos blancos suaves) ===== -->
+  <ellipse cx="197" cy="272" rx="19" ry="12" fill="#FFFFFF" opacity="0.92" transform="rotate(-7 197 272)" filter="url(#sf)"/>
+  <ellipse cx="315" cy="272" rx="19" ry="12" fill="#FFFFFF" opacity="0.92" transform="rotate(7 315 272)" filter="url(#sf)"/>
+
+  <!-- ===== NARIZ ===== -->
+  <ellipse cx="256" cy="354" rx="16" ry="10" fill="#987060" opacity="0.15" filter="url(#sf3)"/>
+  <path d="M238 340 C238 328,248 318,256 318 C264 318,274 328,274 340 C274 352,268 360,256 360 C244 360,238 352,238 340Z" fill="url(#s-nose)" filter="url(#sf)"/>
+  <!-- Highlight nariz -->
+  <ellipse cx="248" cy="332" rx="8" ry="5" fill="#FFFFFF" opacity="0.2" filter="url(#sf)"/>
+  <ellipse cx="260" cy="336" rx="3.5" ry="2.5" fill="#FFFFFF" opacity="0.1"/>
+
+  <!-- ===== BOCA (sonrisa muy sutil y tierna) ===== -->
+  <path d="M254 360 C248 368,238 374,228 370" fill="none" stroke="#9A7058" stroke-width="1.8" stroke-linecap="round" opacity="0.25" filter="url(#sf)"/>
+  <path d="M258 360 C264 368,274 374,284 370" fill="none" stroke="#9A7058" stroke-width="1.8" stroke-linecap="round" opacity="0.25" filter="url(#sf)"/>
+
+  <!-- ===== BLUSH (mejillas rosadas tiernas) ===== -->
+  <ellipse cx="155" cy="325" rx="30" ry="20" fill="url(#s-blush)" filter="url(#sf2)"/>
+  <ellipse cx="357" cy="325" rx="30" ry="20" fill="url(#s-blush)" filter="url(#sf2)"/>
+
+  <!-- ===== HIGHLIGHT 3D GLOBAL ===== -->
+  <ellipse cx="216" cy="210" rx="148" ry="115" fill="url(#s-glow)"/>
+  <ellipse cx="236" cy="172" rx="58" ry="34" fill="#FFFFFF" opacity="0.08" filter="url(#sf2)"/>
+</svg>
