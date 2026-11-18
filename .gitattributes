@@ -1,0 +1,14 @@
+# Fuentes y archivos de texto normales: usar CRLF en Windows
+* text=auto
+
+# Publicación de Blazor WASM — NO convertir finales de línea.
+# dotnet publish genera archivos con LF y calcula hashes SHA-256 sobre ellos.
+# Si Git convierte LF→CRLF, los hashes de integridad SRI no coinciden y Blazor falla.
+publish/wwwroot/**/*.js    binary
+publish/wwwroot/**/*.css   binary
+publish/wwwroot/**/*.json  binary
+publish/wwwroot/**/*.html  binary
+publish/wwwroot/**/*.wasm  binary
+publish/wwwroot/**/*.dat   binary
+publish/wwwroot/**/*.webcil binary
+publish/wwwroot/**/*.blat  binary

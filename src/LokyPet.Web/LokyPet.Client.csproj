@@ -31,16 +31,14 @@
     <Exec Command="node_modules\.bin\tailwind.cmd -i ./Styles/app.css -o ./wwwroot/css/app.css" Condition="'$(Configuration)' != 'Release'" />
   </Target>
 
-  <!-- Eliminar archivos .br y .gz del publish: Vercel no los sirve correctamente
-       y causan errores de integridad SRI. Vercel comprime en su CDN automáticamente. -->
-  <Target Name="RemoveCompressedFiles" AfterTargets="Publish">
+  <!-- Post-publish: eliminar archivos .br y .gz (Vercel comprime en su CDN) -->
+  <Target Name="VercelPostPublish" AfterTargets="Publish">
     <ItemGroup>
       <_BrotliFiles Include="$(PublishDir)wwwroot\**\*.br" />
       <_GzipFiles Include="$(PublishDir)wwwroot\**\*.gz" />
     </ItemGroup>
     <Delete Files="@(_BrotliFiles)" />
     <Delete Files="@(_GzipFiles)" />
-    <Message Importance="high" Text="Eliminados $([System.String]::Format('{0}', @(_BrotliFiles-&gt;Count()))) .br y $([System.String]::Format('{0}', @(_GzipFiles-&gt;Count()))) .gz archivos para despliegue en Vercel." />
   </Target>
 
 </Project>

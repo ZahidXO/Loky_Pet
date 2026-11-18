@@ -18,3 +18,6 @@ node_modules/
 .vs/
 .idea/
 *.swp
+
+# Archivos temporales de build
+**/preprocessed.xml
