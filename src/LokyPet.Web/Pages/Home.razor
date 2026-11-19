@@ -251,6 +251,16 @@
         }
     }
 
+    // ===== SKU preferido por producto (color que se muestra en la card) =====
+    private static readonly HashSet<string> PreferredSkus = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "CAM-BLA",  // Cama → Blanco
+        "COJ-AZU",  // Cojín → Azul
+        "CUE-AZB",  // Cuerda → Azul con blanco
+        "PEL-GRI",  // Pelota → Gris
+        "RAT-AZB",  // Ratón → Azul con blanco
+    };
+
     // ===== Group variants into DemoProducts =====
     private static List<DemoProduct> GroupVariants(List<ProductVariantDto> variants)
     {
@@ -258,7 +268,8 @@
             .GroupBy(v => v.ProductId)
             .Select(g =>
             {
-                var first = g.First();
+                // Elegir la variante preferida como representante, o la primera por defecto
+                var first = g.FirstOrDefault(v => PreferredSkus.Contains(v.Sku)) ?? g.First();
                 var colorVariants = g.Select(v => new ColorVariantInfo
                 {
                     Slug = v.Slug,

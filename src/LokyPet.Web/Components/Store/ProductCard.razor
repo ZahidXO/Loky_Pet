@@ -1,7 +1,8 @@
 @* ProductCard: imagen 1:1 sobre fondo secondary claro con object-contain.
    Botón "+" arriba der.; nombre 2 líneas máx.;
-   precio final; swatches de color abajo derecha.
-   Hover: elevación suave y zoom 1.05 de la imagen. *@
+   precio final; un swatch del color actual abajo derecha.
+   Hover: elevación suave y zoom 1.05 de la imagen.
+   Los demás colores se muestran al entrar al detalle del producto. *@
 
 <article class="group relative rounded-2xl bg-base-100 shadow-soft hover:shadow-soft-lg transition-all duration-250 ease-loky overflow-hidden">
 
@@ -37,24 +38,8 @@
             <PriceTag Price="Product.PriceMxn" Size="sm" />
         </div>
 
-        @* Color swatches - bottom right aligned *@
-        @if (Product.ColorVariants.Any())
-        {
-            <div class="mt-2 flex items-center justify-end gap-1 flex-wrap">
-                @{ var maxShow = 5; var total = Product.ColorVariants.Count; }
-                @foreach (var cv in Product.ColorVariants.Take(maxShow))
-                {
-                    <a href="accesorios/@cv.Slug" title="@cv.ColorName" @onclick:stopPropagation="true">
-                        <ColorSwatch Hex="cv.ColorHex" Title="@cv.ColorName" />
-                    </a>
-                }
-                @if (total > maxShow)
-                {
-                    <span class="text-[10px] text-base-content/50 font-medium">+@(total - maxShow)</span>
-                }
-            </div>
-        }
-        else if (Product.ColorHex.Length > 0)
+        @* Color swatch — solo el color del producto actual *@
+        @if (Product.ColorHex.Length > 0)
         {
             <div class="mt-2 flex justify-end">
                 <ColorSwatch Hex="Product.ColorHex" Title="@Product.ColorName" />
