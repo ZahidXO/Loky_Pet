@@ -51,7 +51,13 @@
                                     <h3 class="text-sm sm:text-base font-medium text-base-content truncate">
                                         @item.ProductName
                                     </h3>
-                                    <p class="text-xs text-base-content/60">@item.ColorName</p>
+                                    <div class="flex items-center gap-1.5 mt-0.5">
+                                        @if (item.ColorHex.Length > 0)
+                                        {
+                                            <ColorSwatch Hex="item.ColorHex" Title="@item.ColorName" />
+                                        }
+                                        <span class="text-xs text-base-content/60">@item.ColorName</span>
+                                    </div>
                                 </div>
                                 <button class="btn btn-ghost btn-sm btn-circle text-error shrink-0"
                                         title="Eliminar"
@@ -131,19 +137,34 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                 @foreach (var v in _recommendations)
                 {
-                    <a href="accesorios/@v.Slug"
-                       class="group rounded-2xl bg-base-100 shadow-soft hover:shadow-soft-lg transition-all duration-250 overflow-hidden">
-                        <div class="aspect-square bg-secondary/40 p-3">
-                            <img src="@v.Image" alt="@v.ProductName" loading="lazy"
-                                 class="w-full h-full object-contain transition-transform duration-250 group-hover:scale-105" />
-                        </div>
-                        <div class="p-3">
-                            <p class="text-xs font-medium text-base-content line-clamp-2 min-h-[2rem]">
-                                @v.ProductName
-                            </p>
-                            <p class="mt-1 text-sm font-semibold text-primary">@FormatPrice(v.PriceMxn)</p>
-                        </div>
-                    </a>
+                    <div class="group relative rounded-2xl bg-base-100 shadow-soft hover:shadow-soft-lg transition-all duration-250 overflow-hidden">
+                        @* Boton circular "+" para agregar rapido *@
+                        <button class="absolute top-2 end-2 z-10 btn btn-circle btn-sm bg-primary text-primary-content border-0 shadow-soft opacity-0 group-hover:opacity-100 hover:scale-110 transition-all duration-150"
+                                @onclick="() => QuickAddRecommendation(v)"
+                                @onclick:stopPropagation="true"
+                                aria-label="Agregar al carrito">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <a href="accesorios/@v.Slug" class="block">
+                            <div class="aspect-square bg-secondary/40 p-3">
+                                <img src="@v.Image" alt="@v.ProductName" loading="lazy"
+                                     class="w-full h-full object-contain transition-transform duration-250 group-hover:scale-105" />
+                            </div>
+                            <div class="p-3">
+                                <p class="text-xs font-medium text-base-content line-clamp-2 min-h-[2rem]">
+                                    @v.ProductName
+                                </p>
+                                <div class="mt-1 flex items-center justify-between">
+                                    <span class="text-sm font-semibold text-primary">@FormatPrice(v.PriceMxn)</span>
+                                    @if (v.ColorHex.Length > 0)
+                                    {
+                                        <ColorSwatch Hex="v.ColorHex" Title="@v.ColorName" />
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 }
             </div>
         </section>
@@ -267,6 +288,26 @@
         _showUndo = false;
         await CartService.AddItemAsync(_removedItem);
         _removedItem = null;
+    }
+
+    private async Task QuickAddRecommendation(LokyPet.Application.DTOs.ProductVariantDto variant)
+    {
+        var dto = new LokyPet.Application.DTOs.CartItemDto
+        {
+            VariantId = variant.Id,
+            VariantSlug = variant.Slug,
+            Sku = variant.Sku,
+            ProductName = variant.ProductName,
+            ColorName = variant.ColorName,
+            ColorHex = variant.ColorHex,
+            UnitPrice = variant.PriceMxn,
+            CompareAtPrice = variant.CompareAtPriceMxn,
+            Image = variant.Image,
+            Quantity = 1,
+            MaxStock = variant.Stock
+        };
+        await CartService.AddItemAsync(dto);
+        await LoadRecommendations();
     }
 
     public void Dispose()

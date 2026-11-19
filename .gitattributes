@@ -1,6 +1,9 @@
 # Fuentes y archivos de texto normales: usar CRLF en Windows
 * text=auto
 
+# CSS compilado por Tailwind (generado con LF)
+src/LokyPet.Web/wwwroot/css/app.css binary
+
 # Publicación de Blazor WASM — NO convertir finales de línea.
 # dotnet publish genera archivos con LF y calcula hashes SHA-256 sobre ellos.
 # Si Git convierte LF→CRLF, los hashes de integridad SRI no coinciden y Blazor falla.
